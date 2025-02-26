@@ -6,7 +6,7 @@ import Link from "next/link"
 
 const chapters = [
   { id: 1, title: "Chaos", route: "/chapters/1" },
-  { id: 2, title: "Whispers", route: "/chapters/2" },
+  { id: 2, title: "Liar", route: "/chapters/2" },
   { id: 3, title: "Echoes", route: "/chapters/3" },
   { id: 4, title: "Drift", route: "/chapters/4" },
   
