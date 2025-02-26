@@ -8,7 +8,7 @@ export default function ChapterOne() {
     <ChapterLayout
       chapterNumber={1}
       chapterTitle="Chaos"
-      // backgroundElements={<CloudBackground />}
+      backgroundElements={<CloudBackground />}
       // gradientColors={["from-blue-200", "via-purple-200", "to-indigo-200"]} // Cool, chaotic gradient
       // backgroundColorStops={["#f0f7ff", "#e6e0fa", "#e0e7ff", "#f0f7ff"]} // Subtle blue-purple shifts
     >

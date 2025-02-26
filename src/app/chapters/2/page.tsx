@@ -1,8 +1,8 @@
 "use client";
 
 import ChapterLayout, {  Section, EnhancedMarginNote, EnhancedBlockQuote } from "@/components/ChapterLayout";
-import { CloudBackground } from "@/app/components/cloud-background";
 
+import { HospitalBackground } from "@/app/components/hospital-background";
 
 // import { ChapterLayout, Section, EnhancedMarginNote, EnhancedBlockQuote } from "@/app/components/ChapterLayout";
 // import { HospitalBackground } from "@/app/components/hospital-background"; // Placeholder for a hospital-themed background
@@ -12,9 +12,9 @@ export default function ChapterTwo() {
     <ChapterLayout
       chapterNumber={2}
       chapterTitle="Liar"
-    //   backgroundElements={<HospitalBackground />} // Adjust this later if you have a specific component
-      gradientColors={["from-gray-100", "via-blue-100", "to-gray-200"]} // Placeholder: muted hospital tones
-      backgroundColorStops={["#f7f7f7", "#e8ecef", "#dfe6e9", "#f7f7f7"]} // Subtle sterile shifts
+      backgroundElements={<HospitalBackground />} // Adjust this later if you have a specific component
+    //   gradientColors={["from-gray-100", "via-blue-100", "to-gray-200"]} // Placeholder: muted hospital tones
+    //   backgroundColorStops={["#f7f7f7", "#e8ecef", "#dfe6e9", "#f7f7f7"]} // Subtle sterile shifts
     >
       {/* Wake-Up Scene */}
       <Section delay={0.2}>
