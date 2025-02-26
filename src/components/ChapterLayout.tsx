@@ -1,8 +1,8 @@
 // /components/ChapterLayout.tsx
 "use client";
 
-import { ReactNode, useRef, } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { ReactNode, useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Caveat } from "next/font/google";
 import { Crimson_Pro } from "next/font/google";
 import { ChapterNavigation } from "@/app/components/chapter-navigation";
@@ -25,6 +25,11 @@ interface BlockQuoteProps {
   children: ReactNode;
 }
 
+interface FootnoteProps {
+  children: ReactNode;
+  note: string;
+}
+
 export interface ChapterLayoutProps {
   chapterNumber: number;
   chapterTitle: string;
@@ -33,6 +38,7 @@ export interface ChapterLayoutProps {
   gradientColors?: string[];
   backgroundColorStops?: string[];
   fixedElement?: ReactNode;
+  previousChapter?: number;
 }
 
 // Section component with simple animation
@@ -93,6 +99,75 @@ border-gray-300"
   );
 }
 
+// Interactive Footnote component
+export function InteractiveFootnote({ children, note }: FootnoteProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const footnoteRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        footnoteRef.current &&
+        !footnoteRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  return (
+    <span className="relative inline-block">
+      <span
+        className="text-purple-600 cursor-pointer underline decoration-dotted"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {children}
+      </span>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.span
+            ref={footnoteRef}
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            className={`absolute z-10 bottom-full mb-2 p-3 rounded-md bg-white shadow-lg border border-purple-200 w-64 ${caveat.className} text-sm inline-block`}
+          >
+            {note}
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-purple-200"></span>
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </span>
+  );
+}
+
+// Decorative section divider
+export function SectionDivider() {
+  return (
+    <div className="flex items-center justify-center my-12">
+      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent w-1/3"></div>
+      <motion.div
+        className="mx-4 text-gray-400"
+        animate={{ rotate: [0, 360] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      >
+        ✦
+      </motion.div>
+      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent w-1/3"></div>
+    </div>
+  );
+}
+
 export default function ChapterLayout({
   chapterNumber,
   chapterTitle,
@@ -101,12 +176,20 @@ export default function ChapterLayout({
   gradientColors = ["from-blue-100", "via-purple-100", "to-blue-100"],
   backgroundColorStops = ["#ffffff", "#f8f8f8", "#f5f5f5", "#ffffff"],
   fixedElement,
+  previousChapter,
 }: ChapterLayoutProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start", "end"],
   });
+
+  // Animation for page entry based on navigation direction
+  const initialX = previousChapter
+    ? previousChapter < chapterNumber
+      ? 100
+      : -100
+    : 0;
 
   // Subtle background color transition based on scroll
   const backgroundColor = useTransform(
@@ -115,24 +198,45 @@ export default function ChapterLayout({
     backgroundColorStops
   );
 
-  const chapterNumberText = 
-    chapterNumber === 1 ? "One" : 
-    chapterNumber === 2 ? "Two" : 
-    chapterNumber === 3 ? "Three" :
-    chapterNumber === 4 ? "Four" :
-    chapterNumber === 5 ? "Five" :
-    chapterNumber === 6 ? "Six" :
-    chapterNumber === 7 ? "Seven" :
-    chapterNumber === 8 ? "Eight" :
-    chapterNumber === 9 ? "Nine" :
-    chapterNumber === 10 ? "Ten" : 
-    chapterNumber.toString();
+  const chapterNumberText =
+    chapterNumber === 1
+      ? "One"
+      : chapterNumber === 2
+        ? "Two"
+        : chapterNumber === 3
+          ? "Three"
+          : chapterNumber === 4
+            ? "Four"
+            : chapterNumber === 5
+              ? "Five"
+              : chapterNumber === 6
+                ? "Six"
+                : chapterNumber === 7
+                  ? "Seven"
+                  : chapterNumber === 8
+                    ? "Eight"
+                    : chapterNumber === 9
+                      ? "Nine"
+                      : chapterNumber === 10
+                        ? "Ten"
+                        : chapterNumber.toString();
 
   return (
     <motion.div
       ref={containerRef}
       className="min-h-screen relative"
       style={{ backgroundColor }}
+      initial={{ opacity: 0, x: initialX }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{
+        opacity: 0,
+        x: previousChapter
+          ? previousChapter > chapterNumber
+            ? 100
+            : -100
+          : 0,
+      }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
     >
       {/* Background Elements */}
       {backgroundElements && (
@@ -142,6 +246,14 @@ export default function ChapterLayout({
       )}
 
       <div className="max-w-3xl mx-auto px-6 py-20 relative">
+        {/* Chapter Progress Indicator - Monochrome */}
+        <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+          <motion.div
+            className="h-full bg-gray-600"
+            style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
+          />
+        </div>
+
         {/* Chapter Title with enhanced but subtle background */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -152,7 +264,7 @@ export default function ChapterLayout({
           {/* Subtle gradient background for title */}
           <motion.div
             className={`absolute -inset-6 rounded-lg opacity-10 \
-bg-gradient-to-r ${gradientColors.join(' ')}`}
+bg-gradient-to-r ${gradientColors.join(" ")}`}
             animate={{
               opacity: [0.05, 0.1, 0.05],
             }}
@@ -169,6 +281,7 @@ relative ${crimson.className}`}
           >
             Chapter {chapterNumberText}
           </h1>
+
           <h2
             className={`text-3xl md:text-4xl text-gray-600 relative \
 ${crimson.className}`}
@@ -178,7 +291,7 @@ ${crimson.className}`}
         </motion.div>
 
         {/* Chapter Content */}
-        {children}
+        <div className="relative">{children}</div>
       </div>
 
       {/* Fixed Element (like cigarette) */}
