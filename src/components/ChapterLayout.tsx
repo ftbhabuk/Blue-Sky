@@ -1,13 +1,12 @@
-// /components/ChapterLayout.tsx
 "use client";
 
 import { ReactNode, useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Caveat } from "next/font/google";
 import { Crimson_Pro } from "next/font/google";
 import { ChapterNavigation } from "@/app/components/chapter-navigation";
+import { ChapterAmbience } from "@/components/ChapterAmbience";
 
-// Fonts
 const caveat = Caveat({ subsets: ["latin"] });
 const crimson = Crimson_Pro({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -39,9 +38,11 @@ export interface ChapterLayoutProps {
   backgroundColorStops?: string[];
   fixedElement?: ReactNode;
   previousChapter?: number;
+  soundMode?: "single" | "scroll";
+  repeat?: boolean;
+  sounds?: string | string[];
 }
 
-// Section component with simple animation
 export function Section({ children, delay }: SectionProps) {
   return (
     <motion.div
@@ -56,7 +57,6 @@ export function Section({ children, delay }: SectionProps) {
   );
 }
 
-// Enhanced margin note with subtle hover effect
 export function EnhancedMarginNote({ children, side }: MarginNoteProps) {
   const leftOffset = side === "left" ? "auto" : "auto";
 
@@ -81,7 +81,6 @@ text-gray-500 opacity-75 hidden md:block`}
   );
 }
 
-// Enhanced blockquote with subtle hover effect
 export function EnhancedBlockQuote({ children }: BlockQuoteProps) {
   return (
     <motion.blockquote
@@ -99,7 +98,6 @@ border-gray-300"
   );
 }
 
-// Interactive Footnote component
 export function InteractiveFootnote({ children, note }: FootnoteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const footnoteRef = useRef<HTMLSpanElement>(null);
@@ -133,25 +131,22 @@ export function InteractiveFootnote({ children, note }: FootnoteProps) {
       >
         {children}
       </span>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.span
-            ref={footnoteRef}
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className={`absolute z-10 bottom-full mb-2 p-3 rounded-md bg-white shadow-lg border border-purple-200 w-64 ${caveat.className} text-sm inline-block`}
-          >
-            {note}
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-purple-200"></span>
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {isOpen && (
+        <motion.span
+          ref={footnoteRef}
+          initial={{ opacity: 0, y: 10, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.9 }}
+          className={`absolute z-10 bottom-full mb-2 p-3 rounded-md bg-white shadow-lg border border-purple-200 w-64 ${caveat.className} text-sm inline-block`}
+        >
+          {note}
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-purple-200"></span>
+        </motion.span>
+      )}
     </span>
   );
 }
 
-// Decorative section divider
 export function SectionDivider() {
   return (
     <div className="flex items-center justify-center my-12">
@@ -177,6 +172,9 @@ export default function ChapterLayout({
   backgroundColorStops = ["#ffffff", "#f8f8f8", "#f5f5f5", "#ffffff"],
   fixedElement,
   previousChapter,
+  soundMode = "scroll",
+  repeat = true,
+  sounds = ["/sounds/1.wav"],
 }: ChapterLayoutProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -184,14 +182,42 @@ export default function ChapterLayout({
     offset: ["start", "end"],
   });
 
-  // Animation for page entry based on navigation direction
+  const [currentSound, setCurrentSound] = useState<string>(
+    soundMode === "single" 
+      ? (Array.isArray(sounds) ? sounds[0] : sounds) 
+      : (Array.isArray(sounds) ? sounds[0] : sounds) // Start with first sound
+  );
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (progress) => {
+      if (soundMode === "single") {
+        setCurrentSound(Array.isArray(sounds) ? sounds[0] : sounds);
+      } else if (soundMode === "scroll") {
+        const soundArray = Array.isArray(sounds) ? sounds : [sounds];
+        const numSounds = soundArray.length;
+        const segment = 1 / Math.max(numSounds, 1);
+
+        if (progress < 0.2) {
+          setCurrentSound(soundArray[0]); // Start with first sound even at top
+        } else {
+          const index = Math.min(
+            Math.floor((progress - 0.2) / segment),
+            numSounds - 1
+          );
+          setCurrentSound(soundArray[index] || soundArray[0]);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress, soundMode, sounds]);
+
   const initialX = previousChapter
     ? previousChapter < chapterNumber
       ? 100
       : -100
     : 0;
 
-  // Subtle background color transition based on scroll
   const backgroundColor = useTransform(
     scrollYProgress,
     [0, 0.3, 0.6, 1],
@@ -238,7 +264,6 @@ export default function ChapterLayout({
       }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      {/* Background Elements */}
       {backgroundElements && (
         <div className="absolute inset-0 overflow-hidden">
           {backgroundElements}
@@ -246,7 +271,6 @@ export default function ChapterLayout({
       )}
 
       <div className="max-w-3xl mx-auto px-6 py-20 relative">
-        {/* Chapter Progress Indicator - Monochrome */}
         <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
           <motion.div
             className="h-full bg-gray-600"
@@ -254,14 +278,12 @@ export default function ChapterLayout({
           />
         </div>
 
-        {/* Chapter Title with enhanced but subtle background */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           className="mb-16 space-y-2 relative"
         >
-          {/* Subtle gradient background for title */}
           <motion.div
             className={`absolute -inset-6 rounded-lg opacity-10 \
 bg-gradient-to-r ${gradientColors.join(" ")}`}
@@ -274,14 +296,12 @@ bg-gradient-to-r ${gradientColors.join(" ")}`}
               repeatType: "reverse",
             }}
           />
-
           <h1
             className={`text-5xl md:text-6xl tracking-tight text-gray-800 \
 relative ${crimson.className}`}
           >
             Chapter {chapterNumberText}
           </h1>
-
           <h2
             className={`text-3xl md:text-4xl text-gray-600 relative \
 ${crimson.className}`}
@@ -290,13 +310,11 @@ ${crimson.className}`}
           </h2>
         </motion.div>
 
-        {/* Chapter Content */}
         <div className="relative">{children}</div>
       </div>
 
-      {/* Fixed Element (like cigarette) */}
+      <ChapterAmbience soundUrl={currentSound} repeat={repeat} />
       {fixedElement}
-
       <ChapterNavigation currentChapter={chapterNumber} />
     </motion.div>
   );

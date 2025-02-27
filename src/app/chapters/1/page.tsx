@@ -16,8 +16,10 @@ export default function ChapterOne() {
       chapterNumber={1}
       chapterTitle="Chaos"
       backgroundElements={<CloudBackground />}
+      soundMode="single"
+      repeat={true}
+      sounds={["/sounds/1.wav"]}
     >
-      {/* Opening Section */}
       <Section delay={0.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
@@ -35,7 +37,6 @@ export default function ChapterOne() {
 
       <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
 
-      {/* Hospital Scene */}
       <Section delay={0.4}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
@@ -54,7 +55,6 @@ export default function ChapterOne() {
         </motion.div>
       </Section>
 
-      {/* Clinical Environment */}
       <Section delay={0.6}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
@@ -69,7 +69,6 @@ export default function ChapterOne() {
 
       <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
 
-      {/* Nurse Interaction */}
       <Section delay={0.8}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
@@ -91,7 +90,6 @@ export default function ChapterOne() {
         </motion.div>
       </Section>
 
-      {/* Family Scene */}
       <Section delay={1.0}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <h3 className="text-2xl text-gray-700 mb-6">Am I wishing for less time...</h3>
@@ -107,7 +105,6 @@ export default function ChapterOne() {
 
       <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
 
-      {/* Final Thoughts */}
       <Section delay={1.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
@@ -121,7 +118,7 @@ export default function ChapterOne() {
             <InteractiveFootnote
               note="The rain mirrors the narrator’s stasis—a quiet longing trapped beneath the chaos."
             >
-             {""} rain drips
+              {""} rain drips
             </InteractiveFootnote>
             {""} at the ending tip of the roof and awaits its blue sky?
           </p>
