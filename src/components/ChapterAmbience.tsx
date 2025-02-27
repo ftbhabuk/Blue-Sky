@@ -9,11 +9,11 @@ interface ChapterAmbienceProps {
 }
 
 export function ChapterAmbience({ soundUrl, repeat }: ChapterAmbienceProps) {
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.01); // Start low for fade-in
   const [showVolume, setShowVolume] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const targetVolume = 0.2; // Constant volume after fade-in
+  const targetVolume = 0.02; // Constant volume after fade-in
 
   useEffect(() => {
     if (audioRef.current) {

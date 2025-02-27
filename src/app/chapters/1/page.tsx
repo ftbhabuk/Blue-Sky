@@ -16,9 +16,9 @@ export default function ChapterOne() {
       chapterNumber={1}
       chapterTitle="Chaos"
       backgroundElements={<CloudBackground />}
-      soundMode="single"
+      soundMode="scroll"
       repeat={true}
-      sounds={["/sounds/1.wav"]}
+      sounds={["/sounds/1.wav", '/sounds/2.mp3']}
     >
       <Section delay={0.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
