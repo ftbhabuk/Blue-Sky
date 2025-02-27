@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 // Literary quotes that capture the essence of the story
 const quotes = [
@@ -20,42 +20,61 @@ const quotes = [
     text: "Time moves differently here, seconds stretch into hours",
     author: "Chapter Two",
   },
-]
+];
 
 export default function Home() {
-  const [loaded, setLoaded] = useState(false)
-  const [isNavigating, setIsNavigating] = useState(false)
-  const [currentQuote, setCurrentQuote] = useState(0)
-  const [isQuoteChanging, setIsQuoteChanging] = useState(false)
-  const router = useRouter()
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const [loaded, setLoaded] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [currentQuote, setCurrentQuote] = useState(0);
+  const [isQuoteChanging, setIsQuoteChanging] = useState(false);
+  const router = useRouter();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    setLoaded(true)
+    setLoaded(true);
     // Start quote rotation
     intervalRef.current = setInterval(() => {
-      setIsQuoteChanging(true)
+      setIsQuoteChanging(true);
       setTimeout(() => {
-        setCurrentQuote((prev) => (prev + 1) % quotes.length)
-        setIsQuoteChanging(false)
-      }, 500)
-    }, 5000)
+        setCurrentQuote((prev) => (prev + 1) % quotes.length);
+        setIsQuoteChanging(false);
+      }, 500);
+    }, 5000);
 
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const handleBeginReading = async () => {
-    setIsNavigating(true)
-    await new Promise((resolve) => setTimeout(resolve, 800))
-    router.push("/chapters/1")
-  }
+    setIsNavigating(true);
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    router.push("/chapters/1");
+  };
 
   return (
     <main className="flex min-h-screen bg-white">
+      {/* Left side - Hospital Image */}
+      <div className="relative hidden md:block w-[40%] bg-gray-50">
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: "url('/placeholder.svg?height=1080&width=720')",
+              filter: "brightness(0.9)",
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-50" />
+
+          {/* Animated clouds */}
+          <div className="absolute top-0 left-0 w-full h-32 opacity-20">
+            <div className="cloud-animation" />
+          </div>
+        </div>
+      </div>
+
       {/* Atmospheric Background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
@@ -70,13 +89,15 @@ export default function Home() {
             repeatType: "reverse",
           }}
           style={{
-            backgroundImage: "radial-gradient(circle at center, rgba(0,0,0,0.03) 0%, transparent 70%)",
+            backgroundImage:
+              "radial-gradient(circle at center, rgba(0,0,0,0.03) 0%, transparent 70%)",
             backgroundSize: "100% 100%",
           }}
         />
       </div>
 
-      <div className="relative w-full flex flex-col items-center justify-center p-8">
+      {/* Right side - Content */}
+      <div className="relative w-full md:w-[60%] flex flex-col items-center justify-center p-8">
         {/* Main Content */}
         <div className="max-w-3xl w-full space-y-16 text-center">
           {/* Title Section */}
@@ -86,7 +107,9 @@ export default function Home() {
             animate={{ opacity: loaded ? 1 : 0, y: loaded ? 0 : 20 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif tracking-tight text-gray-900">Blue Sky</h1>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif tracking-tight text-gray-900">
+              Blue Sky
+            </h1>
             <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
           </motion.div>
 
@@ -101,8 +124,12 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
                 className="text-center space-y-3"
               >
-                <p className="text-xl md:text-2xl text-gray-600 italic">"{quotes[currentQuote].text}"</p>
-                <p className="text-sm text-gray-400 font-serif">— {quotes[currentQuote].author}</p>
+                <p className="text-xl md:text-2xl text-gray-600 italic">
+                  "{quotes[currentQuote].text}"
+                </p>
+                <p className="text-sm text-gray-400 font-serif">
+                  — {quotes[currentQuote].author}
+                </p>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -161,7 +188,9 @@ export default function Home() {
           animate={{ opacity: loaded ? 0.5 : 0 }}
           transition={{ duration: 1, delay: 1 }}
         >
-          <p className="text-sm text-gray-400 font-serif italic">"In the space between heartbeats, stories unfold"</p>
+          <p className="text-sm text-gray-400 font-serif italic">
+            "In the space between heartbeats, stories unfold"
+          </p>
         </motion.div>
       </div>
 
@@ -173,6 +202,5 @@ export default function Home() {
         transition={{ duration: 0.5 }}
       />
     </main>
-  )
+  );
 }
-
