@@ -9,14 +9,45 @@ import ChapterLayout, {
 } from "@/components/ChapterLayout";
 import { HospitalBackground } from "@/app/components/hospital-background";
 import { motion } from "framer-motion";
+import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images";
+import ImageComparison from "@/components/ImageComparision";
 
 export default function ChapterTwo() {
+  // Reusing hospitalMemories from Chapter 1 for consistency
+  const hospitalMemories = [
+    {
+      src: "/images/s3.png",
+      alt: "Hospital Window View",
+      title: "First Light",
+      height: 200,
+      annotations: [
+        { x: 30, y: 40, text: "Where birds gather each morning" },
+        { x: 70, y: 60, text: "The city waking up" },
+      ],
+    },
+    {
+      src: "/images/s3.png",
+      alt: "Medical Equipment",
+      title: "Life Support",
+      height: 200,
+    },
+    {
+      src: "/images/s3.png",
+      alt: "Hospital Clock",
+      title: "3:47 AM",
+      height: 200,
+    },
+  ];
+
   return (
     <ChapterLayout
       chapterNumber={2}
       chapterTitle="Liar"
       backgroundElements={<HospitalBackground />}
       previousChapter={1}
+      soundMode="single"
+      repeat={true}
+      sounds={["/sounds/2.mp3", "/sounds/1.wav"]} // Matching Chapter 1's audio
     >
       {/* Wake-Up Scene */}
       <Section delay={0.2}>
@@ -24,6 +55,16 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             The room wakes up, slowly—the hum of machinery and soft footsteps blending into a symphony of monotony. I lie here, a dull ache in my body, each breath a reminder of my fragility. Yesterday passed in a haze: voices, faces, questions I don’t have answers to, all blurred together.
           </p>
+          <NovelImage
+            src="/images/s3.png"
+            alt="Hospital room at dawn"
+            width={1200}
+            height={800}
+            caption="Morning Haze"
+            description="The soft light filters through, carrying the weight of another day"
+            style="vintage"
+            effect="fade"
+          />
           <p className="text-lg leading-relaxed text-gray-800">
             The clock reads 7 AM. I stir, weighed down by another sleepless night. How can one sleep with these{" "}
             <InteractiveFootnote
@@ -43,6 +84,16 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             The door creaks open. A different nurse walks in—brisk, purposeful, unfamiliar. I watch her with cautious curiosity as she sets a tray beside me.
           </p>
+          <NovelImage
+            src="/images/s3.png"
+            alt="Hospital tray with food"
+            width={1200}
+            height={800}
+            caption="Breakfast Ritual"
+            description="A daily offering of tasteless sustenance"
+            style="modern"
+            effect="slide"
+          />
           <p className="text-lg leading-relaxed text-gray-800">
             "Good morning!" her voice bright but impersonal. "Time for breakfast." It’s the same unappetizing mush. I poke at it with a spoon, the smell turning my stomach.
           </p>
@@ -71,6 +122,7 @@ export default function ChapterTwo() {
             </InteractiveFootnote>
             , her smile a welcome sight.
           </p>
+          <MemoryWall memories={hospitalMemories} />
         </motion.div>
       </Section>
 
@@ -96,6 +148,16 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             "Well, who would have thought you’d be good with words," she laughed, the sound light and teasing as she walked away. I watched her go, feeling a strange mix of relief and regret. Maybe I was becoming too formal, too stiff.
           </p>
+          <ImageComparison
+            beforeImage="/images/s3.png" // Sharp, calm moment with Lisa
+            afterImage="/images/s3.png"  // Blurred, regretful aftermath
+            beforeAlt="Moment of Calm"
+            afterAlt="Fading Connection"
+            width={1200}
+            height={800}
+            style="modern"
+            effect="fade"
+          />
           <p className="text-lg leading-relaxed text-gray-800">
             I sensed eyes on me and turned. The guy in the next bed watched us, legs in casts, propped up awkwardly. He had that look—someone who’d been through hell and was still trying to make sense of it.
           </p>
@@ -122,6 +184,30 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             We lapsed into a comfortable silence, each in our own thoughts.
           </p>
+          <NovelGallery
+            images={[
+              {
+                src: "/images/s3.png",
+                alt: "Broken legs in casts",
+                width: 800,
+                height: 600,
+                caption: "Mir’s Burden",
+                description: "A silent testament to his own struggles",
+                style: "modern",
+              },
+              {
+                src: "/images/s3.png",
+                alt: "Hospital window at dusk",
+                width: 800,
+                height: 600,
+                caption: "Shared Silence",
+                description: "The fading light binds us in quiet understanding",
+                style: "polaroid",
+              },
+            ]}
+            layout="masonry"
+            spacing="normal"
+          />
         </motion.div>
       </Section>
 

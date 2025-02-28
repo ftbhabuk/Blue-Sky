@@ -10,10 +10,14 @@ interface ComparisonImageProps {
   afterImage: string;
   beforeAlt: string;
   afterAlt: string;
-  width: number;
-  height: number;
-  style?: "classic" | "polaroid" | "vintage" | "modern";
-  effect?: "fade" | "slide" | "zoom" | "none";
+  beforeText?: string;
+  afterText?: string;
+  width?: number;
+  height?: number;
+  beforeStyle?: "classic" | "polaroid" | "vintage" | "modern" | "noir" | "dreamy" | "retro" | "minimal";
+  afterStyle?: "classic" | "polaroid" | "vintage" | "modern" | "noir" | "dreamy" | "retro" | "minimal";
+  beforeEffect?: "fade" | "slide" | "zoom" | "none" | "reveal" | "elastic";
+  afterEffect?: "fade" | "slide" | "zoom" | "none" | "reveal" | "elastic";
 }
 
 export default function ImageComparison({
@@ -21,10 +25,14 @@ export default function ImageComparison({
   afterImage,
   beforeAlt,
   afterAlt,
-  width,
-  height,
-  style = "classic",
-  effect = "fade",
+  beforeText,
+  afterText,
+  width = 600,
+  height = 400,
+  beforeStyle = "classic",
+  afterStyle = "classic",
+  beforeEffect = "none",
+  afterEffect = "none",
 }: ComparisonImageProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -37,46 +45,30 @@ export default function ImageComparison({
     setSliderPosition(position);
   };
 
-  // Style variants (mirrored from NovelImage)
   const styleVariants = {
     classic: "rounded-lg shadow-lg",
     polaroid: "rounded-sm p-4 bg-white shadow-xl",
     vintage: "sepia brightness-95 rounded-sm shadow-md border-8 border-white",
     modern: "rounded-xl shadow-2xl",
+    noir: "grayscale contrast-125 rounded-lg shadow-xl",
+    dreamy: "rounded-lg shadow-lg brightness-105 contrast-75 saturate-150",
+    retro: "rounded-none border-4 border-orange-300 sepia brightness-90",
+    minimal: "rounded-xl border border-gray-200 shadow-sm",
   };
 
-  // Effect variants
   const effectVariants = {
-    fade: {
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      exit: { opacity: 0 },
-    },
-    slide: {
-      initial: { x: -20, opacity: 0 },
-      animate: { x: 0, opacity: 1 },
-      exit: { x: 20, opacity: 0 },
-    },
-    zoom: {
-      initial: { scale: 0.8, opacity: 0 },
-      animate: { scale: 1, opacity: 1 },
-      exit: { scale: 1.2, opacity: 0 },
-    },
-    none: {
-      initial: {},
-      animate: {},
-      exit: {},
-    },
+    fade: { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } },
+    slide: { initial: { x: -20, opacity: 0 }, animate: { x: 0, opacity: 1 }, exit: { x: 20, opacity: 0 } },
+    zoom: { initial: { scale: 0.8, opacity: 0 }, animate: { scale: 1, opacity: 1 }, exit: { scale: 1.2, opacity: 0 } },
+    none: { initial: {}, animate: {}, exit: {} },
+    reveal: { initial: { y: 50, opacity: 0 }, animate: { y: 0, opacity: 1, transition: { duration: 0.8 } }, exit: { y: -50, opacity: 0 } },
+    elastic: { initial: { scale: 0, opacity: 0 }, animate: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 15 } }, exit: { scale: 0, opacity: 0 } },
   };
 
   return (
-    <motion.div
-      className={cn("relative overflow-hidden cursor-ew-resize", styleVariants[style])}
-      style={{ width: `${width}px`, height: `${height}px` }}
-      variants={effectVariants[effect]}
-      initial="initial"
-      animate="animate"
-      exit="exit"
+    <div
+      className="relative overflow-hidden cursor-ew-resize my-6 mx-auto"
+      style={{ width: `${width}px`, height: `${height}px`, maxWidth: "100%" }}
       onMouseDown={() => setIsDragging(true)}
       onMouseUp={() => setIsDragging(false)}
       onMouseLeave={() => setIsDragging(false)}
@@ -85,19 +77,14 @@ export default function ImageComparison({
       onTouchEnd={() => setIsDragging(false)}
       onTouchMove={handleMove}
     >
-      {/* Mirror Frame Overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          border: "10px solid #d4af37", // Gold-ish mirror frame
-          borderImage: "linear-gradient(45deg, #d4af37, #8b5a2b) 1",
-          boxShadow: "inset 0 0 10px rgba(0,0,0,0.5)",
-          borderRadius: "12px",
-        }}
-      />
-
-      {/* Before Image (Clear Reality) */}
-      <div className="absolute inset-0">
+      {/* Before Image */}
+      <motion.div
+        className={cn("absolute inset-0", styleVariants[beforeStyle])}
+        variants={effectVariants[beforeEffect]}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
         <Image
           src={beforeImage || "/placeholder.svg"}
           alt={beforeAlt}
@@ -105,11 +92,33 @@ export default function ImageComparison({
           fill
           style={{ objectFit: "cover" }}
         />
-      </div>
+        {/* Before Text Overlay with Clipping */}
+        {beforeText && (
+          <div
+            className="absolute top-2 left-2 right-2 text-center pointer-events-none"
+            style={{
+              fontFamily: "'Courier New', monospace",
+              fontSize: "14px",
+              color: "white",
+              textShadow: "0 0 4px rgba(0, 0, 0, 0.8)",
+              padding: "4px 8px",
+              background: "rgba(0, 0, 0, 0.5)",
+              borderRadius: "4px",
+              clipPath: `inset(0 0 0 ${sliderPosition}%)`, // Clips text to left of slider
+            }}
+          >
+            {beforeText}
+          </div>
+        )}
+      </motion.div>
 
-      {/* After Image (Foggy Chaos) */}
-      <div
-        className="absolute inset-0"
+      {/* After Image */}
+      <motion.div
+        className={cn("absolute inset-0", styleVariants[afterStyle])}
+        variants={effectVariants[afterEffect]}
+        initial="initial"
+        animate="animate"
+        exit="exit"
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
         <Image
@@ -119,21 +128,41 @@ export default function ImageComparison({
           fill
           style={{ objectFit: "cover" }}
         />
-        {/* Cracked/Foggy Mirror Effect on Right Side */}
+        {/* After Text Overlay */}
+        {afterText && (
+          <div
+            className="absolute bottom-2 left-2 right-2 text-center pointer-events-none"
+            style={{
+              fontFamily: "'Courier New', monospace",
+              fontSize: "14px",
+              color: "white",
+              textShadow: "0 0 4px rgba(0, 0, 0, 0.8)",
+              padding: "4px 8px",
+              background: "rgba(0, 0, 0, 0.5)",
+              borderRadius: "4px",
+            }}
+          >
+            {afterText}
+          </div>
+        )}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: "rgba(255,255,255,0.1)",
             filter: "blur(2px)",
-            borderRight: "2px dotted #8b5a2b",
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Slider Handle */}
-      <div className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize" style={{ left: `${sliderPosition}%` }}>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center"></div>
+      <div
+        className="absolute top-0 bottom-0 w-1 bg-white/80"
+        style={{ left: `${sliderPosition}%` }}
+      >
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-md"
+        />
       </div>
-    </motion.div>
+    </div>
   );
 }

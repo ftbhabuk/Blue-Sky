@@ -10,34 +10,44 @@ import ChapterLayout, {
 import { CloudBackground } from "@/app/components/cloud-background";
 import { motion } from "framer-motion";
 import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images";
-// import ImageComparison from "@/components/ImageComparison";
 import ImageComparison from "@/components/ImageComparision";
+
 export default function ChapterOne() {
   const hospitalMemories = [
     {
       src: "/images/s3.png",
       alt: "Hospital Window View",
       title: "First Light",
-      // width: 200,
       height: 200,
+      style: "minimal", // Default polaroid look with a slight rotation
+      effect: "fade",   // Fades in gently
       annotations: [
         { x: 30, y: 40, text: "Where birds gather each morning" },
-        { x: 70, y: 60, text: "The city waking up" },
+       
       ],
     },
     {
       src: "/images/s3.png",
       alt: "Medical Equipment",
       title: "Life Support",
-      // width: 200,
       height: 200,
+      style: "noir",    // Black-and-white, high-contrast look
+      effect: "zoom",   // Zooms in for a dramatic entrance
+      annotations: [
+        { x: 30, y: 40, text: "The machines keeping me alive" },    
+      ],
     },
     {
       src: "/images/s3.png",
       alt: "Hospital Clock",
       title: "3:47 AM",
-      // width: 200,
       height: 200,
+      style: "vintage", // Sepia-toned, old-fashioned feel
+      effect: "elastic", // Bounces in with a springy effect
+      annotations: [
+        { x: 30, y: 40, text: "The hour of ghosts" },
+       
+      ],
     },
   ];
 
@@ -48,7 +58,7 @@ export default function ChapterOne() {
       backgroundElements={<CloudBackground />}
       soundMode="single"
       repeat={true}
-      sounds={["/sounds/2.mp3", '/sounds/1.wav']}
+      sounds={["/sounds/2.mp3", "/sounds/1.wav"]}
     >
       <Section delay={0.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
@@ -62,8 +72,8 @@ export default function ChapterOne() {
             height={800}
             caption="The Endless Corridor"
             description="Where time stretches like an infinite line"
-            style="vintage"
-            effect="fade"
+            style="noir"
+            effect="zoom"
           />
           <p className="text-lg leading-relaxed text-gray-800">
             I’m uncertain, like a rose pale and dying, dropping its petals. This world before me… is unsure. I’m living too much inside of myself again.
@@ -108,8 +118,8 @@ export default function ChapterOne() {
             height={800}
             caption="Room 407"
             description="My temporary prison, where shadows dance on sterile walls"
-            style="modern"
-            effect="slide"
+            style="noir"
+            effect="elastic"
           />
           <p className="text-lg leading-relaxed text-gray-800">
             I glance at myself: bandages wrap all around my body, laid lifelessly on the bed. I try to move but can’t. Maybe I’m too feeble. I’ve never been physically strong. Throughout my childhood, I rarely went outside. Even in school, I used to slip in and out of PE classes.
@@ -153,14 +163,18 @@ export default function ChapterOne() {
             The door creaks open, and a nurse walks in, moving slowly, as if she’s in no hurry. “What’s the problem with these people?” I mutter to myself.
           </p>
           <ImageComparison
-  beforeImage="/images/s3.png" // Sharp family photo or chart
-  afterImage="/images/s3.png"   // Blurred, chaotic version
+  beforeImage="/images/s3.png"
+  afterImage="/images/s3.png"
   beforeAlt="Clear Memory"
   afterAlt="Foggy Memory"
-  width={1200}
-  height={800}
-  style="modern"  // Feels old, grounded, like a lost memory
-  effect="fade"   // Slides away into chaos
+  beforeText="The Way It Was" // Unique text for before
+  afterText="Lost in Haze"    // Unique text for after
+  width={600} // Override default if needed
+  height={400} // Override default if needed
+  beforeStyle="modern" // Sepia-toned clear memory
+  afterStyle="noir" // Grayscale foggy memory
+  beforeEffect="fade" // Fades in the before image
+  afterEffect="zoom" // Slides in the after image
 />
           <p className="text-lg leading-relaxed text-gray-800">
             "How are you feeling now?" she asks, her tone familiar, as if she knows me. I have{" "}
