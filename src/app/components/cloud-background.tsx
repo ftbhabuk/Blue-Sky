@@ -26,7 +26,7 @@ export function CloudBackground() {
           backgroundSize: "120% 120%",
         }}
       />
-      
+
       {/* Slower moving subtle cloud layer */}
       <motion.div
         className="absolute inset-0 opacity-[0.05]"
@@ -46,7 +46,7 @@ export function CloudBackground() {
           backgroundSize: "150% 150%",
         }}
       />
-      
+
       {/* Faster moving highlights */}
       <motion.div
         className="absolute inset-0 opacity-[0.04]"
@@ -70,3 +70,4 @@ export function CloudBackground() {
     </div>
   )
 }
+

@@ -1,6 +1,4 @@
-"use client";
-
-import React from 'react';
+"use client"
 
 export function HospitalBackground() {
   return (
@@ -12,12 +10,14 @@ export function HospitalBackground() {
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/30 to-transparent animate-flicker" />
 
       {/* Tiled Floor Effect - Faint grid */}
-      <div className="absolute inset-0 bg-repeat opacity-10" 
-           style={{
-             backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), 
+      <div
+        className="absolute inset-0 bg-repeat opacity-10"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), 
                               linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px)`,
-             backgroundSize: '40px 40px', // Mimics hospital floor tiles
-           }} />
+          backgroundSize: "40px 40px", // Mimics hospital floor tiles
+        }}
+      />
 
       {/* Curtain Shadow - Soft vertical hint */}
       <div className="absolute right-0 top-0 bottom-0 w-1/4 bg-gradient-to-l from-gray-300/20 to-transparent" />
@@ -25,7 +25,7 @@ export function HospitalBackground() {
       {/* Subtle Equipment Silhouette - Optional */}
       <div className="absolute bottom-10 left-10 w-20 h-40 bg-gray-400/10 rounded-md blur-sm" />
     </div>
-  );
+  )
 }
 
 // CSS Animation for flickering light effect
@@ -37,11 +37,12 @@ const styles = `
   .animate-flicker {
     animation: flicker 3s infinite ease-in-out;
   }
-`;
+`
 
 // Inject styles into the document (you can move this to a CSS file if preferred)
-if (typeof document !== 'undefined') {
-  const styleSheet = document.createElement('style');
-  styleSheet.textContent = styles;
-  document.head.appendChild(styleSheet);
+if (typeof document !== "undefined") {
+  const styleSheet = document.createElement("style")
+  styleSheet.textContent = styles
+  document.head.appendChild(styleSheet)
 }
+

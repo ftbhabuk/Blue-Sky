@@ -1,6 +1,6 @@
 import type React from "react"
 import "./globals.css"
-import { Source_Sans_3 as Source_Sans_Pro, } from "next/font/google"
+import { Source_Sans_3 as Source_Sans_Pro } from "next/font/google"
 
 // const playfair = Playfair_Display({ subsets: ["latin"] })
 const sourceSans = Source_Sans_Pro({
