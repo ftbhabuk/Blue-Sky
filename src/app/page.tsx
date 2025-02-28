@@ -62,44 +62,59 @@ export default function Home() {
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: "url('/placeholder.svg?height=1080&width=720')",
-              filter: "brightness(0.9)",
+              backgroundImage: "url('/images/22.jpg')",
+              filter: "brightness(100.9)",
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-50" />
-
           {/* Animated clouds */}
-          <div className="absolute top-0 left-0 w-full h-32 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-32 opacity-200">
             <div className="cloud-animation" />
           </div>
         </div>
       </div>
 
-      {/* Atmospheric Background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
-        <motion.div
-          className="absolute inset-0"
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-          }}
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at center, rgba(0,0,0,0.03) 0%, transparent 70%)",
-            backgroundSize: "100% 100%",
-          }}
-        />
-      </div>
-
       {/* Right side - Content */}
       <div className="relative w-full md:w-[60%] flex flex-col items-center justify-center p-8">
+        {/* Subtle cloud-like texture */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <motion.div
+            className="absolute inset-0 opacity-30"
+            animate={{
+              x: [0, -20, 0],
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, rgba(1,1,1,1.05) 0.5px, transparent 0.9px)",
+              backgroundSize: "50px 50px",
+            }}
+          />
+          {/* Atmospheric shimmer */}
+          <motion.div
+            className="absolute inset-0 opacity-10"
+            animate={{
+              opacity: [0.1, 0.2, 0.1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            style={{
+              backgroundImage:
+                "linear-gradient(45deg, rgba(0,0,0,0.05), transparent)",
+            }}
+          />
+        </div>
+
         {/* Main Content */}
-        <div className="max-w-3xl w-full space-y-16 text-center">
+        <div className="max-w-3xl w-full space-y-16 text-center relative z-10">
           {/* Title Section */}
           <motion.div
             className="space-y-6"
