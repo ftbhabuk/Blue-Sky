@@ -13,13 +13,14 @@ import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images"
 import ImageComparison from "@/components/ImageComparision";
 
 export default function ChapterTwo() {
-  // Reusing hospitalMemories from Chapter 1 for consistency
   const hospitalMemories = [
     {
       src: "/images/s3.png",
       alt: "Hospital Window View",
       title: "First Light",
       height: 200,
+      style: "polaroid",
+      effect: "fade",
       annotations: [
         { x: 30, y: 40, text: "Where birds gather each morning" },
         { x: 70, y: 60, text: "The city waking up" },
@@ -30,12 +31,18 @@ export default function ChapterTwo() {
       alt: "Medical Equipment",
       title: "Life Support",
       height: 200,
+      style: "noir",
+      effect: "zoom",
+      annotations: [{ x: 30, y: 40, text: "The hum of survival" }],
     },
     {
       src: "/images/s3.png",
       alt: "Hospital Clock",
       title: "3:47 AM",
       height: 200,
+      style: "vintage",
+      effect: "elastic",
+      annotations: [{ x: 30, y: 40, text: "Time drags on" }],
     },
   ];
 
@@ -47,7 +54,7 @@ export default function ChapterTwo() {
       previousChapter={1}
       soundMode="single"
       repeat={true}
-      sounds={["/sounds/2.mp3", "/sounds/1.wav"]} // Matching Chapter 1's audio
+      sounds={["/sounds/2.mp3", "/sounds/1.wav"]}
     >
       {/* Wake-Up Scene */}
       <Section delay={0.2}>
@@ -78,6 +85,8 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
+      <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
+
       {/* Nurse Interaction */}
       <Section delay={0.4}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
@@ -104,8 +113,6 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
-      <SectionDivider />
-
       {/* Inner Reflection & Lisa’s Arrival */}
       <Section delay={0.6}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
@@ -126,6 +133,8 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
+      <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
+
       {/* Lisa’s Visit */}
       <Section delay={0.8}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
@@ -135,6 +144,16 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             She laughs softly, pulling up a chair next to my bed. "That’s the spirit." For a moment, we sit in comfortable silence—her presence calming, a small island of normalcy in this sea of chaos.
           </p>
+          <NovelImage
+            src="/images/s3.png"
+            alt="Lisa sitting by the bedside"
+            width={1200}
+            height={800}
+            caption="An Oasis"
+            description="Her presence softens the edges of this sterile hell"
+            style="polaroid"
+            effect="fade"
+          />
           <p className="text-lg leading-relaxed text-gray-800">
             I want to say something, to ask her about her day, her life, but the words won’t come.
           </p>
@@ -149,14 +168,18 @@ export default function ChapterTwo() {
             "Well, who would have thought you’d be good with words," she laughed, the sound light and teasing as she walked away. I watched her go, feeling a strange mix of relief and regret. Maybe I was becoming too formal, too stiff.
           </p>
           <ImageComparison
-            beforeImage="/images/s3.png" // Sharp, calm moment with Lisa
-            afterImage="/images/s3.png"  // Blurred, regretful aftermath
-            beforeAlt="Moment of Calm"
-            afterAlt="Fading Connection"
-            width={1200}
-            height={800}
-            style="modern"
-            effect="fade"
+            beforeImage="/images/s3.png"
+            afterImage="/images/s3.png"
+            beforeAlt="Moment with Lisa"
+            afterAlt="After She’s Gone"
+            beforeText="Clarity"
+            afterText="Blur"
+            width={600}
+            height={400}
+            beforeStyle="modern"
+            afterStyle="noir"
+            beforeEffect="fade"
+            afterEffect="zoom"
           />
           <p className="text-lg leading-relaxed text-gray-800">
             I sensed eyes on me and turned. The guy in the next bed watched us, legs in casts, propped up awkwardly. He had that look—someone who’d been through hell and was still trying to make sense of it.
@@ -164,7 +187,7 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
-      <SectionDivider />
+      <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
 
       {/* Mir Introduction */}
       <Section delay={1.2}>
@@ -189,8 +212,8 @@ export default function ChapterTwo() {
               {
                 src: "/images/s3.png",
                 alt: "Broken legs in casts",
-                width: 800,
-                height: 600,
+               width: 800,
+               height: 600,
                 caption: "Mir’s Burden",
                 description: "A silent testament to his own struggles",
                 style: "modern",
@@ -220,9 +243,9 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800 italic">
             I can hardly hear the waves or feel the sand… I’m dreaming, dreaming of a better place… Here we are, I’m sure time will eventually catch us…
           </p>
-          <p className="text-lg leading-relaxed text-gray-800 italic">
+          <EnhancedBlockQuote>
             and I’ll finally get to thank you, though I’m on a sailboat, slowly floating nowhere, hoping someday I’ll wash up on someone else’s shore.
-          </p>
+          </EnhancedBlockQuote>
           <EnhancedMarginNote side="left">Floating nowhere</EnhancedMarginNote>
         </motion.div>
       </Section>
