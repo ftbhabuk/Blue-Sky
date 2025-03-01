@@ -79,9 +79,9 @@ export default function Home() {
           {/* Blur effect on the right edge */}
           <div className="absolute top-0 bottom-0 right-0 w-[15%]" 
                style={{
-                 backdropFilter: "blur(8px)",
-                 WebkitBackdropFilter: "blur(8px)",
-                 background: "linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.5))"
+                 backdropFilter: "blur(2px)",
+                 WebkitBackdropFilter: "blur(1px)",
+                 background: "linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8))"
                }}
           />
           {/* Animated clouds */}
@@ -156,7 +156,7 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
                 className="text-center space-y-3"
               >
-                <p className="text-xl md:text-2xl text-gray-600 italic">
+                <p className="text-xl md:text-2xl text-gray-900 italic">
                   &quot;{quotes[currentQuote].text}&quot;
                 </p>
                 <p className="text-sm text-gray-400 font-serif">
@@ -176,7 +176,7 @@ export default function Home() {
             <Button
               variant="outline"
               size="lg"
-              className="relative overflow-hidden group border-gray-300"
+              className="relative overflow-hidden group border-gray-300 hover:border-blue-400 transition-all duration-300"
               onClick={handleBeginReading}
               disabled={isNavigating}
             >
