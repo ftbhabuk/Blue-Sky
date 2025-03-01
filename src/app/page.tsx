@@ -69,11 +69,21 @@ export default function Home() {
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: "url('/images/22.jpg')",
-              filter: "brightness(100.9)",
+              backgroundImage: "url('https://images.unsplash.com/photo-1584968153986-3f5fe523b044?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJsdWUlMjBwYWludHxlbnwwfHwwfHx8MA%3D%3D')",
+              filter: "brightness(100.9) hue-rotate(20deg)",
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-50" />
+          {/* Right edge fade gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white opacity-40" />
+          {/* Blur effect on the right edge */}
+          <div className="absolute top-0 bottom-0 right-0 w-[15%]" 
+               style={{
+                 backdropFilter: "blur(8px)",
+                 WebkitBackdropFilter: "blur(8px)",
+                 background: "linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.5))"
+               }}
+          />
           {/* Animated clouds */}
           <div className="absolute top-0 left-0 w-full h-32 opacity-200">
             <div className="cloud-animation" />

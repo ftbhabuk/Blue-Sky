@@ -19,7 +19,7 @@ export default function ChapterOne() {
       alt: "Hospital Window View",
       title: "First Light",
       height: 200,
-      style: "minimal" as const, // Default polaroid look with a slight rotation
+      style: "retro" as const, // Default polaroid look with a slight rotation
       effect: "fade" as const,   // Fades in gently
       annotations: [
         { x: 30, y: 40, text: "Where birds gather each morning" },
@@ -37,6 +37,7 @@ export default function ChapterOne() {
         { x: 30, y: 40, text: "The machines keeping me alive" },    
       ],
     },
+    
     {
       src: "/images/s3.png",
       alt: "Hospital Clock",
@@ -49,6 +50,7 @@ export default function ChapterOne() {
        
       ],
     },
+    
   ];
 
   return (
@@ -149,6 +151,7 @@ export default function ChapterOne() {
               description: "Each sunset brings another day closer to freedom",
               style: "polaroid",
             },
+            
           ]}
           layout="masonry"
           spacing="normal"

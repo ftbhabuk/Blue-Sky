@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Eye, PinIcon, X } from "lucide-react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// Types for NovelImage
 interface NovelImageProps {
   src: string;
   alt: string;
@@ -18,14 +16,8 @@ interface NovelImageProps {
   effect?: "fade" | "slide" | "zoom" | "none" | "reveal" | "elastic";
   priority?: boolean;
   className?: string;
-  annotations?: Array<{
-    x: number;
-    y: number;
-    text: string;
-  }>;
 }
 
-// Style and effect variants
 const styleVariants = {
   classic: "rounded-lg shadow-lg",
   polaroid: "rounded-sm p-4 bg-white shadow-xl rotate-1 hover:rotate-0 transition-transform",
@@ -70,7 +62,6 @@ const effectVariants = {
   },
 };
 
-// Improved Image Component
 export function NovelImage({
   src,
   alt,
@@ -82,22 +73,9 @@ export function NovelImage({
   effect = "fade",
   priority = false,
   className,
-  annotations = [],
 }: NovelImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showAnnotations, setShowAnnotations] = useState(false);
-  const [activeAnnotation, setActiveAnnotation] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setActiveAnnotation(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <motion.div
@@ -128,61 +106,6 @@ export function NovelImage({
             )}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          {annotations.length > 0 && (
-            <button
-              onClick={() => {
-                setShowAnnotations(!showAnnotations);
-                setActiveAnnotation(null);
-              }}
-              className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-white transition-colors duration-200 shadow-lg opacity-0 group-hover:opacity-100"
-              aria-label="Toggle annotations"
-            >
-              <Eye className="w-4 h-4 text-gray-700" />
-            </button>
-          )}
-          <AnimatePresence>
-            {showAnnotations &&
-              annotations.map((annotation, index) => (
-                <motion.div
-                  key={index}
-                  className="absolute"
-                  style={{ left: `${annotation.x}%`, top: `${annotation.y}%` }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                >
-                  <button
-                    className={cn(
-                      "w-6 h-6 bg-white rounded-full border-2 flex items-center justify-center text-xs font-bold cursor-pointer shadow-md",
-                      activeAnnotation === index ? "border-blue-500" : "border-gray-800"
-                    )}
-                    onClick={() => setActiveAnnotation(activeAnnotation === index ? null : index)}
-                  >
-                    !
-                  </button>
-                </motion.div>
-              ))}
-          </AnimatePresence>
-          <AnimatePresence>
-            {activeAnnotation !== null && annotations[activeAnnotation] && (
-              <motion.div
-                className="absolute left-1/2 bottom-4 transform -translate-x-1/2 z-20"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-              >
-                <div className="bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg max-w-xs w-64 relative">
-                  <button 
-                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                    onClick={() => setActiveAnnotation(null)}
-                  >
-                    <X size={14} />
-                  </button>
-                  <p className="text-sm text-gray-800 pr-4">{annotations[activeAnnotation].text}</p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
         {(caption || description) && (
           <div className="p-3 space-y-1">
@@ -195,7 +118,6 @@ export function NovelImage({
   );
 }
 
-// Gallery Component
 interface NovelGalleryProps {
   images: Array<NovelImageProps>;
   layout?: "grid" | "masonry" | "carousel" | "stacked";
@@ -256,7 +178,6 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
   return layoutComponents[layout];
 }
 
-// Enhanced Memory Wall
 interface MemoryWallProps {
   memories: Array<{
     src: string;
@@ -266,28 +187,12 @@ interface MemoryWallProps {
     width?: number;
     style?: keyof typeof styleVariants;
     effect?: keyof typeof effectVariants;
-    annotations?: Array<{
-      x: number;
-      y: number;
-      text: string;
-    }>;
   }>;
 }
 
 export function MemoryWall({ memories }: MemoryWallProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [showAnnotation, setShowAnnotation] = useState<number | null>(null);
   const wallRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (wallRef.current && !wallRef.current.contains(event.target as Node)) {
-        setShowAnnotation(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const getPositions = () => {
     return memories.map((_, index) => {
@@ -317,15 +222,19 @@ export function MemoryWall({ memories }: MemoryWallProps) {
   return (
     <div 
       ref={wallRef}
-      className="relative min-h-[200px] p-16 my-12 rounded-xl overflow-hidden bg-texture"
+      className="relative min-h-[200px] p-16 my-12 rounded-xl shadow-lg overflow-hidden"
     >
       <div 
         className="absolute inset-0 z-0" 
         style={{
           backgroundColor: "#e0c9a6",
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23c4a97e' fill-opacity='0.3' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("https://images.unsplash.com/photo-1541542509806-6371b7b0a265?q=80&w=914&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.7,
         }}
-      />
+      >
+      </div>
       {memories.map((memory, index) => {
         const position = positions[index];
         const pinPosition = getPinPosition(index);
@@ -365,12 +274,12 @@ export function MemoryWall({ memories }: MemoryWallProps) {
             >
               <svg width="18" height="30" viewBox="0 0 18 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 12C11.7614 12 14 9.76142 14 7C14 4.23858 11.7614 2 9 2C6.23858 2 4 4.23858 4 7C4 9.76142 6.23858 12 9 12Z" fill="#e53935" />
-                <path d="M9 12L9 28" stroke="#d32f2f" strokeWidth="2" strokeLinecap="round" />
-                <circle cx="9" cy="7" r="2.5" fill="#ffcdd2" />
+                <path d="M9 12L9 28" stroke="#d32f2f" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="9" cy="7" r="22.5" fill="#ffcdd2" />
               </svg>
             </div>
             <div className={cn(
-              "memory-item relative bg-white p-3 transform transition-shadow duration-200 hover:shadow-xl",
+              "memory-item relative bg-white p-0 transform transition-shadow duration-200 hover:shadow-xl",
               styleVariants[memoryStyle]
             )}>
               <div 
@@ -393,54 +302,13 @@ export function MemoryWall({ memories }: MemoryWallProps) {
                 )}
               />
               {memory.title && (
-                <div className="absolute bottom-4 left-0 right-0 text-center px-3">
+                <div className="absolute bottom-0 left-0 right-0 text-center px-3">
                   <p className="font-serif text-gray-800 text-sm bg-white/90 py-1 px-2 rounded-full inline-block shadow-sm"
                     style={{ fontFamily: "Segoe Script, Brush Script MT, cursive" }}>
                     {memory.title}
                   </p>
                 </div>
               )}
-              {memory.annotations && memory.annotations.length > 0 && (
-                <button 
-                  className="absolute top-2 right-2 p-1 bg-white/90 rounded-full shadow-sm z-10"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowAnnotation(showAnnotation === index ? null : index);
-                  }}
-                >
-                  <div className="w-5 h-5 flex items-center justify-center">
-                    <span className="text-xs font-bold">!</span>
-                  </div>
-                </button>
-              )}
-              <AnimatePresence>
-                {showAnnotation === index && memory.annotations && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
-                    className="absolute left-1/2 -bottom-16 transform -translate-x-1/2 z-20 w-64"
-                  >
-                    <div className="bg-yellow-50 p-3 rounded shadow-lg border border-yellow-200">
-                      <button 
-                        className="absolute top-1 right-1 text-gray-500 hover:text-gray-700"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowAnnotation(null);
-                        }}
-                      >
-                        <X size={14} />
-                      </button>
-                      <ul className="text-sm list-disc pl-5 pr-3 text-gray-800"
-                          style={{ fontFamily: "Segoe Script, Brush Script MT, cursive" }}>
-                        {memory.annotations.map((annotation, i) => (
-                          <li key={i} className="mb-1">{annotation.text}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </motion.div>
         );
@@ -451,7 +319,8 @@ export function MemoryWall({ memories }: MemoryWallProps) {
           Memories...
         </p>
       </div>
-      <div className="absolute top-12 left-12 transform -rotate-12 z-0 opacity-70">
+      {/* paper clip */}
+      <div className="absolute top-12 left-10 transform -rotate-12 z-0 opacity-70">
         <svg width="40" height="18" viewBox="0 0 40 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M37.5 3H10C5.5 3 5.5 15 10 15H30" stroke="#888" strokeWidth="2" strokeLinecap="round" />
         </svg>
