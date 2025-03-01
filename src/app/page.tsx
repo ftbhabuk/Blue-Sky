@@ -73,26 +73,26 @@ export default function Home() {
               filter: "brightness(100.9) hue-rotate(20deg)",
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-70" />
           {/* Right edge fade gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white opacity-70" />
           {/* Blur effect on the right edge */}
-          <div className="absolute top-0 bottom-0 right-0 w-[15%]" 
+          <div className="absolute top-0 bottom-0 right-0 w-[11%]" 
                style={{
                  backdropFilter: "blur(2px)",
                  WebkitBackdropFilter: "blur(1px)",
                  background: "linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8))"
                }}
           />
-          {/* Animated clouds */}
-          <div className="absolute top-0 left-0 w-full h-32 opacity-200">
-            <div className="cloud-animation" />
-          </div>
+         
+          
         </div>
       </div>
 
       {/* Right side - Content */}
-      <div className="relative w-full md:w-[60%] flex flex-col items-center justify-center p-8">
+      <div className="relative w-full md:w-[60%] flex flex-col items-center justify-center p-8"
+      style={{ background: "linear-gradient(to bottom, #F0F8FF, #FFFFFF)" }} 
+      >
         {/* Subtle cloud-like texture */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
@@ -142,7 +142,7 @@ export default function Home() {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif tracking-tight text-gray-900">
               Blue Sky
             </h1>
-            <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
+            <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-blue-400 to-transparent" />
           </motion.div>
 
           {/* Quotes Section */}
@@ -176,7 +176,7 @@ export default function Home() {
             <Button
               variant="outline"
               size="lg"
-              className="relative overflow-hidden group border-gray-300 hover:border-blue-400 transition-all duration-300"
+              className="relative overflow-hidden group border-blue-400 hover:border-blue-600 transition-all duration-300"
               onClick={handleBeginReading}
               disabled={isNavigating}
             >
@@ -188,9 +188,11 @@ export default function Home() {
               ) : (
                 <>
                   <span className="relative z-10 text-lg">Begin Reading</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-0 group-hover:opacity-20 animate-shine" />
-                </>
+      {/* Base gradient - subtle blue-to-orange fade on hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-orange-100 opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+      {/* Shine effect - orange sweep on hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-0 group-hover:opacity-40 animate-shine" />
+    </>
               )}
             </Button>
 
@@ -198,7 +200,7 @@ export default function Home() {
             <div className="text-sm text-gray-500 space-y-2">
               <p className="font-serif">Chapter One: Chaos</p>
               <motion.div
-                className="h-px w-16 mx-auto bg-gray-200"
+                className="h-px w-16 mx-auto bg-blue-200"
                 animate={{
                   width: ["0%", "100%", "0%"],
                 }}
