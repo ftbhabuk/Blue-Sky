@@ -19,8 +19,8 @@ export default function ChapterTwo() {
       alt: "Hospital Window View",
       title: "First Light",
       height: 200,
-      style: "polaroid",
-      effect: "fade",
+      style: "polaroid" as const,
+      effect: "fade" as const,
       annotations: [
         { x: 30, y: 40, text: "Where birds gather each morning" },
         { x: 70, y: 60, text: "The city waking up" },
@@ -31,8 +31,8 @@ export default function ChapterTwo() {
       alt: "Medical Equipment",
       title: "Life Support",
       height: 200,
-      style: "noir",
-      effect: "zoom",
+      style: "noir" as const,
+      effect: "zoom" as const,
       annotations: [{ x: 30, y: 40, text: "The hum of survival" }],
     },
     {
@@ -40,8 +40,8 @@ export default function ChapterTwo() {
       alt: "Hospital Clock",
       title: "3:47 AM",
       height: 200,
-      style: "vintage",
-      effect: "elastic",
+      style: "vintage" as const,
+      effect: "elastic" as const,
       annotations: [{ x: 30, y: 40, text: "Time drags on" }],
     },
   ];
@@ -60,7 +60,7 @@ export default function ChapterTwo() {
       <Section delay={0.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
-            The room wakes up, slowly—the hum of machinery and soft footsteps blending into a symphony of monotony. I lie here, a dull ache in my body, each breath a reminder of my fragility. Yesterday passed in a haze: voices, faces, questions I don’t have answers to, all blurred together.
+            The room wakes up, slowly—the hum of machinery and soft footsteps blending into a symphony of monotony. I lie here, a dull ache in my body, each breath a reminder of my fragility. Yesterday passed in a haze: voices, faces, questions I don &apos;t have answers to, all blurred together.
           </p>
           <NovelImage
             src="/images/s3.png"
@@ -85,7 +85,7 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
-      <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
+      <SectionDivider />
 
       {/* Nurse Interaction */}
       <Section delay={0.4}>
@@ -104,7 +104,7 @@ export default function ChapterTwo() {
             effect="slide"
           />
           <p className="text-lg leading-relaxed text-gray-800">
-            "Good morning!" her voice bright but impersonal. "Time for breakfast." It’s the same unappetizing mush. I poke at it with a spoon, the smell turning my stomach.
+            &quot;Good morning!&quot; her voice bright but impersonal. &quot;Time for breakfast.&quot; It&apos;s the same unappetizing mush. I poke at it with a spoon, the smell turning my stomach.
           </p>
           <p className="text-lg leading-relaxed text-gray-800">
             I have no appetite, but I force a few bites down. The food tastes like cardboard. I quickly give up and push it away.
@@ -113,17 +113,17 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
-      {/* Inner Reflection & Lisa’s Arrival */}
+      {/* Inner Reflection & Lisa's Arrival */}
       <Section delay={0.6}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
-            "Why am I feeling surreal, this intrusion of outside world slips into the sterile bubble of my mind, I wonder—my words: balm with restless monotony I'm feeling emptier… Elusive time? Perhaps a distant dream, I'm unanswered!"
+            &quot;Why am I feeling surreal, this intrusion of outside world slips into the sterile bubble of my mind, I wonder—my words: balm with restless monotony I&apos;m feeling emptier… Elusive time? Perhaps a distant dream, I&apos;m unanswered!&quot;
           </p>
           <EnhancedBlockQuote>A knock on the door jolts me back to the present.</EnhancedBlockQuote>
           <p className="text-lg leading-relaxed text-gray-800">
-            It’s{" "}
+            It&apos;s{" "}
             <InteractiveFootnote
-              note="Lisa visits every day at the same time, a routine she's maintained since the accident."
+              note="Lisa visits every day at the same time, a routine she&apos;s maintained since the accident."
             >
               Lisa
             </InteractiveFootnote>
@@ -133,16 +133,16 @@ export default function ChapterTwo() {
         </motion.div>
       </Section>
 
-      <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
+      <SectionDivider />
 
-      {/* Lisa’s Visit */}
+      {/* Lisa's Visit */}
       <Section delay={0.8}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
-            "Hey, how’s it going?" her voice warm and soothing. I manage a small smile. "Could be worse."
+            &quot;Hey, how&apos;s it going?&quot; her voice warm and soothing. I manage a small smile. &quot;Could be worse.&quot;
           </p>
           <p className="text-lg leading-relaxed text-gray-800">
-            She laughs softly, pulling up a chair next to my bed. "That’s the spirit." For a moment, we sit in comfortable silence—her presence calming, a small island of normalcy in this sea of chaos.
+            She laughs softly, pulling up a chair next to my bed. &quot;That&apos;s the spirit. &quot. For a moment, we sit in comfortable silence—her presence calming, a small island of normalcy in this sea of chaos.
           </p>
           <NovelImage
             src="/images/s3.png"
@@ -155,23 +155,23 @@ export default function ChapterTwo() {
             effect="fade"
           />
           <p className="text-lg leading-relaxed text-gray-800">
-            I want to say something, to ask her about her day, her life, but the words won’t come.
+            I want to say something, to ask her about her day, her life, but the words won&apos;t come.
           </p>
           <EnhancedMarginNote side="right">A small island of normalcy</EnhancedMarginNote>
         </motion.div>
       </Section>
 
-      {/* Lisa’s Exit & Neighbor’s Gaze */}
+      {/* Lisa's Exit & Neighbor's Gaze */}
       <Section delay={1.0}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
-            "Well, who would have thought you’d be good with words," she laughed, the sound light and teasing as she walked away. I watched her go, feeling a strange mix of relief and regret. Maybe I was becoming too formal, too stiff.
+            &quot;Well, who would have thought you&apos;d be good with words,&quot; she laughed, the sound light and teasing as she walked away. I watched her go, feeling a strange mix of relief and regret. Maybe I was becoming too formal, too stiff.
           </p>
           <ImageComparison
             beforeImage="/images/s3.png"
             afterImage="/images/s3.png"
             beforeAlt="Moment with Lisa"
-            afterAlt="After She’s Gone"
+            afterAlt="After She&apos;s Gone"
             beforeText="Clarity"
             afterText="Blur"
             width={600}
@@ -182,27 +182,27 @@ export default function ChapterTwo() {
             afterEffect="zoom"
           />
           <p className="text-lg leading-relaxed text-gray-800">
-            I sensed eyes on me and turned. The guy in the next bed watched us, legs in casts, propped up awkwardly. He had that look—someone who’d been through hell and was still trying to make sense of it.
+            I sensed eyes on me and turned. The guy in the next bed watched us, legs in casts, propped up awkwardly. He had that look—someone who&apos;d been through hell and was still trying to make sense of it.
           </p>
         </motion.div>
       </Section>
 
-      <SectionDivider className="border-t-2 border-dashed border-gray-300 my-8" />
+      <SectionDivider />
 
       {/* Mir Introduction */}
       <Section delay={1.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
-            "What’s your name?" I asked, more out of politeness than genuine interest. But in this sterile prison, even small talk felt like a lifeline.
+            &quot;What&apos;s your name?&quot; I asked, more out of politeness than genuine interest. But in this sterile prison, even small talk felt like a lifeline.
           </p>
           <p className="text-lg leading-relaxed text-gray-800">
             He hesitated, then offered a faint smile.{" "}
             <InteractiveFootnote
               note="The name Mir has origins in several cultures, often meaning 'peace' or 'leader' - an interesting contrast to his current broken state."
             >
-              "It’s Mir. And you?"
+              &quot;It&apos;s Mir. And you?&quot;
             </InteractiveFootnote>
-            "…..," I replied, the name feeling strange on my tongue, like it belonged to someone else.
+            &quot;…..,&quot; I replied, the name feeling strange on my tongue, like it belonged to someone else.
           </p>
           <p className="text-lg leading-relaxed text-gray-800">
             We lapsed into a comfortable silence, each in our own thoughts.
@@ -214,7 +214,7 @@ export default function ChapterTwo() {
                 alt: "Broken legs in casts",
                width: 800,
                height: 600,
-                caption: "Mir’s Burden",
+                caption: "Mir&apos;s Burden",
                 description: "A silent testament to his own struggles",
                 style: "modern",
               },
@@ -238,13 +238,13 @@ export default function ChapterTwo() {
       <Section delay={1.4}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800 italic">
-            I’m in abyss again… what do I owe myself? I’m trying, trying to get somewhere: to travel even if it’s just in my mind… I’ve lost the touch… I’ve lost the sense of a flower…
+            I&apos;m in abyss again… what do I owe myself? I&apos;m trying, trying to get somewhere: to travel even if it&apos;s just in my mind… I&apos;ve lost the touch… I&apos;ve lost the sense of a flower…
           </p>
           <p className="text-lg leading-relaxed text-gray-800 italic">
-            I can hardly hear the waves or feel the sand… I’m dreaming, dreaming of a better place… Here we are, I’m sure time will eventually catch us…
+            I can hardly hear the waves or feel the sand… I&apos;m dreaming, dreaming of a better place… Here we are, I&apos;m sure time will eventually catch us…
           </p>
           <EnhancedBlockQuote>
-            and I’ll finally get to thank you, though I’m on a sailboat, slowly floating nowhere, hoping someday I’ll wash up on someone else’s shore.
+            and I&apos;ll finally get to thank you, though I&apos;m on a sailboat, slowly floating nowhere, hoping someday I&apos;ll wash up on someone else&apos;s shore.
           </EnhancedBlockQuote>
           <EnhancedMarginNote side="left">Floating nowhere</EnhancedMarginNote>
         </motion.div>

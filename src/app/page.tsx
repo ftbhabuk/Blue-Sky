@@ -28,11 +28,18 @@ export default function Home() {
   const [currentQuote, setCurrentQuote] = useState(0);
   const [isQuoteChanging, setIsQuoteChanging] = useState(false);
   const router = useRouter();
-  const intervalRef = useRef<NodeJS.Timeout>();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setLoaded(true);
     // Start quote rotation
+    intervalRef.current = setInterval(() => {
+      setIsQuoteChanging(true);
+      setTimeout(() => {
+        setCurrentQuote((prev) => (prev + 1) % quotes.length);
+        setIsQuoteChanging(false);
+      }, 500);
+    }, 5000);
     intervalRef.current = setInterval(() => {
       setIsQuoteChanging(true);
       setTimeout(() => {
@@ -134,13 +141,13 @@ export default function Home() {
               <motion.div
                 key={currentQuote}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: isQuoteChanging ? 0.5 : 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
                 className="text-center space-y-3"
               >
                 <p className="text-xl md:text-2xl text-gray-600 italic">
-                  "{quotes[currentQuote].text}"
+                  &quot;{quotes[currentQuote].text}&quot;
                 </p>
                 <p className="text-sm text-gray-400 font-serif">
                   — {quotes[currentQuote].author}
@@ -204,7 +211,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 1 }}
         >
           <p className="text-sm text-gray-400 font-serif italic">
-            "In the space between heartbeats, stories unfold"
+            &quot;In the space between heartbeats, stories unfold&quot;
           </p>
         </motion.div>
       </div>
