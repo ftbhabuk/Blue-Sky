@@ -12,43 +12,44 @@ import { motion } from "framer-motion";
 import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images";
 import ImageComparison from "@/components/ImageComparision";
 
+
 export default function ChapterOne() {
   const hospitalMemories = [
     {
-      src: "/images/s3.png",
+      src: "https://plus.unsplash.com/premium_photo-1717600428310-e60a32603941?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQzfHx8ZW58MHx8fHx8",
       alt: "Hospital Window View",
       title: "First Light",
       height: 200,
-      style: "retro" as const, // Default polaroid look with a slight rotation
-      effect: "fade" as const,   // Fades in gently
+      style: "modern" as const, // Default polaroid look with a slight rotation
+      effect: "reveal" as const,   // Fades in gently
       annotations: [
         { x: 30, y: 40, text: "Where birds gather each morning" },
        
       ],
     },
     {
-      src: "/images/s3.png",
+      src: "https://images.unsplash.com/photo-1740676176364-03eb7bdb2bb4?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8",
       alt: "Medical Equipment",
-      title: "Life Support",
+      title: "loosing States",
       height: 200,
-      style: "noir" as const,    // Black-and-white, high-contrast look
-      effect: "zoom" as const,   // Zooms in for a dramatic entrance
+      style: "glassScatter" as const,    // Black-and-white, high-contrast look
+      effect: "reveal" as const,   // Zooms in for a dramatic entrance
       annotations: [
         { x: 30, y: 40, text: "The machines keeping me alive" },    
       ],
     },
     
     {
-      src: "/images/s3.png",
+      src: "https://images.unsplash.com/photo-1516574290314-5a56c5acdd4e?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGhvc3BpdGFsJTIwcm9vbSUyMHN1bnxlbnwwfHwwfHx8MA%3D%3D",
       alt: "Hospital Clock",
       title: "3:47 AM",
       height: 200,
-      style: "vintage" as const, // Sepia-toned, old-fashioned feel
-      effect: "elastic" as const, // Bounces in with a springy effect
+      style: "colorSplash" as const, // Sepia-toned, old-fashioned feel
+      effect: "reveal" as const, // Bounces in with a springy effect
       annotations: [
         { x: 30, y: 40, text: "The hour of ghosts" },
        
-      ],
+      ]
     },
     
   ];
@@ -68,14 +69,14 @@ export default function ChapterOne() {
             The world before me, sober and still, offers me no place to go. I don&apos;t fool myself—I&apos;m a heartache from the moment I&apos;m born. My heart, frozen, as I find the will to forget. Somewhere out there, I exist. Somewhere.
           </p>
           <NovelImage
-            src="/images/s3.png"
+            src="https://images.unsplash.com/photo-1485848395967-65dff62dc35b?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGhvc3BpdGFsfGVufDB8fDB8fHww"
             alt="Long hospital corridor at dawn"
             width={1200}
             height={800}
             caption="The Endless Corridor"
             description="Where time stretches like an infinite line"
-            style="noir"
-            effect="zoom"
+            style="colorSplash"
+            effect="none"
           />
           <p className="text-lg leading-relaxed text-gray-800">
             I&apos;m uncertain, like a rose pale and dying, dropping its petals. This world before me… is unsure. I&apos;m living too much inside of myself again.
@@ -114,13 +115,13 @@ export default function ChapterOne() {
             Gradually, I realise I&apos;m in a clinical ward. My body aches and stings, drenched in medical solution. I can hardly feel my limbs. The smell of hospital floors—bleach and antiseptic—irritates me.
           </p>
           <NovelImage
-            src="/images/s3.png"
+            src="https://plus.unsplash.com/premium_photo-1728058959928-ce48533016b7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Hospital room at night"
             width={1200}
             height={800}
-            caption="Room 407"
+            caption="Room 107"
             description="My temporary prison, where shadows dance on sterile walls"
-            style="noir"
+            style="polaroid"
             effect="elastic"
           />
           <p className="text-lg leading-relaxed text-gray-800">
@@ -134,22 +135,22 @@ export default function ChapterOne() {
         <NovelGallery
           images={[
             {
-              src: "/images/s3.png",
+              src: "https://images.unsplash.com/photo-1648224394449-d10dbff84b8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
               alt: "Medical equipment in the darkness",
               width: 800,
               height: 600,
               caption: "Life Support",
               description: "The machines keeping me tethered to this world",
-              style: "modern",
+              style: "noir",
             },
             {
-              src: "/images/s3.png",
+              src: "https://images.unsplash.com/photo-1472448715764-c30bf8bc2cf4?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
               alt: "Hospital window view at sunset",
               width: 800,
               height: 600,
               caption: "My Window to the World",
               description: "Each sunset brings another day closer to freedom",
-              style: "polaroid",
+              style: "glassScatter",
             },
             
           ]}
@@ -166,8 +167,8 @@ export default function ChapterOne() {
             The door creaks open, and a nurse walks in, moving slowly, as if she&apos;s in no hurry. &quot;What&apos;s the problem with these people?&quot; I mutter to myself.
           </p>
           <ImageComparison
-  beforeImage="/images/s3.png"
-  afterImage="/images/s3.png"
+  beforeImage="https://images.unsplash.com/photo-1516903022779-81a73028310f?q=80&w=2654&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  afterImage="https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   beforeAlt="Clear Memory"
   afterAlt="Foggy Memory"
   beforeText="The Way It Was" // Unique text for before

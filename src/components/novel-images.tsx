@@ -12,13 +12,14 @@ interface NovelImageProps {
   height: number;
   caption?: string;
   description?: string;
-  style?: "classic" | "polaroid" | "vintage" | "modern" | "noir" | "dreamy" | "retro" | "minimal";
+  style?: "classic" | "polaroid" | "vintage" | "modern" | "noir" | "dreamy" | "retro" | "minimal" | "blur" | "glassScatter" | "colorSplash" | "inkBleed" | "rippedEdge";
   effect?: "fade" | "slide" | "zoom" | "none" | "reveal" | "elastic";
   priority?: boolean;
   className?: string;
 }
 
 const styleVariants = {
+  // Existing (unchanged)
   classic: "rounded-lg shadow-lg",
   polaroid: "rounded-sm p-4 bg-white shadow-xl rotate-1 hover:rotate-0 transition-transform",
   vintage: "sepia brightness-95 rounded-sm shadow-md border-8 border-white",
@@ -27,38 +28,132 @@ const styleVariants = {
   dreamy: "rounded-lg shadow-lg brightness-105 contrast-75 saturate-150",
   retro: "rounded-none border-4 border-orange-300 sepia brightness-90",
   minimal: "rounded-xl border border-gray-200 shadow-sm",
+  blur: "rounded-lg shadow-xl backdrop-blur-md bg-white/30 border border-white/50 saturate-200",
+  glassScatter: "rounded-md shadow-2xl bg-gradient-to-br from-white/20 to-gray-100/20 backdrop-blur-lg border border-gray-300/50 overflow-hidden relative before:content-[''] before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBvcGFjaXR5PSIwLjEiPjxwYXRoIGQ9Ik0wIDBMMjAwIDIwMEwxNTAgMjAwTDE1MCAxNTBMMjAwIDE1MEwxNTAgMTAwTDEwMCAxMDBMMTAwIDE1MEw1MCAxNTBMNTAgMTAwTDEwMCA1MEw1MCA1MEw1MCAwWiIgZmlsbD0iIzAwMDAwMCIvPjxwYXRoIGQ9Ik0yMDAgMEwxNTAgNTBMMTUwIDEwMEwxMDAgMTAwTDEwMCAxNTBMNTAgMTUwTDAgMjAwTDUwIDIwMEw1MCAxNTBMMTAgMTAwTDEwMCA1MEw1MCA1MEwyMDAgMFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+')] before:bg-[length:50px_50px] before:opacity-30",
+  colorSplash: "rounded-lg shadow-xl relative overflow-hidden bg-white isolate before:content-[''] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_20%,_rgba(100,100,255,0.3)_0%,_transparent_60%),_radial-gradient(circle_at_80%_80%,_rgba(255,100,100,0.3)_0%,_transparent_60%)] before:blur-md before:opacity-70 after:content-[''] after:absolute after:inset-0 after:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBvcGFjaXR5PSIwLjIiPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMwIiBmaWxsPSIjZmY2NjY2Ii8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIyMCIgZmlsbD0iIzY2NjZmZiIvPjwvZz48L3N2Zz4=')] after:bg-[length:100px_100px] after:opacity-40",
+  inkBleed: "rounded-md shadow-lg bg-white relative overflow-hidden border-2 border-gray-800 before:content-[''] before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZyBvcGFjaXR5PSIwLjMiPjxwYXRoIGQ9Ik0wIDBIMjAwVjIwMkgwVjBaTTUwIDUwQzUwIDcwIDcwIDcwIDcwIDUwQzcwIDMwIDUwIDMwIDUwIDUwWk0xNTAgMTUwQzE1MCAxNzAgMTcwIDE3MCAxNzAgMTUwQzE3MCAxMzAgMTUwIDEzMCAxNTAgMTUwWiIgZmlsbD0iIzAwMDAwMCIvPjwvZz48L3N2Zz4=')] before:bg-[length:80px_80px] before:blur-sm before:opacity-60",
+
+  // New style incorporating your snippets
+  rippedEdge: "rounded-none shadow-md bg-white relative overflow-hidden border-[20px_0] border-solid [border-image:url('https://i.postimg.cc/DZYqPDTD/bordernew.png')_50_0_50_0_repeat] [border-image-slice:50_0_50_0_fill] before:content-[''] before:absolute before:inset-x-[-500px] before:top-[-80px] before:h-[65px] before:bg-[url('https://ecorelos.com/wp-content/uploads/2020/04/torn-border2upside.png')] before:bg-cover before:bg-no-repeat after:content-[''] after:absolute after:inset-x-[-500px] after:bottom-[-15px] after:h-[45px] after:bg-[url('https://ecorelos.com/wp-content/uploads/2020/04/torn-border2.png')] after:bg-cover after:bg-no-repeat",
 };
 
 const effectVariants = {
   fade: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
+    // Old: Simple opacity fade
+    // New: Dreamy dissolve with a shimmer
+    initial: { opacity: 0, filter: "blur(5px)", scale: 0.95 },
+    animate: {
+      opacity: 1,
+      filter: "blur(0px)",
+      scale: 1,
+      transition: {
+        duration: 1.2,
+        ease: "easeOut",
+        opacity: { duration: 1 },
+        filter: { delay: 0.3, duration: 0.8 },
+      },
+    },
+    exit: {
+      opacity: 0,
+      filter: "blur(5px)",
+      transition: { duration: 0.8 },
+    },
   },
   slide: {
-    initial: { x: -20, opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: 20, opacity: 0 },
+    // Old: Basic left-to-right slide
+    // New: Glitchy horizontal swipe with distortion
+    initial: { x: "-100%", opacity: 0, skewX: 10 },
+    animate: {
+      x: 0,
+      opacity: 1,
+      skewX: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeInOut",
+        opacity: { duration: 0.4 },
+        skewX: { duration: 0.6, ease: "backOut" },
+        // Glitchy stutter
+        x: {
+          duration: 0.8,
+          times: [0, 0.3, 0.35, 0.6, 0.65, 1],
+          values: ["-100%", "-10%", "-15%", "5%", "2%", "0%"],
+        },
+      },
+    },
+    exit: { x: "100%", opacity: 0, skewX: -10, transition: { duration: 0.6 } },
   },
   zoom: {
-    initial: { scale: 0.8, opacity: 0 },
-    animate: { scale: 1, opacity: 1 },
-    exit: { scale: 1.2, opacity: 0 },
+    // Old: Subtle scale up
+    // New: Heartbeat pulse with overshoot
+    initial: { scale: 0.5, opacity: 0 },
+    animate: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 10,
+        mass: 0.5,
+        // Overshoot and bounce back
+        scale: { duration: 1, times: [0, 0.7, 0.85, 1], values: [0.5, 1.1, 0.95, 1] },
+        opacity: { duration: 0.6 },
+      },
+    },
+    exit: { scale: 0.5, opacity: 0, transition: { duration: 0.6 } },
   },
   none: {
+    // Keep this as a no-effect baseline
     initial: {},
     animate: {},
     exit: {},
   },
   reveal: {
-    initial: { y: 50, opacity: 0 },
-    animate: { y: 0, opacity: 1, transition: { duration: 0.8 } },
-    exit: { y: -50, opacity: 0 },
+    // Old: Simple vertical slide
+    // New: Polaroid develop effect with shake
+    initial: { y: "50%", opacity: 0, filter: "brightness(0)" },
+    animate: {
+      y: 0,
+      opacity: 1,
+      filter: "brightness(1)",
+      transition: {
+        duration: 1.5,
+        ease: "easeOut",
+        // Shake effect
+        rotate: {
+          times: [0, 0.4, 0.6, 0.8, 1],
+          values: [0, 2, -2, 1, 0],
+          duration: 1,
+        },
+      },
+    },
+    exit: { y: "-50%", opacity: 0, filter: "brightness(0)", transition: { duration: 0.8 } },
   },
   elastic: {
-    initial: { scale: 0, opacity: 0 },
-    animate: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 15 } },
-    exit: { scale: 0, opacity: 0 },
+    // Old: Basic spring bounce
+    // New: CRT flicker with warp
+    initial: { scaleX: 0.9, scaleY: 0.9, opacity: 0 },
+    animate: {
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+        // Flicker effect via opacity
+        opacity: {
+          duration: 0.8,
+          times: [0, 0.2, 0.25, 0.3, 0.5, 1],
+          values: [0, 1, 0.5, 1, 0.8, 1],
+        },
+      },
+    },
+    exit: {
+      scaleX: 0.9,
+      scaleY: 0.9,
+      opacity: 0,
+      transition: { duration: 0.6 },
+    },
   },
 };
 
@@ -222,7 +317,7 @@ export function MemoryWall({ memories }: MemoryWallProps) {
   return (
     <div 
       ref={wallRef}
-      className="relative min-h-[200px] p-16 my-12 rounded-xl shadow-lg overflow-hidden"
+      className="relative min-h-[250px] p-16 my-12 rounded-xl shadow-lg overflow-hidden"
     >
       <div 
         className="absolute inset-0 z-0" 
