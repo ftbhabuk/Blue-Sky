@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,6 @@ interface NovelImageProps {
 }
 
 const styleVariants = {
-  // Existing (unchanged)
   classic: "rounded-lg shadow-lg",
   polaroid: "rounded-sm p-4 bg-white shadow-xl rotate-1 hover:rotate-0 transition-transform",
   vintage: "sepia brightness-95 rounded-sm shadow-md border-8 border-white",
@@ -32,129 +31,16 @@ const styleVariants = {
   glassScatter: "rounded-md shadow-2xl bg-gradient-to-br from-white/20 to-gray-100/20 backdrop-blur-lg border border-gray-300/50 overflow-hidden relative before:content-[''] before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBvcGFjaXR5PSIwLjEiPjxwYXRoIGQ9Ik0wIDBMMjAwIDIwMEwxNTAgMjAwTDE1MCAxNTBMMjAwIDE1MEwxNTAgMTAwTDEwMCAxMDBMMTAwIDE1MEw1MCAxNTBMNTAgMTAwTDEwMCA1MEw1MCA1MEw1MCAwWiIgZmlsbD0iIzAwMDAwMCIvPjxwYXRoIGQ9Ik0yMDAgMEwxNTAgNTBMMTUwIDEwMEwxMDAgMTAwTDEwMCAxNTBMNTAgMTUwTDAgMjAwTDUwIDIwMEw1MCAxNTBMMTAgMTAwTDEwMCA1MEw1MCA1MEwyMDAgMFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+')] before:bg-[length:50px_50px] before:opacity-30",
   colorSplash: "rounded-lg shadow-xl relative overflow-hidden bg-white isolate before:content-[''] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_20%,_rgba(100,100,255,0.3)_0%,_transparent_60%),_radial-gradient(circle_at_80%_80%,_rgba(255,100,100,0.3)_0%,_transparent_60%)] before:blur-md before:opacity-70 after:content-[''] after:absolute after:inset-0 after:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBvcGFjaXR5PSIwLjIiPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMwIiBmaWxsPSIjZmY2NjY2Ii8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIyMCIgZmlsbD0iIzY2NjZmZiIvPjwvZz48L3N2Zz4=')] after:bg-[length:100px_100px] after:opacity-40",
   inkBleed: "rounded-md shadow-lg bg-white relative overflow-hidden border-2 border-gray-800 before:content-[''] before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZyBvcGFjaXR5PSIwLjMiPjxwYXRoIGQ9Ik0wIDBIMjAwVjIwMkgwVjBaTTUwIDUwQzUwIDcwIDcwIDcwIDcwIDUwQzcwIDMwIDUwIDMwIDUwIDUwWk0xNTAgMTUwQzE1MCAxNzAgMTcwIDE3MCAxNzAgMTUwQzE3MCAxMzAgMTUwIDEzMCAxNTAgMTUwWiIgZmlsbD0iIzAwMDAwMCIvPjwvZz48L3N2Zz4=')] before:bg-[length:80px_80px] before:blur-sm before:opacity-60",
-
-  // New style incorporating your snippets
   rippedEdge: "rounded-none shadow-md bg-white relative overflow-hidden border-[20px_0] border-solid [border-image:url('https://i.postimg.cc/DZYqPDTD/bordernew.png')_50_0_50_0_repeat] [border-image-slice:50_0_50_0_fill] before:content-[''] before:absolute before:inset-x-[-500px] before:top-[-80px] before:h-[65px] before:bg-[url('https://ecorelos.com/wp-content/uploads/2020/04/torn-border2upside.png')] before:bg-cover before:bg-no-repeat after:content-[''] after:absolute after:inset-x-[-500px] after:bottom-[-15px] after:h-[45px] after:bg-[url('https://ecorelos.com/wp-content/uploads/2020/04/torn-border2.png')] after:bg-cover after:bg-no-repeat",
 };
 
 const effectVariants = {
-  fade: {
-    // Old: Simple opacity fade
-    // New: Dreamy dissolve with a shimmer
-    initial: { opacity: 0, filter: "blur(5px)", scale: 0.95 },
-    animate: {
-      opacity: 1,
-      filter: "blur(0px)",
-      scale: 1,
-      transition: {
-        duration: 1.2,
-        ease: "easeOut",
-        opacity: { duration: 1 },
-        filter: { delay: 0.3, duration: 0.8 },
-      },
-    },
-    exit: {
-      opacity: 0,
-      filter: "blur(5px)",
-      transition: { duration: 0.8 },
-    },
-  },
-  slide: {
-    // Old: Basic left-to-right slide
-    // New: Glitchy horizontal swipe with distortion
-    initial: { x: "-100%", opacity: 0, skewX: 10 },
-    animate: {
-      x: 0,
-      opacity: 1,
-      skewX: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeInOut",
-        opacity: { duration: 0.4 },
-        skewX: { duration: 0.6, ease: "backOut" },
-        // Glitchy stutter
-        x: {
-          duration: 0.8,
-          times: [0, 0.3, 0.35, 0.6, 0.65, 1],
-          values: ["-100%", "-10%", "-15%", "5%", "2%", "0%"],
-        },
-      },
-    },
-    exit: { x: "100%", opacity: 0, skewX: -10, transition: { duration: 0.6 } },
-  },
-  zoom: {
-    // Old: Subtle scale up
-    // New: Heartbeat pulse with overshoot
-    initial: { scale: 0.5, opacity: 0 },
-    animate: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 10,
-        mass: 0.5,
-        // Overshoot and bounce back
-        scale: { duration: 1, times: [0, 0.7, 0.85, 1], values: [0.5, 1.1, 0.95, 1] },
-        opacity: { duration: 0.6 },
-      },
-    },
-    exit: { scale: 0.5, opacity: 0, transition: { duration: 0.6 } },
-  },
-  none: {
-    // Keep this as a no-effect baseline
-    initial: {},
-    animate: {},
-    exit: {},
-  },
-  reveal: {
-    // Old: Simple vertical slide
-    // New: Polaroid develop effect with shake
-    initial: { y: "50%", opacity: 0, filter: "brightness(0)" },
-    animate: {
-      y: 0,
-      opacity: 1,
-      filter: "brightness(1)",
-      transition: {
-        duration: 1.5,
-        ease: "easeOut",
-        // Shake effect
-        rotate: {
-          times: [0, 0.4, 0.6, 0.8, 1],
-          values: [0, 2, -2, 1, 0],
-          duration: 1,
-        },
-      },
-    },
-    exit: { y: "-50%", opacity: 0, filter: "brightness(0)", transition: { duration: 0.8 } },
-  },
-  elastic: {
-    // Old: Basic spring bounce
-    // New: CRT flicker with warp
-    initial: { scaleX: 0.9, scaleY: 0.9, opacity: 0 },
-    animate: {
-      scaleX: 1,
-      scaleY: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 15,
-        // Flicker effect via opacity
-        opacity: {
-          duration: 0.8,
-          times: [0, 0.2, 0.25, 0.3, 0.5, 1],
-          values: [0, 1, 0.5, 1, 0.8, 1],
-        },
-      },
-    },
-    exit: {
-      scaleX: 0.9,
-      scaleY: 0.9,
-      opacity: 0,
-      transition: { duration: 0.6 },
-    },
-  },
+  fade: { initial: { opacity: 0 }, animate: { opacity: 1, transition: { duration: 0.5 } }, exit: { opacity: 0 } },
+  slide: { initial: { x: "-100%" }, animate: { x: 0, transition: { duration: 0.5 } }, exit: { x: "100%" } },
+  zoom: { initial: { scale: 0.8 }, animate: { scale: 1, transition: { duration: 0.5 } }, exit: { scale: 0.8 } },
+  none: { initial: {}, animate: {}, exit: {} },
+  reveal: { initial: { y: "50%", opacity: 0 }, animate: { y: 0, opacity: 1, transition: { duration: 0.5 } }, exit: { y: "-50%", opacity: 0 } },
+  elastic: { initial: { scale: 0.9 }, animate: { scale: 1, transition: { type: "spring", stiffness: 300, damping: 15 } }, exit: { scale: 0.9 } },
 };
 
 export function NovelImage({
@@ -170,42 +56,33 @@ export function NovelImage({
   className,
 }: NovelImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <motion.div
-      ref={containerRef}
-      className={cn("relative group mt-7 mb-6", className)}
-      whileHover={{ scale: 1.01 }}
+      className={cn("relative group", className)}
+      whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.2 }}
     >
       <motion.div
-        className={cn("relative overflow-hidden", styleVariants[style], "transition-all duration-500")}
+        className={cn("relative overflow-hidden", styleVariants[style])}
         variants={effectVariants[effect]}
         initial="initial"
         animate="animate"
         exit="exit"
       >
-        <div className="relative">
-          <Image
-            src={src || "/placeholder.svg"}
-            alt={alt}
-            width={width}
-            height={height}
-            priority={priority}
-            onLoad={() => setIsLoaded(true)}
-            className={cn(
-              "transition-all duration-700",
-              !isLoaded && "blur-sm scale-105",
-              style === "vintage" && "sepia"
-            )}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
+        <Image
+          src={src || "/placeholder.svg"}
+          alt={alt}
+          width={width}
+          height={height}
+          priority={priority}
+          onLoad={() => setIsLoaded(true)}
+          className={cn("transition-all duration-500", !isLoaded && "blur-sm scale-105")}
+        />
         {(caption || description) && (
-          <div className="p-3 space-y-1">
-            {caption && <p className="text-base font-serif text-gray-800">{caption}</p>}
-            {description && <p className="text-xs italic text-gray-600">{description}</p>}
+          <div className="p-3 space-y-1 bg-black/50 text-white">
+            {caption && <p className="text-base font-serif">{caption}</p>}
+            {description && <p className="text-xs italic">{description}</p>}
           </div>
         )}
       </motion.div>
@@ -215,7 +92,7 @@ export function NovelImage({
 
 interface NovelGalleryProps {
   images: Array<NovelImageProps>;
-  layout?: "grid" | "masonry" | "carousel" | "stacked";
+  layout?: "grid" | "masonry" | "carousel" | "stacked" | "polaroidWall" | "filmStrip" | "collage";
   spacing?: "tight" | "normal" | "loose";
 }
 
@@ -225,6 +102,8 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
     normal: "gap-4",
     loose: "gap-8",
   };
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const layoutComponents = {
     grid: (
@@ -245,27 +124,129 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
     ),
     carousel: (
       <div className="relative overflow-hidden">
-        <div className="flex snap-x snap-mandatory overflow-x-auto">
+        <motion.div
+          ref={carouselRef}
+          className="flex snap-x snap-mandatory"
+          animate={{ x: `-${currentIndex * 100}%` }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
           {images.map((image, index) => (
-            <div key={index} className="snap-center shrink-0 first:pl-4 last:pr-4" style={{ width: "80%" }}>
+            <div key={index} className="snap-center shrink-0 w-full" style={{ minWidth: "100%" }}>
               <NovelImage {...image} />
             </div>
+          ))}
+        </motion.div>
+        <div className="flex justify-center mt-4 space-x-2">
+          {images.map((image, index) => (
+            <motion.div
+              key={index}
+              className={cn(
+                "p-1 bg-white shadow-md rotate-1 cursor-pointer",
+                currentIndex === index && "border-2 border-red-500 -rotate-2"
+              )}
+              whileHover={{ scale: 1.1, rotate: 0 }}
+              onClick={() => setCurrentIndex(index)}
+            >
+              <Image
+                src={image.src}
+                alt={`Thumbnail ${index}`}
+                width={50}
+                height={50}
+                className="object-cover"
+              />
+            </motion.div>
           ))}
         </div>
       </div>
     ),
     stacked: (
-      <div className={cn("space-y-8", spacingClasses[spacing])}>
+      <div className="relative h-[600px] w-full">
         {images.map((image, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            className="absolute inset-0 mx-auto"
+            initial={{ opacity: 0, scale: 0.9, rotate: index % 2 === 0 ? 5 : -5 }}
+            animate={{
+              opacity: 1,
+              scale: 1 - index * 0.1,
+              zIndex: images.length - index,
+              y: index * 40,
+            }}
+            whileHover={{ scale: 1.05, zIndex: images.length + 1, rotate: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <NovelImage {...image} />
+            <NovelImage {...image} className="max-w-[80%] mx-auto" />
           </motion.div>
         ))}
+      </div>
+    ),
+    polaroidWall: (
+      <div className="relative min-h-[600px] bg-gray-100 p-8 rounded-xl"> {/* Increased height */}
+        {images.map((image, index) => {
+          const randomRotate = (index % 2 === 0 ? 1 : -1) * (Math.random() * 5);
+          const column = index % 3;
+          const row = Math.floor(index / 3);
+          const topOffset = Math.min(row * 35, 70); // Cap vertical spread to avoid bottom overlap
+          return (
+            <motion.div
+              key={index}
+              className="absolute"
+              style={{
+                left: `${10 + column * 30}%`,
+                top: `${10 + topOffset}%`,
+                rotate: randomRotate,
+              }}
+              whileHover={{ scale: 1.1, rotate: 0, zIndex: 10 }}
+            >
+              <NovelImage {...image} style="polaroid" />
+            </motion.div>
+          );
+        })}
+      </div>
+    ),
+    filmStrip: (
+      <div className="relative bg-black p-8 overflow-x-auto flex space-x-4">
+        {images.map((image, index) => (
+          <motion.div
+            key={index}
+            className="relative flex-shrink-0"
+            whileHover={{ y: -20 }}
+          >
+            <div className="absolute inset-x-0 top-[-20px] h-[20px] bg-black [background-image:repeating-linear-gradient(90deg,#fff_0_4px,transparent_4px_8px)]" />
+            <div className="absolute inset-x-0 bottom-[-20px] h-[20px] bg-black [background-image:repeating-linear-gradient(90deg,#fff_0_4px,transparent_4px_8px)]" />
+            <NovelImage {...image} style={image.style || "modern"} /> {/* Ensure style prop is respected */}
+          </motion.div>
+        ))}
+      </div>
+    ),
+    collage: (
+      <div className="relative min-h-[500px] w-full bg-gradient-to-br from-gray-200 to-gray-400 p-8 rounded-xl overflow-hidden">
+        {images.map((image, index) => {
+          const angle = (index * 360) / images.length;
+          const radius = Math.min(150, 200 - images.length * 10); // Trim edges by reducing radius
+          const x = 50 + Math.cos((angle * Math.PI) / 180) * radius;
+          const y = 50 + Math.sin((angle * Math.PI) / 180) * radius;
+          return (
+            <motion.div
+              key={index}
+              className="absolute shadow-md" // Subtle shadow
+              style={{
+                left: `${x}%`,
+                top: `${y}%`,
+                translateX: "-50%",
+                translateY: "-50%",
+                width: "200px", // Fixed width for consistency
+                maxHeight: "300px", // Cap height to trim edges
+                overflow: "hidden", // Hide overflow
+              }}
+              whileHover={{ scale: 1.15, zIndex: 10, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { delay: index * 0.2 } }}
+            >
+              <NovelImage {...image} style={index % 2 === 0 ? "rippedEdge" : "colorSplash"} width={200} height={300} />
+            </motion.div>
+          );
+        })}
       </div>
     ),
   };
@@ -273,6 +254,7 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
   return layoutComponents[layout];
 }
 
+// MemoryWall remains unchanged for this update
 interface MemoryWallProps {
   memories: Array<{
     src: string;

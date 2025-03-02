@@ -75,7 +75,7 @@ export default function ChapterOne() {
             height={800}
             caption="The Endless Corridor"
             description="Where time stretches like an infinite line"
-            style="colorSplash"
+            style="minimal"
             effect="none"
           />
           <p className="text-lg leading-relaxed text-gray-800">
@@ -141,7 +141,7 @@ export default function ChapterOne() {
               height: 600,
               caption: "Life Support",
               description: "The machines keeping me tethered to this world",
-              style: "noir",
+              style: "dreamy",
             },
             {
               src: "https://images.unsplash.com/photo-1472448715764-c30bf8bc2cf4?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -154,7 +154,7 @@ export default function ChapterOne() {
             },
             
           ]}
-          layout="masonry"
+          layout="carousel"
           spacing="normal"
         />
       </Section>
@@ -167,8 +167,8 @@ export default function ChapterOne() {
             The door creaks open, and a nurse walks in, moving slowly, as if she&apos;s in no hurry. &quot;What&apos;s the problem with these people?&quot; I mutter to myself.
           </p>
           <ImageComparison
-  beforeImage="https://images.unsplash.com/photo-1516903022779-81a73028310f?q=80&w=2654&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  afterImage="https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  beforeImage="https://images.unsplash.com/photo-1589689341578-c5f0479f9962?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  afterImage="https://images.unsplash.com/photo-1589689341578-c5f0479f9962?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   beforeAlt="Clear Memory"
   afterAlt="Foggy Memory"
   beforeText="The Way It Was" // Unique text for before

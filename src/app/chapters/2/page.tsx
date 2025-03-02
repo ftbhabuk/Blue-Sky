@@ -15,9 +15,9 @@ import ImageComparison from "@/components/ImageComparision";
 export default function ChapterTwo() {
   const hospitalMemories = [
     {
-      src: "/images/s3.png",
+      src: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       alt: "Hospital Window View",
-      title: "First Light",
+      title: "warmth",
       height: 200,
       style: "polaroid" as const,
       effect: "fade" as const,
@@ -26,26 +26,26 @@ export default function ChapterTwo() {
         { x: 70, y: 60, text: "The city waking up" },
       ],
     },
+    
     {
-      src: "/images/s3.png",
+      src: "https://images.unsplash.com/photo-1621862912856-0909fb7f14b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       alt: "Medical Equipment",
-      title: "Life Support",
+      title: "Remedy",
       height: 200,
       style: "noir" as const,
       effect: "zoom" as const,
       annotations: [{ x: 30, y: 40, text: "The hum of survival" }],
     },
     {
-      src: "/images/s3.png",
+      src: "https://images.unsplash.com/photo-1516574290314-5a56c5acdd4e?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGhvc3BpdGFsJTIwcm9vbSUyMHN1bnxlbnwwfHwwfHx8MA%3D%3D",
       alt: "Hospital Clock",
-      title: "3:47 AM",
+      title: "Senseless",
       height: 200,
       style: "vintage" as const,
       effect: "elastic" as const,
       annotations: [{ x: 30, y: 40, text: "Time drags on" }],
     },
   ];
-
   return (
     <ChapterLayout
       chapterNumber={2}
@@ -63,13 +63,13 @@ export default function ChapterTwo() {
             The room wakes up, slowly—the hum of machinery and soft footsteps blending into a symphony of monotony. I lie here, a dull ache in my body, each breath a reminder of my fragility. Yesterday passed in a haze: voices, faces, questions I don &apos;t have answers to, all blurred together.
           </p>
           <NovelImage
-            src="/images/s3.png"
+           src="https://images.unsplash.com/photo-1585936033390-69b9e58102fb?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Hospital room at dawn"
             width={1200}
             height={800}
             caption="Morning Haze"
             description="The soft light filters through, carrying the weight of another day"
-            style="vintage"
+            style="modern"
             effect="fade"
           />
           <p className="text-lg leading-relaxed text-gray-800">
@@ -94,13 +94,13 @@ export default function ChapterTwo() {
             The door creaks open. A different nurse walks in—brisk, purposeful, unfamiliar. I watch her with cautious curiosity as she sets a tray beside me.
           </p>
           <NovelImage
-            src="/images/s3.png"
+           src="https://plus.unsplash.com/premium_photo-1723618929356-0534888dcb6d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Hospital tray with food"
             width={1200}
             height={800}
             caption="Breakfast Ritual"
             description="A daily offering of tasteless sustenance"
-            style="modern"
+            style="retro"
             effect="slide"
           />
           <p className="text-lg leading-relaxed text-gray-800">
@@ -145,13 +145,13 @@ export default function ChapterTwo() {
             She laughs softly, pulling up a chair next to my bed. &quot;That&apos;s the spirit. &quot. For a moment, we sit in comfortable silence—her presence calming, a small island of normalcy in this sea of chaos.
           </p>
           <NovelImage
-            src="/images/s3.png"
+            src="https://images.unsplash.com/photo-1592968549899-697ecd43b1bc?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Lisa sitting by the bedside"
             width={1200}
             height={800}
             caption="An Oasis"
             description="Her presence softens the edges of this sterile hell"
-            style="polaroid"
+            style="retro"
             effect="fade"
           />
           <p className="text-lg leading-relaxed text-gray-800">
@@ -168,16 +168,16 @@ export default function ChapterTwo() {
             &quot;Well, who would have thought you&apos;d be good with words,&quot; she laughed, the sound light and teasing as she walked away. I watched her go, feeling a strange mix of relief and regret. Maybe I was becoming too formal, too stiff.
           </p>
           <ImageComparison
-            beforeImage="/images/s3.png"
-            afterImage="/images/s3.png"
+            afterImage="https://images.unsplash.com/photo-1587621012294-2b925a5f260d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D"
+            beforeImage="https://images.unsplash.com/photo-1589088483612-7160434c9b85?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fHw%3D"
             beforeAlt="Moment with Lisa"
-            afterAlt="After She&apos;s Gone"
+            afterAlt="After She's Gone"
             beforeText="Clarity"
             afterText="Blur"
             width={600}
             height={400}
-            beforeStyle="modern"
-            afterStyle="noir"
+            beforeStyle="dreamy"
+            afterStyle="retro"
             beforeEffect="fade"
             afterEffect="zoom"
           />
@@ -210,26 +210,26 @@ export default function ChapterTwo() {
           <NovelGallery
             images={[
               {
-                src: "/images/s3.png",
+                src: "https://images.unsplash.com/photo-1575191833171-ebb34c7929a6?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 alt: "Broken legs in casts",
-               width: 800,
-               height: 600,
-                caption: "Mir&apos;s Burden",
-                description: "A silent testament to his own struggles",
+                width: 800,
+                height: 600,
+                caption: "Abstract Burden",
+                description: "A silent testament to our own struggles",
                 style: "modern",
               },
               {
-                src: "/images/s3.png",
+                src: "https://images.unsplash.com/photo-1472448715764-c30bf8bc2cf4?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 alt: "Hospital window at dusk",
                 width: 800,
                 height: 600,
                 caption: "Shared Silence",
                 description: "The fading light binds us in quiet understanding",
-                style: "polaroid",
+                style: "modern",
               },
             ]}
-            layout="masonry"
-            spacing="normal"
+            layout="filmStrip"
+            spacing="loose"
           />
         </motion.div>
       </Section>
