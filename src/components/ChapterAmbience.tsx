@@ -9,11 +9,12 @@ interface ChapterAmbienceProps {
 }
 
 export function ChapterAmbience({ soundUrl, repeat }: ChapterAmbienceProps) {
-  const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(0.01); // Start low for fade-in
+  const [isMuted, setIsMuted] = useState(true);
+  const [volume, setVolume] = useState(0.2); // Start low for fade-in
   const [showVolume, setShowVolume] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const targetVolume = 0.02; // Constant volume after fade-in
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -27,10 +28,9 @@ export function ChapterAmbience({ soundUrl, repeat }: ChapterAmbienceProps) {
       audioRef.current.volume = isMuted ? 0 : volume;
       audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
 
-      // Fade in volume
       if (!isMuted) {
-        const fadeDuration = 3000; // 3 seconds
-        const steps = 20; // Number of increments
+        const fadeDuration = 3000;
+        const steps = 20;
         const increment = (targetVolume - volume) / steps;
         let currentStep = 0;
 
@@ -58,22 +58,37 @@ export function ChapterAmbience({ soundUrl, repeat }: ChapterAmbienceProps) {
     }
   }, [isMuted, volume]);
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-    setShowVolume(!isMuted); // Show volume slider when unmuting
+  // Handle tap to toggle mute and show/hide slider
+  const handleToggleMute = () => {
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    setShowVolume(!newMutedState); // Show slider when unmuting, hide when muting
   };
+
+  // Hide slider when tapping outside (mobile-friendly)
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setShowVolume(false);
+      }
+    };
+
+    if (showVolume && !isMuted) {
+      document.addEventListener("click", handleClickOutside);
+    }
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [showVolume, isMuted]);
 
   return (
     <motion.div
+      ref={containerRef}
       className="fixed bottom-5 right-5 z-40 flex items-center"
       initial={{ opacity: 0.3 }}
       whileHover={{ opacity: 1 }}
-      onMouseEnter={() => setShowVolume(!isMuted)}
-      onMouseLeave={() => setShowVolume(false)}
     >
       <span
         className="text-2xl cursor-pointer"
-        onClick={toggleMute}
+        onClick={handleToggleMute}
       >
         {isMuted ? "🔇" : "🎵"}
       </span>

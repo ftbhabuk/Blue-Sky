@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -181,12 +181,12 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
       </div>
     ),
     polaroidWall: (
-      <div className="relative min-h-[600px] bg-gray-100 p-8 rounded-xl"> {/* Increased height */}
+      <div className="relative min-h-[600px] bg-gray-100 p-8 rounded-xl">
         {images.map((image, index) => {
           const randomRotate = (index % 2 === 0 ? 1 : -1) * (Math.random() * 5);
           const column = index % 3;
           const row = Math.floor(index / 3);
-          const topOffset = Math.min(row * 35, 70); // Cap vertical spread to avoid bottom overlap
+          const topOffset = Math.min(row * 35, 70);
           return (
             <motion.div
               key={index}
@@ -214,7 +214,7 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
           >
             <div className="absolute inset-x-0 top-[-20px] h-[20px] bg-black [background-image:repeating-linear-gradient(90deg,#fff_0_4px,transparent_4px_8px)]" />
             <div className="absolute inset-x-0 bottom-[-20px] h-[20px] bg-black [background-image:repeating-linear-gradient(90deg,#fff_0_4px,transparent_4px_8px)]" />
-            <NovelImage {...image} style={image.style || "modern"} /> {/* Ensure style prop is respected */}
+            <NovelImage {...image} style={image.style || "modern"} />
           </motion.div>
         ))}
       </div>
@@ -223,21 +223,21 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
       <div className="relative min-h-[500px] w-full bg-gradient-to-br from-gray-200 to-gray-400 p-8 rounded-xl overflow-hidden">
         {images.map((image, index) => {
           const angle = (index * 360) / images.length;
-          const radius = Math.min(150, 200 - images.length * 10); // Trim edges by reducing radius
+          const radius = Math.min(150, 200 - images.length * 10);
           const x = 50 + Math.cos((angle * Math.PI) / 180) * radius;
           const y = 50 + Math.sin((angle * Math.PI) / 180) * radius;
           return (
             <motion.div
               key={index}
-              className="absolute shadow-md" // Subtle shadow
+              className="absolute shadow-md"
               style={{
                 left: `${x}%`,
                 top: `${y}%`,
                 translateX: "-50%",
                 translateY: "-50%",
-                width: "200px", // Fixed width for consistency
-                maxHeight: "300px", // Cap height to trim edges
-                overflow: "hidden", // Hide overflow
+                width: "200px",
+                maxHeight: "300px",
+                overflow: "hidden",
               }}
               whileHover={{ scale: 1.15, zIndex: 10, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
               initial={{ opacity: 0 }}
@@ -254,7 +254,6 @@ export function NovelGallery({ images, layout = "grid", spacing = "normal" }: No
   return layoutComponents[layout];
 }
 
-// MemoryWall remains unchanged for this update
 interface MemoryWallProps {
   memories: Array<{
     src: string;
@@ -268,19 +267,41 @@ interface MemoryWallProps {
 }
 
 export function MemoryWall({ memories }: MemoryWallProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number | null>(null);
   const wallRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      const handleResize = () => setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+
   const getPositions = () => {
+    if (!windowWidth) return memories.map(() => ({ left: 0, top: 0, rotate: 0 }));
+
+    const imageWidth = 240;
+    const containerWidth = 100;
+    const maxColumns = 3;
+    const columnWidth = (containerWidth - 20) / maxColumns;
+    const rowHeight = 30;
+
     return memories.map((_, index) => {
-      const column = index % 3;
-      const row = Math.floor(index / 3);
-      const baseLeft = column * 30 + 10;
-      const baseTop = row * 30 + 10;
+      const column = index % maxColumns;
+      const row = Math.floor(index / maxColumns);
+
+      const baseLeft = 10 + column * columnWidth;
+      const maxLeft = 90 - (imageWidth / windowWidth) * 100;
       const randomSeed = index * 3.14159;
-      const randomLeft = baseLeft + (Math.sin(randomSeed) * 6);
-      const randomTop = baseTop + (Math.cos(randomSeed) * 6);
+      const randomLeft = Math.min(baseLeft + Math.sin(randomSeed) * 6, maxLeft);
+
+      const baseTop = row * rowHeight + 10;
+      const randomTop = baseTop + Math.cos(randomSeed) * 6;
       const randomRotate = Math.sin(randomSeed * 2) * 10;
+
       return { left: randomLeft, top: randomTop, rotate: randomRotate };
     });
   };
@@ -310,23 +331,23 @@ export function MemoryWall({ memories }: MemoryWallProps) {
           backgroundPosition: 'center',
           opacity: 0.7,
         }}
-      >
-      </div>
+      />
       {memories.map((memory, index) => {
         const position = positions[index];
         const pinPosition = getPinPosition(index);
         const memoryStyle = memory.style || "polaroid";
         const memoryEffect = memory.effect || "none";
+        const isActive = activeIndex === index;
 
         return (
           <motion.div
             key={index}
-            className="absolute"
+            className="absolute cursor-pointer"
             style={{
               left: `${position.left}%`,
               top: `${position.top}%`,
               rotate: position.rotate,
-              zIndex: hoveredIndex === index ? memories.length + 1 : memories.length - index,
+              zIndex: isActive ? memories.length + 1 : memories.length - index,
             }}
             whileHover={{
               scale: 1.05,
@@ -334,8 +355,9 @@ export function MemoryWall({ memories }: MemoryWallProps) {
               zIndex: memories.length + 1,
               transition: { duration: 0.2, type: "spring", stiffness: 300, damping: 25 },
             }}
-            onHoverStart={() => setHoveredIndex(index)}
-            onHoverEnd={() => setHoveredIndex(null)}
+            onClick={() => setActiveIndex(isActive ? null : index)}
+            onHoverStart={() => setActiveIndex(index)}
+            onHoverEnd={() => setActiveIndex(null)}
             variants={effectVariants[memoryEffect]}
             initial="initial"
             animate="animate"
@@ -370,6 +392,7 @@ export function MemoryWall({ memories }: MemoryWallProps) {
                 alt={memory.alt}
                 width={memory.width || 240}
                 height={memory.height || 240}
+                style={{ maxWidth: "240px", maxHeight: "240px", objectFit: "cover" }}
                 className={cn(
                   "rounded-sm",
                   memoryStyle === "vintage" && "sepia",
@@ -396,13 +419,12 @@ export function MemoryWall({ memories }: MemoryWallProps) {
           Memories...
         </p>
       </div>
-      {/* paper clip */}
       <div className="absolute top-12 left-10 transform -rotate-12 z-0 opacity-70">
         <svg width="40" height="18" viewBox="0 0 40 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M37.5 3H10C5.5 3 5.5 15 10 15H30" stroke="#888" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </div>
-      <div className="absolute bottom-16 right-16 transform rotate-15 z-0 opacity-70">
+      <div className="absolute bottom-12 right-12 transform rotate-15 z-0 opacity-70">
         <svg width="40" height="18" viewBox="0 0 40 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M37.5 3H10C5.5 3 5.5 15 10 15H30" stroke="#888" strokeWidth="2" strokeLinecap="round" />
         </svg>

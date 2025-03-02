@@ -216,7 +216,7 @@ export default function ChapterTwo() {
                 height: 600,
                 caption: "Abstract Burden",
                 description: "A silent testament to our own struggles",
-                style: "modern",
+                style: "dreamy",
               },
               {
                 src: "https://images.unsplash.com/photo-1472448715764-c30bf8bc2cf4?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",

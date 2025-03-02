@@ -10,8 +10,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 const chapters = [
   { id: 1, title: "Chaos", route: "/chapters/1" },
   { id: 2, title: "Liar", route: "/chapters/2" },
-  { id: 3, title: "Medication Time", route: "/chapters/3" },
-  { id: 4, title: "A Gentle Wind", route: "/chapters/4" },
+  // { id: 3, title: "Medication Time", route: "/chapters/3" },
+  // { id: 4, title: "A Gentle Wind", route: "/chapters/4" },
 ]
 
 export function ChapterNavigation({ currentChapter }: { currentChapter: number }) {

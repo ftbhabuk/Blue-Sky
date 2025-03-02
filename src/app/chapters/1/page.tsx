@@ -166,20 +166,6 @@ export default function ChapterOne() {
           <p className="text-lg leading-relaxed text-gray-800">
             The door creaks open, and a nurse walks in, moving slowly, as if she&apos;s in no hurry. &quot;What&apos;s the problem with these people?&quot; I mutter to myself.
           </p>
-          <ImageComparison
-  beforeImage="https://images.unsplash.com/photo-1589689341578-c5f0479f9962?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  afterImage="https://images.unsplash.com/photo-1589689341578-c5f0479f9962?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  beforeAlt="Clear Memory"
-  afterAlt="Foggy Memory"
-  beforeText="The Way It Was" // Unique text for before
-  afterText="Lost in Haze"    // Unique text for after
-  width={600} // Override default if needed
-  height={400} // Override default if needed
-  beforeStyle="modern" // Sepia-toned clear memory
-  afterStyle="noir" // Grayscale foggy memory
-  beforeEffect="fade" // Fades in the before image
-  afterEffect="zoom" // Slides in the after image
-/>
           <p className="text-lg leading-relaxed text-gray-800">
             &quot;How are you feeling now?&quot; she asks, her tone familiar, as if she knows me. I have{" "}
             <InteractiveFootnote
@@ -208,17 +194,31 @@ export default function ChapterOne() {
           <EnhancedMarginNote side="right">A scene from a movie</EnhancedMarginNote>
         </motion.div>
       </Section>
-
       <SectionDivider />
-
+ 
       <Section delay={1.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
           <p className="text-lg leading-relaxed text-gray-800">
             I&apos;m so congested, my mind drifts away. I can barely move. I hate myself… Have I decided not to expect too much at the end of the world? Time afire against my will… my lungs get drunken on flood… my feet petrified…
           </p>
+          <ImageComparison
+  beforeImage="https://images.unsplash.com/photo-1620065692460-d8e110a47ffb?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  afterImage="https://images.unsplash.com/photo-1574920822400-544968a39fbb?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  beforeAlt="Clear Memory"
+  afterAlt="Foggy Memory"
+  beforeText="The Way It Was" // Unique text for before
+  afterText="Lost in Haze"    // Unique text for after
+  width={600} // Override default if needed
+  height={400} // Override default if needed
+  beforeStyle="dreamy" // Sepia-toned clear memory
+  afterStyle="modern" // Grayscale foggy memory
+  beforeEffect="fade" // Fades in the before image
+  afterEffect="zoom" // Slides in the after image
+/>
           <EnhancedBlockQuote>
             Can I wait until my heart doesn&apos;t swell anymore; in random places… Will I collapse inside as my world is…
           </EnhancedBlockQuote>
+          
           <p className="text-lg leading-relaxed text-gray-800">
             Can I stay—still—and watch again how the{" "}
             <InteractiveFootnote
