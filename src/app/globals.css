@@ -1,4 +1,6 @@
 /* src/app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -63,6 +65,25 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Apply the rough-edged text styling */
+  p,
+  h3,
+  .enhanced-margin-note,
+  .enhanced-blockquote {
+    font-family: 'IM Fell English', Georgia, serif;
+    color: #1a1a1a;
+    font-size: 18px;
+    line-height: 1.6;
+    text-shadow:
+      0.5px 0.5px 1px rgba(0, 0, 0, 0.1),
+      -0.5px -0.5px 1px rgba(0, 0, 0, 0.1);
+    filter: contrast(1.1) blur(0.02px);
+    opacity: 0.95;
+  }
+  h3 {
+    font-size: 24px; /* Slightly larger for headings */
   }
 }
 

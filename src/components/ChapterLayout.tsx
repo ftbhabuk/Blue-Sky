@@ -3,12 +3,12 @@
 import { ReactNode, useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Caveat } from "next/font/google";
-import { Crimson_Pro } from "next/font/google";
+// import { Crimson_Pro } from "next/font/google";
 import { ChapterNavigation } from "@/app/components/chapter-navigation";
 import { ChapterAmbience } from "@/components/ChapterAmbience";
 
 const caveat = Caveat({ subsets: ["latin"] });
-const crimson = Crimson_Pro({ subsets: ["latin"], weight: ["400", "700"] });
+// const crimson = Crimson_Pro({ subsets: ["latin"], weight: ["400", "700"] });
 
 interface SectionProps {
   children: ReactNode;
@@ -31,7 +31,7 @@ interface FootnoteProps {
 
 export interface ChapterLayoutProps {
   chapterNumber: number;
-  chapterTitle: string;
+  chapterTitle: ReactNode;
   backgroundElements?: ReactNode;
   children: ReactNode;
   gradientColors?: string[];
@@ -80,16 +80,23 @@ text-gray-500 opacity-75 hidden md:block`}
     </motion.div>
   );
 }
+const textStyling = `
+  font-['IM_Fell_English',Georgia,serif]
+  text-[#1a1a1a]
+  opacity-95
+  [text-shadow:0.5px_0.5px_1px_rgba(0,0,0,0.1),-0.5px_-0.5px_1px_rgba(0,0,0,0.1)]
+  [filter:contrast(1.1)_blur(0.02px)]
+`;
 
 export function EnhancedBlockQuote({ children }: BlockQuoteProps) {
   return (
     <motion.blockquote
-      className="text-xl italic text-gray-600 my-8 pl-6 border-l-2 \
-border-gray-300"
+      className={`text-xl italic text-gray-600 my-8 pl-6 border-l-2 \
+border-gray-300 ${textStyling}`}
       whileHover={{
         x: 4,
         borderLeftColor: "#6d28d9",
-        color: "#4c1d95",
+        color: "gray-700",
       }}
       transition={{ duration: 0.2 }}
     >
@@ -168,8 +175,8 @@ export default function ChapterLayout({
   chapterTitle,
   backgroundElements,
   children,
-  gradientColors = ["from-blue-100", "via-purple-100", "to-blue-100"],
-  backgroundColorStops = ["#ffffff", "#f8f8f8", "#f5f5f5", "#ffffff"],
+  // gradientColors = ["from-[#f5f5f0]", "via-[#e0e0d8]", "to-[#f5f5f0]"],
+  backgroundColorStops = ["#f5f5f0", "#f0f0ea", "#e8e8e2", "#f5f5f0"],
   fixedElement,
   previousChapter,
   soundMode = "scroll",
@@ -183,9 +190,13 @@ export default function ChapterLayout({
   });
 
   const [currentSound, setCurrentSound] = useState<string>(
-    soundMode === "single" 
-      ? (Array.isArray(sounds) ? sounds[0] : sounds) 
-      : (Array.isArray(sounds) ? sounds[0] : sounds) // Start with first sound
+    soundMode === "single"
+      ? Array.isArray(sounds)
+        ? sounds[0]
+        : sounds
+      : Array.isArray(sounds)
+        ? sounds[0]
+        : sounds // Start with first sound
   );
 
   useEffect(() => {
@@ -224,33 +235,10 @@ export default function ChapterLayout({
     backgroundColorStops
   );
 
-  const chapterNumberText =
-    chapterNumber === 1
-      ? "One"
-      : chapterNumber === 2
-        ? "Two"
-        : chapterNumber === 3
-          ? "Three"
-          : chapterNumber === 4
-            ? "Four"
-            : chapterNumber === 5
-              ? "Five"
-              : chapterNumber === 6
-                ? "Six"
-                : chapterNumber === 7
-                  ? "Seven"
-                  : chapterNumber === 8
-                    ? "Eight"
-                    : chapterNumber === 9
-                      ? "Nine"
-                      : chapterNumber === 10
-                        ? "Ten"
-                        : chapterNumber.toString();
-
   return (
     <motion.div
       ref={containerRef}
-      className="min-h-screen relative"
+      className="min-h-screen w-full relative"
       style={{ backgroundColor }}
       initial={{ opacity: 0, x: initialX }}
       animate={{ opacity: 1, x: 0 }}
@@ -264,55 +252,35 @@ export default function ChapterLayout({
       }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
+      {/* Background progress bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+        <motion.div
+          className="h-full bg-gray-600"
+          style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
+        />
+      </div>
+
+      {/* Background elements (if any) */}
       {backgroundElements && (
         <div className="absolute inset-0 overflow-hidden">
           {backgroundElements}
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto px-6 py-20 relative">
-        <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-          <motion.div
-            className="h-full bg-gray-600"
-            style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
-          />
+      {/* Main content container */}
+      <div className="max-w-4xl mx-auto px-6 py-1 relative">
+        {/* Chapter title */}
+        <div className="w-100 ">
+          {chapterTitle}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="mb-16 space-y-2 relative"
-        >
-          <motion.div
-            className={`absolute -inset-6 rounded-lg opacity-10 \
-bg-gradient-to-r ${gradientColors.join(" ")}`}
-            animate={{
-              opacity: [0.05, 0.1, 0.05],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          />
-          <h1
-            className={`text-5xl md:text-6xl tracking-tight text-gray-800 \
-relative ${crimson.className}`}
-          >
-            Chapter {chapterNumberText}
-          </h1>
-          <h2
-            className={`text-3xl md:text-4xl text-gray-600 relative \
-${crimson.className}`}
-          >
-            {chapterTitle}
-          </h2>
-        </motion.div>
-
-        <div className="relative">{children}</div>
+        {/* Chapter content */}
+        <div className="relative">
+          {children}
+        </div>
       </div>
 
+      {/* Additional elements */}
       <ChapterAmbience soundUrl={currentSound} repeat={repeat} />
       {fixedElement}
       <ChapterNavigation currentChapter={chapterNumber} />

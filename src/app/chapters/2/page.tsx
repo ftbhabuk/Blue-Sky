@@ -7,50 +7,52 @@ import ChapterLayout, {
   SectionDivider,
   InteractiveFootnote,
 } from "@/components/ChapterLayout";
-import { HospitalBackground } from "@/app/components/hospital-background";
+// import { HospitalBackground } from "@/app/components/hospital-background";
 import { motion } from "framer-motion";
-import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images";
-import ImageComparison from "@/components/ImageComparision";
+// import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images";
+// import ImageComparison from "@/components/ImageComparision";
+import CanvasTitle from "@/components/CanvasTitle";
+import { NovelImage } from "@/components/novel-images";
 
 export default function ChapterTwo() {
-  const hospitalMemories = [
-    {
-      src: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      alt: "Hospital Window View",
-      title: "warmth",
-      height: 200,
-      style: "polaroid" as const,
-      effect: "fade" as const,
-      annotations: [
-        { x: 30, y: 40, text: "Where birds gather each morning" },
-        { x: 70, y: 60, text: "The city waking up" },
-      ],
-    },
+  // const hospitalMemories = [
+  //   {
+  //     src: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     alt: "Hospital Window View",
+  //     title: "warmth",
+  //     height: 200,
+  //     style: "polaroid" as const,
+  //     effect: "fade" as const,
+  //     annotations: [
+  //       { x: 30, y: 40, text: "Where birds gather each morning" },
+  //       { x: 70, y: 60, text: "The city waking up" },
+  //     ],
+  //   },
     
-    {
-      src: "https://images.unsplash.com/photo-1621862912856-0909fb7f14b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      alt: "Medical Equipment",
-      title: "Remedy",
-      height: 200,
-      style: "noir" as const,
-      effect: "zoom" as const,
-      annotations: [{ x: 30, y: 40, text: "The hum of survival" }],
-    },
-    {
-      src: "https://images.unsplash.com/photo-1516574290314-5a56c5acdd4e?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGhvc3BpdGFsJTIwcm9vbSUyMHN1bnxlbnwwfHwwfHx8MA%3D%3D",
-      alt: "Hospital Clock",
-      title: "Senseless",
-      height: 200,
-      style: "vintage" as const,
-      effect: "elastic" as const,
-      annotations: [{ x: 30, y: 40, text: "Time drags on" }],
-    },
-  ];
+  //   {
+  //     src: "https://images.unsplash.com/photo-1621862912856-0909fb7f14b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     alt: "Medical Equipment",
+  //     title: "Remedy",
+  //     height: 200,
+  //     style: "noir" as const,
+  //     effect: "zoom" as const,
+  //     annotations: [{ x: 30, y: 40, text: "The hum of survival" }],
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1516574290314-5a56c5acdd4e?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGhvc3BpdGFsJTIwcm9vbSUyMHN1bnxlbnwwfHwwfHx8MA%3D%3D",
+  //     alt: "Hospital Clock",
+  //     title: "Senseless",
+  //     height: 200,
+  //     style: "vintage" as const,
+  //     effect: "elastic" as const,
+  //     annotations: [{ x: 30, y: 40, text: "Time drags on" }],
+  //   },
+  // ];
   return (
     <ChapterLayout
       chapterNumber={2}
-      chapterTitle="Liar"
-      backgroundElements={<HospitalBackground />}
+      chapterTitle={<CanvasTitle chapterNumber={2} title="Liar" />} // Render the component here!
+      // backgroundElements={<HospitalBackground />}
       previousChapter={1}
       soundMode="single"
       repeat={true}
@@ -62,7 +64,7 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             The room wakes up, slowly—the hum of machinery and soft footsteps blending into a symphony of monotony. I lie here, a dull ache in my body, each breath a reminder of my fragility. Yesterday passed in a haze: voices, faces, questions I don &apos;t have answers to, all blurred together.
           </p>
-          <NovelImage
+          {/* <NovelImage
            src="https://images.unsplash.com/photo-1585936033390-69b9e58102fb?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Hospital room at dawn"
             width={1200}
@@ -71,7 +73,7 @@ export default function ChapterTwo() {
             description="The soft light filters through, carrying the weight of another day"
             style="modern"
             effect="fade"
-          />
+          /> */}
           <p className="text-lg leading-relaxed text-gray-800">
             The clock reads 7 AM. I stir, weighed down by another sleepless night. How can one sleep with these{" "}
             <InteractiveFootnote
@@ -93,7 +95,7 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             The door creaks open. A different nurse walks in—brisk, purposeful, unfamiliar. I watch her with cautious curiosity as she sets a tray beside me.
           </p>
-          <NovelImage
+          {/* <NovelImage
            src="https://plus.unsplash.com/premium_photo-1723618929356-0534888dcb6d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Hospital tray with food"
             width={1200}
@@ -102,7 +104,7 @@ export default function ChapterTwo() {
             description="A daily offering of tasteless sustenance"
             style="retro"
             effect="slide"
-          />
+          /> */}
           <p className="text-lg leading-relaxed text-gray-800">
             &quot;Good morning!&quot; her voice bright but impersonal. &quot;Time for breakfast.&quot; It&apos;s the same unappetizing mush. I poke at it with a spoon, the smell turning my stomach.
           </p>
@@ -129,7 +131,7 @@ export default function ChapterTwo() {
             </InteractiveFootnote>
             , her smile a welcome sight.
           </p>
-          <MemoryWall memories={hospitalMemories} />
+          {/* <MemoryWall memories={hospitalMemories} /> */}
         </motion.div>
       </Section>
 
@@ -167,7 +169,7 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             &quot;Well, who would have thought you&apos;d be good with words,&quot; she laughed, the sound light and teasing as she walked away. I watched her go, feeling a strange mix of relief and regret. Maybe I was becoming too formal, too stiff.
           </p>
-          <ImageComparison
+          {/* <ImageComparison
             afterImage="https://images.unsplash.com/photo-1587621012294-2b925a5f260d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D"
             beforeImage="https://images.unsplash.com/photo-1589088483612-7160434c9b85?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fHw%3D"
             beforeAlt="Moment with Lisa"
@@ -180,7 +182,7 @@ export default function ChapterTwo() {
             afterStyle="retro"
             beforeEffect="fade"
             afterEffect="zoom"
-          />
+          /> */}
           <p className="text-lg leading-relaxed text-gray-800">
             I sensed eyes on me and turned. The guy in the next bed watched us, legs in casts, propped up awkwardly. He had that look—someone who&apos;d been through hell and was still trying to make sense of it.
           </p>
@@ -207,7 +209,7 @@ export default function ChapterTwo() {
           <p className="text-lg leading-relaxed text-gray-800">
             We lapsed into a comfortable silence, each in our own thoughts.
           </p>
-          <NovelGallery
+          {/* <NovelGallery
             images={[
               {
                 src: "https://images.unsplash.com/photo-1575191833171-ebb34c7929a6?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -230,7 +232,7 @@ export default function ChapterTwo() {
             ]}
             layout="filmStrip"
             spacing="loose"
-          />
+          /> */}
         </motion.div>
       </Section>
 
