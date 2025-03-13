@@ -33,7 +33,6 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         context.fillRect(x, y, 1, 1);
       }
 
-      // Draw the "stitched-on" paper pieces for title
       // Chapter number paper strip
       const chapterPaperWidth = 180;
       const chapterPaperHeight = 50;
@@ -49,7 +48,7 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         chapterPaperHeight
       );
 
-      // Draw chapter paper with slightly different color
+      // Draw chapter paper
       context.fillStyle = "#e8e8e0";
       context.fillRect(
         chapterPaperX,
@@ -58,7 +57,7 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         chapterPaperHeight
       );
 
-      // Add slight rotation to chapter paper for handmade feel
+      // Add slight rotation to chapter paper
       context.save();
       context.translate(
         chapterPaperX + chapterPaperWidth / 2,
@@ -70,32 +69,27 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         -(chapterPaperY + chapterPaperHeight / 2)
       );
 
-      // "Stitch" marks on corners of chapter paper
+      // Stitch marks function
       const drawStitch = (x: number, y: number, length: number, angle: number) => {
         context.save();
         context.translate(x, y);
         context.rotate(angle);
-
-        // Draw the stitch line
         context.beginPath();
         context.moveTo(-length / 2, 0);
         context.lineTo(length / 2, 0);
         context.strokeStyle = "#555";
         context.lineWidth = 1;
         context.stroke();
-
-        // Draw the cross stitches
         for (let i = -length / 2 + 2; i <= length / 2 - 2; i += 4) {
           context.beginPath();
           context.moveTo(i, -2);
           context.lineTo(i, 2);
           context.stroke();
         }
-
         context.restore();
       };
 
-      // Draw stitches at corners of chapter paper
+      // Draw stitches at corners
       drawStitch(chapterPaperX + 10, chapterPaperY + 10, 8, Math.PI / 4);
       drawStitch(
         chapterPaperX + chapterPaperWidth - 10,
@@ -125,19 +119,18 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         chapterPaperX + chapterPaperWidth / 2,
         chapterPaperY + 32
       );
-
       context.restore();
 
-      // Main title bandage/tape style
+      // Dynamic title paper width
+      context.font = "bold 38px 'IM Fell English', Georgia, serif";
+      const titleMetrics = context.measureText(title);
+      const titlePaperWidth = Math.min(titleMetrics.width + 60, 400);
       const titlePaperHeight = 75;
-      const titlePaperWidth = 220;
       const titlePaperX = 50;
       const titlePaperY = 110;
 
       // Draw bandage-like paper for title
       context.save();
-
-      // Add slight rotation for handmade feel
       context.translate(
         titlePaperX + titlePaperWidth / 2,
         titlePaperY + titlePaperHeight / 2
@@ -157,7 +150,7 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         titlePaperHeight
       );
 
-      // Draw bandage with off-white color
+      // Draw bandage
       context.fillStyle = "#f8f8f2";
       context.fillRect(
         titlePaperX,
@@ -166,7 +159,7 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         titlePaperHeight
       );
 
-      // Add texture to the bandage paper
+      // Add texture to bandage
       for (let i = 0; i < (titlePaperWidth * titlePaperHeight) / 10; i++) {
         const x = titlePaperX + Math.random() * titlePaperWidth;
         const y = titlePaperY + Math.random() * titlePaperHeight;
@@ -174,11 +167,25 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         context.fillRect(x, y, 1, 1);
       }
 
-      // Add torn edges to bandage
+      // NEW: Natural hand-drawn line with 40% chance
+      if (Math.random() < 0.4) { // 40% probability
+        context.strokeStyle = "rgba(85, 85, 85, 0.7)"; // Slightly darker, natural gray
+        context.lineWidth = 1 + Math.random() * 0.5; // Random thickness 1-1.5
+        context.beginPath();
+        const lineX = titlePaperX + 20; // Inset from left
+        const lineY = titlePaperY + 62; // Below text, inside paper
+        const lineWidth = titleMetrics.width + 20; // Match text width + padding
+        context.moveTo(lineX, lineY);
+        for (let x = lineX; x <= lineX + lineWidth; x += 5) {
+          const dip = Math.random() * 2 - 1 + (Math.cos(x * 0.05) * 1.5); // Subtle random + cosine dip
+          context.lineTo(x, lineY + dip);
+        }
+        context.stroke();
+      }
+
+      // Torn edges
       context.strokeStyle = "#f8f8f2";
       context.lineWidth = 4;
-
-      // Top edge tears
       context.beginPath();
       context.moveTo(titlePaperX, titlePaperY);
       for (let x = titlePaperX; x <= titlePaperX + titlePaperWidth; x += 10) {
@@ -186,8 +193,6 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         context.lineTo(x + 10, titlePaperY + tearHeight);
       }
       context.stroke();
-
-      // Bottom edge tears
       context.beginPath();
       context.moveTo(titlePaperX, titlePaperY + titlePaperHeight);
       for (let x = titlePaperX; x <= titlePaperX + titlePaperWidth; x += 10) {
@@ -196,8 +201,7 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
       }
       context.stroke();
 
-      // Draw title text
-      context.font = "bold 38px 'IM Fell English', Georgia, serif";
+      // Draw title text (after line so it’s on top)
       context.fillStyle = "#222";
       context.textAlign = "center";
       context.fillText(
@@ -206,46 +210,27 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         titlePaperY + 48
       );
 
-      // Add tape at corners of title paper
+      // Tape at corners
       const drawTape = (x: number, y: number, width: number, height: number, angle: number) => {
         context.save();
         context.translate(x, y);
         context.rotate(angle);
-
-        // Draw tape with translucent effect
         context.fillStyle = "rgba(255, 255, 255, 0.7)";
         context.fillRect(-width / 2, -height / 2, width, height);
-
-        // Add tape texture/lines
         context.strokeStyle = "rgba(0, 0, 0, 0.1)";
         context.lineWidth = 0.5;
-
         for (let i = -width / 2 + 5; i < width / 2; i += 5) {
           context.beginPath();
           context.moveTo(i, -height / 2);
           context.lineTo(i, height / 2);
           context.stroke();
         }
-
         context.restore();
       };
 
-      // Draw tape at corners of title paper
       drawTape(titlePaperX, titlePaperY, 40, 20, Math.PI / 4);
-      drawTape(
-        titlePaperX + titlePaperWidth,
-        titlePaperY,
-        40,
-        20,
-        -Math.PI / 4
-      );
-      drawTape(
-        titlePaperX,
-        titlePaperY + titlePaperHeight,
-        40,
-        20,
-        -Math.PI / 4
-      );
+      drawTape(titlePaperX + titlePaperWidth, titlePaperY, 40, 20, -Math.PI / 4);
+      drawTape(titlePaperX, titlePaperY + titlePaperHeight, 40, 20, -Math.PI / 4);
       drawTape(
         titlePaperX + titlePaperWidth,
         titlePaperY + titlePaperHeight,
@@ -253,10 +238,9 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         20,
         Math.PI / 4
       );
-
       context.restore();
 
-      // Add some small torn paper pieces scattered around
+      // Scattered paper scraps
       for (let i = 0; i < 5; i++) {
         const scratchX = Math.random() * (canvas.width - 100) + 50;
         const scratchY = Math.random() * (canvas.height - 100) + 50;
@@ -267,8 +251,6 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
         context.save();
         context.translate(scratchX, scratchY);
         context.rotate(scratchRotation);
-
-        // Draw shadow
         context.fillStyle = "rgba(0, 0, 0, 0.1)";
         context.fillRect(
           -scratchWidth / 2 + 2,
@@ -276,8 +258,6 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
           scratchWidth,
           scratchHeight
         );
-
-        // Draw paper scrap
         context.fillStyle = `rgba(${
           220 + Math.random() * 35
         }, ${220 + Math.random() * 35}, ${210 + Math.random() * 35}, 0.8)`;
@@ -287,7 +267,6 @@ const CanvasTitle: React.FC<CanvasTitleProps> = ({ chapterNumber, title }) => {
           scratchWidth,
           scratchHeight
         );
-
         context.restore();
       }
     };

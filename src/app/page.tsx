@@ -40,13 +40,6 @@ export default function Home() {
         setIsQuoteChanging(false);
       }, 500);
     }, 5000);
-    intervalRef.current = setInterval(() => {
-      setIsQuoteChanging(true);
-      setTimeout(() => {
-        setCurrentQuote((prev) => (prev + 1) % quotes.length);
-        setIsQuoteChanging(false);
-      }, 500);
-    }, 5000);
 
     return () => {
       if (intervalRef.current) {
@@ -62,36 +55,11 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen bg-white">
-      {/* Left side - Hospital Image */}
-      <div className="relative hidden md:block w-[40%] bg-gray-50">
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: "url('https://images.unsplash.com/photo-1584968153986-3f5fe523b044?w=1400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJsdWUlMjBwYWludHxlbnwwfHwwfHx8MA%3D%3D')",
-              filter: "brightness(100.9) hue-rotate(20deg)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-70" />
-          {/* Right edge fade gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white opacity-70" />
-          {/* Blur effect on the right edge */}
-          <div className="absolute top-0 bottom-0 right-0 w-[11%]" 
-               style={{
-                 backdropFilter: "blur(2px)",
-                 WebkitBackdropFilter: "blur(1px)",
-                 background: "linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8))"
-               }}
-          />
-         
-          
-        </div>
-      </div>
-
-      {/* Right side - Content */}
-      <div className="relative w-full md:w-[60%] flex flex-col items-center justify-center p-8"
-      style={{ background: "linear-gradient(to bottom, #F0F8FF, #FFFFFF)" }} 
+    <main className="flex min-h-screen bg-white relative">
+      {/* Content */}
+      <div
+        className="relative w-full flex flex-col items-center justify-center p-8"
+        style={{ background: "linear-gradient(to bottom, #F0F8FF, #FFFFFF)" }}
       >
         {/* Subtle cloud-like texture */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -157,7 +125,7 @@ export default function Home() {
                 className="text-center space-y-3"
               >
                 <p className="text-xl md:text-2xl text-gray-900 italic">
-                  &quot;{quotes[currentQuote].text}&quot;
+                  "{quotes[currentQuote].text}"
                 </p>
                 <p className="text-sm text-gray-400 font-serif">
                   — {quotes[currentQuote].author}
@@ -188,11 +156,11 @@ export default function Home() {
               ) : (
                 <>
                   <span className="relative z-10 text-lg">Begin Reading</span>
-      {/* Base gradient - subtle blue-to-orange fade on hover */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-orange-100 opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-      {/* Shine effect - orange sweep on hover */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-0 group-hover:opacity-40 animate-shine" />
-    </>
+                  {/* Base gradient - subtle blue-to-orange fade on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-orange-100 opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+                  {/* Shine effect - orange sweep on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-0 group-hover:opacity-40 animate-shine" />
+                </>
               )}
             </Button>
 
@@ -223,7 +191,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 1 }}
         >
           <p className="text-sm text-gray-400 font-serif italic">
-            &quot;In the space between heartbeats, stories unfold&quot;
+            "In the space between heartbeats, stories unfold"
           </p>
         </motion.div>
       </div>
