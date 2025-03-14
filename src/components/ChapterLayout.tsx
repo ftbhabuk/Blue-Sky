@@ -84,7 +84,7 @@ export function EnhancedMarginNote({ children, side }: MarginNoteProps) {
 export function EnhancedBlockQuote({ children }: BlockQuoteProps) {
   return (
     <motion.blockquote
-      className="enhanced-blockquote text-xl italic my-8 pl-6 border-l-2 border-blue-200" // Reuse globals.css class
+      className="enhanced-blockquote text-md italic my-8 pl-6 border-l-2 border-blue-200" // Reuse globals.css class
       whileHover={{
         x: 4,
         borderLeftColor: "#3b82f6",
@@ -310,7 +310,7 @@ export default function ChapterLayout({
           style={{ fontFamily: "'EB Garamond', serif" }}
         >
           <div
-            className="prose prose-lg max-w-none prose-p:text-blue-900/90 prose-p:leading-relaxed first-letter:text-7xl first-letter:text-blue-900 first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8] first-letter:font-[IM_Fell_English]"
+            className="prose prose-lg max-w-none prose-p:text-blue-900/90 prose-p:leading-relaxed first-letter:text-5xl first-letter:text-blue-900 first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8] first-letter:font-[IM_Fell_English]"
           >
             {children}
           </div>

@@ -126,7 +126,7 @@ export default function BlueSkyTeaser() {
               Reader’s Praise
             </p>
             <p className="text-sm italic text-blue-900/80 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            &quot;A soulful exploration of longing and light, painted in shades of blue.quot;
+            &quot;A soulful exploration of longing and light, painted in shades of blue.&quot;
             </p>
             <p className="text-xs text-blue-900/60" style={{ fontFamily: "'Playfair Display', serif" }}>
               — A Fellow Dreamer
