@@ -11,7 +11,7 @@ import ChapterLayout, {
 import { motion } from "framer-motion";
 // import { NovelImage, NovelGallery, MemoryWall } from "@/components/novel-images";
 // import ImageComparison from "@/components/ImageComparision";
-import CanvasTitle from "@/components/CanvasTitle";
+
 import { NovelImage } from "@/components/novel-images";
 
 export default function ChapterTwo() {
