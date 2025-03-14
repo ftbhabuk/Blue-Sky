@@ -1,14 +1,13 @@
 "use client";
 
-import { ReactNode, useRef, useState, useEffect } from "react";
+import { type ReactNode, useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Caveat } from "next/font/google";
-// import { Crimson_Pro } from "next/font/google";
 import { ChapterNavigation } from "@/app/components/chapter-navigation";
 import { ChapterAmbience } from "@/components/ChapterAmbience";
+import Link from "next/link";
 
 const caveat = Caveat({ subsets: ["latin"] });
-// const crimson = Crimson_Pro({ subsets: ["latin"], weight: ["400", "700"] });
 
 interface SectionProps {
   children: ReactNode;
@@ -31,7 +30,8 @@ interface FootnoteProps {
 
 export interface ChapterLayoutProps {
   chapterNumber: number;
-  chapterTitle: ReactNode;
+  chapterTitle: string;
+  chapterSubtitle?: string;
   backgroundElements?: ReactNode;
   children: ReactNode;
   gradientColors?: string[];
@@ -62,8 +62,7 @@ export function EnhancedMarginNote({ children, side }: MarginNoteProps) {
 
   return (
     <motion.div
-      className={`absolute ${side}-0 w-48 ${caveat.className} text-lg \
-text-gray-500 opacity-75 hidden md:block`}
+      className={`absolute ${side}-0 w-48 ${caveat.className} text-lg text-blue-500 opacity-75 hidden md:block`}
       style={{
         transform: "none",
         right: side === "right" ? "0" : "auto",
@@ -71,7 +70,7 @@ text-gray-500 opacity-75 hidden md:block`}
       }}
       whileHover={{
         scale: 1.05,
-        color: "#6d28d9",
+        color: "#1e40af",
         opacity: 1,
       }}
       transition={{ duration: 0.2 }}
@@ -80,23 +79,16 @@ text-gray-500 opacity-75 hidden md:block`}
     </motion.div>
   );
 }
-const textStyling = `
-  font-['IM_Fell_English',Georgia,serif]
-  text-[#1a1a1a]
-  opacity-95
-  [text-shadow:0.5px_0.5px_1px_rgba(0,0,0,0.1),-0.5px_-0.5px_1px_rgba(0,0,0,0.1)]
-  [filter:contrast(1.1)_blur(0.02px)]
-`;
 
+// Updated EnhancedBlockQuote to use globals.css styling
 export function EnhancedBlockQuote({ children }: BlockQuoteProps) {
   return (
     <motion.blockquote
-      className={`text-xl italic text-gray-600 my-8 pl-6 border-l-2 \
-border-gray-300 ${textStyling}`}
+      className="enhanced-blockquote text-xl italic my-8 pl-6 border-l-2 border-blue-200" // Reuse globals.css class
       whileHover={{
         x: 4,
-        borderLeftColor: "#6d28d9",
-        color: "gray-700",
+        borderLeftColor: "#3b82f6",
+        color: "#1e40af",
       }}
       transition={{ duration: 0.2 }}
     >
@@ -133,7 +125,7 @@ export function InteractiveFootnote({ children, note }: FootnoteProps) {
   return (
     <span className="relative inline-block">
       <span
-        className="text-purple-600 cursor-pointer underline decoration-dotted"
+        className="text-blue-600 cursor-pointer underline decoration-dotted"
         onClick={() => setIsOpen(!isOpen)}
       >
         {children}
@@ -144,10 +136,10 @@ export function InteractiveFootnote({ children, note }: FootnoteProps) {
           initial={{ opacity: 0, y: 10, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 10, scale: 0.9 }}
-          className={`absolute z-10 bottom-full mb-2 p-3 rounded-md bg-white shadow-lg border border-purple-200 w-64 ${caveat.className} text-sm inline-block`}
+          className={`absolute z-10 bottom-full mb-2 p-3 rounded-md bg-white shadow-lg border border-blue-200 w-64 ${caveat.className} text-sm inline-block`}
         >
           {note}
-          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-purple-200"></span>
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-blue-200"></span>
         </motion.span>
       )}
     </span>
@@ -156,16 +148,10 @@ export function InteractiveFootnote({ children, note }: FootnoteProps) {
 
 export function SectionDivider() {
   return (
-    <div className="flex items-center justify-center my-12">
-      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent w-1/3"></div>
-      <motion.div
-        className="mx-4 text-gray-400"
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      >
-        ✦
-      </motion.div>
-      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent w-1/3"></div>
+    <div className="flex items-center justify-center my-8">
+      <div className="flex-grow h-[1px] bg-blue-200/50"></div>
+      <div className="mx-4 text-blue-300">❦</div>
+      <div className="flex-grow h-[1px] bg-blue-200/50"></div>
     </div>
   );
 }
@@ -173,10 +159,10 @@ export function SectionDivider() {
 export default function ChapterLayout({
   chapterNumber,
   chapterTitle,
+  chapterSubtitle,
   backgroundElements,
   children,
-  // gradientColors = ["from-[#f5f5f0]", "via-[#e0e0d8]", "to-[#f5f5f0]"],
-  backgroundColorStops = ["#f5f5f0", "#f0f0ea", "#e8e8e2", "#f5f5f0"],
+  backgroundColorStops = ["#f8fafc", "#f0f7ff", "#e6f2ff", "#f8fafc"],
   fixedElement,
   previousChapter,
   soundMode = "scroll",
@@ -189,17 +175,20 @@ export default function ChapterLayout({
     offset: ["start", "end"],
   });
 
+  const [isLoaded, setIsLoaded] = useState(false);
   const [currentSound, setCurrentSound] = useState<string>(
-    soundMode === "single"
-      ? Array.isArray(sounds)
-        ? sounds[0]
-        : sounds
-      : Array.isArray(sounds)
-        ? sounds[0]
-        : sounds // Start with first sound
+    soundMode === "single" ? (Array.isArray(sounds) ? sounds[0] : sounds) : Array.isArray(sounds) ? sounds[0] : sounds
   );
 
   useEffect(() => {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    setTimeout(() => setIsLoaded(true), 100);
+
     const unsubscribe = scrollYProgress.on("change", (progress) => {
       if (soundMode === "single") {
         setCurrentSound(Array.isArray(sounds) ? sounds[0] : sounds);
@@ -209,7 +198,7 @@ export default function ChapterLayout({
         const segment = 1 / Math.max(numSounds, 1);
 
         if (progress < 0.2) {
-          setCurrentSound(soundArray[0]); // Start with first sound even at top
+          setCurrentSound(soundArray[0]);
         } else {
           const index = Math.min(
             Math.floor((progress - 0.2) / segment),
@@ -220,7 +209,10 @@ export default function ChapterLayout({
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      document.head.removeChild(link);
+      unsubscribe();
+    };
   }, [scrollYProgress, soundMode, sounds]);
 
   const initialX = previousChapter
@@ -238,7 +230,7 @@ export default function ChapterLayout({
   return (
     <motion.div
       ref={containerRef}
-      className="min-h-screen w-full relative"
+      className="min-h-screen mx-auto relative bg-white overflow-x-hidden w-full"
       style={{ backgroundColor }}
       initial={{ opacity: 0, x: initialX }}
       animate={{ opacity: 1, x: 0 }}
@@ -252,35 +244,97 @@ export default function ChapterLayout({
       }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      {/* Background progress bar */}
+      {/* Progress bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
         <motion.div
-          className="h-full bg-gray-600"
+          className="h-full bg-blue-600"
           style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
         />
       </div>
 
-      {/* Background elements (if any) */}
-      {backgroundElements && (
-        <div className="absolute inset-0 overflow-hidden">
-          {backgroundElements}
-        </div>
-      )}
-
-      {/* Main content container */}
-      <div className="max-w-4xl mx-auto px-6 py-1 relative">
-        {/* Chapter title */}
-        <div className="w-100 ">
-          {chapterTitle}
-        </div>
-
-        {/* Chapter content */}
-        <div className="relative">
-          {children}
-        </div>
+      {/* Paper texture overlay */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="w-full h-full bg-[url('https://img.freepik.com/free-photo/white-paper-texture_1194-5998.jpg?w=2000')] bg-cover"></div>
       </div>
 
-      {/* Additional elements */}
+      {/* Background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {backgroundElements}
+      </div>
+
+      {/* Navigation header */}
+      <header className="sticky top-0 z-20 bg-white/80 backdrop-blur-sm border-b border-blue-100 w-full">
+        <div className="px-4 md:px-8 py-4 flex items-center justify-between max-w-4xl mx-auto">
+          <Link
+            href="/"
+            className={`text-blue-900 text-lg font-medium transition-all duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Blue Sky
+          </Link>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="px-4 md:px-8 py-8 max-w-4xl mx-auto relative">
+        <div
+          className={`mb-8 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <p
+              className="text-sm uppercase tracking-wider text-blue-900/60"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Chapter {chapterNumber}
+            </p>
+          </div>
+          <h1
+            className="text-3xl md:text-4xl text-blue-900 mb-2"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            {chapterTitle}
+          </h1>
+          {chapterSubtitle && (
+            <p
+              className="text-lg text-blue-900/70 italic"
+              style={{ fontFamily: "'EB Garamond', serif" }}
+            >
+              {chapterSubtitle}
+            </p>
+          )}
+          <SectionDivider />
+        </div>
+
+        <div
+          className={`transition-all duration-1000 delay-500 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          style={{ fontFamily: "'EB Garamond', serif" }}
+        >
+          <div
+            className="prose prose-lg max-w-none prose-p:text-blue-900/90 prose-p:leading-relaxed first-letter:text-7xl first-letter:text-blue-900 first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8] first-letter:font-[IM_Fell_English]"
+          >
+            {children}
+          </div>
+        </div>
+
+        <div
+          className={`mt-6 text-center transition-all duration-1000 delay-1200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+        >
+          <p className="text-blue-300 text-2xl">❧</p>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-blue-100 py-4 w-full">
+        <div className="px-4 md:px-8 text-center max-w-4xl mx-auto">
+          <p
+            className={`text-xs text-blue-900/40 transition-all duration-1000 delay-1500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            Blue Sky • A journey through words and emotions
+          </p>
+        </div>
+      </footer>
+
       <ChapterAmbience soundUrl={currentSound} repeat={repeat} />
       {fixedElement}
       <ChapterNavigation currentChapter={chapterNumber} />

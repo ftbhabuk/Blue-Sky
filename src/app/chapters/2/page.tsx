@@ -51,7 +51,7 @@ export default function ChapterTwo() {
   return (
     <ChapterLayout
       chapterNumber={2}
-      chapterTitle={<CanvasTitle chapterNumber={2} title="Liar" />} // Render the component here!
+      chapterTitle="Liar" // Render the component here!
       // backgroundElements={<HospitalBackground />}
       previousChapter={1}
       soundMode="single"
