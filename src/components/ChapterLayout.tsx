@@ -179,6 +179,8 @@ export default function ChapterLayout({
   const [currentSound, setCurrentSound] = useState<string>(
     soundMode === "single" ? (Array.isArray(sounds) ? sounds[0] : sounds) : Array.isArray(sounds) ? sounds[0] : sounds
   );
+  const [isAmbiencePlaying, setIsAmbiencePlaying] = useState(false);
+  const [ambienceVolume, setAmbienceVolume] = useState(0.2);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -335,9 +337,20 @@ export default function ChapterLayout({
         </div>
       </footer>
 
-      <ChapterAmbience soundUrl={currentSound} repeat={repeat} />
+      <ChapterAmbience
+        soundUrl={currentSound}
+        repeat={repeat}
+        isPlaying={isAmbiencePlaying}
+        volume={ambienceVolume}
+      />
       {fixedElement}
-      <ChapterNavigation currentChapter={chapterNumber} />
+      <ChapterNavigation
+        currentChapter={chapterNumber}
+        isAmbiencePlaying={isAmbiencePlaying}
+        setIsAmbiencePlaying={setIsAmbiencePlaying}
+        ambienceVolume={ambienceVolume}
+        setAmbienceVolume={setAmbienceVolume}
+      />
     </motion.div>
   );
 }
