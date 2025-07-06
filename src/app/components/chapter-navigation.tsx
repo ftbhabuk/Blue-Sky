@@ -20,9 +20,15 @@ const chapters = [
   // { id: 4, title: "A Gentle Wind", route: "/chapters/4" },
 ];
 
-export function ChapterNavigation({ currentChapter, isAmbiencePlaying, setIsAmbiencePlaying, ambienceVolume, setAmbienceVolume }: {
+export function ChapterNavigation({
+  currentChapter,
+  // isAmbiencePlaying, // Removed as it's not directly used here
+  setIsAmbiencePlaying,
+  ambienceVolume,
+  setAmbienceVolume,
+}: {
   currentChapter: number;
-  isAmbiencePlaying: boolean;
+  isAmbiencePlaying: boolean; // Still in type definition as it's part of the API, even if not used in this component's logic
   setIsAmbiencePlaying: (v: boolean) => void;
   ambienceVolume: number;
   setAmbienceVolume: (v: number) => void;
@@ -64,7 +70,11 @@ export function ChapterNavigation({ currentChapter, isAmbiencePlaying, setIsAmbi
         {/* Chapter Menu */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="rounded-full border-gray-300 bg-white">
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full border-gray-300 bg-white"
+            >
               <Menu className="h-4 w-4 text-gray-600" />
             </Button>
           </SheetTrigger>
@@ -87,7 +97,9 @@ export function ChapterNavigation({ currentChapter, isAmbiencePlaying, setIsAmbi
                     }`}
                     whileHover={{ x: 4 }}
                   >
-                    <div className="text-sm font-medium">Chapter {chapter.id}</div>
+                    <div className="text-sm font-medium">
+                      Chapter {chapter.id}
+                    </div>
                     <div className="text-lg">{chapter.title}</div>
                   </motion.div>
                 </Link>
@@ -96,8 +108,18 @@ export function ChapterNavigation({ currentChapter, isAmbiencePlaying, setIsAmbi
             {/* Ambient Music Controls */}
             <div className="mt-8 border-t pt-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-700 font-medium" style={{ fontFamily: "'Playfair Display', serif" }}>Ambient Music</span>
-                <span className="text-xs text-gray-500 font-serif" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{Math.round(ambienceVolume * 100)}%</span>
+                <span
+                  className="text-gray-700 font-medium"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  Ambient Music
+                </span>
+                <span
+                  className="text-xs text-gray-500 font-serif"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  {Math.round(ambienceVolume * 100)}%
+                </span>
               </div>
               <div className="relative flex items-center gap-3 p-3 rounded-full bg-white border border-gray-200 shadow-sm">
                 <input
@@ -106,7 +128,7 @@ export function ChapterNavigation({ currentChapter, isAmbiencePlaying, setIsAmbi
                   max="1"
                   step="0.05"
                   value={ambienceVolume}
-                  onChange={e => {
+                  onChange={(e) => {
                     const v = parseFloat(e.target.value);
                     setAmbienceVolume(v);
                     setIsAmbiencePlaying(v > 0);
@@ -122,7 +144,11 @@ export function ChapterNavigation({ currentChapter, isAmbiencePlaying, setIsAmbi
                   .slider-music-pill::-webkit-slider-runnable-track {
                     height: var(--track-height);
                     border-radius: 999px;
-                    background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 100%);
+                    background: linear-gradient(
+                      90deg,
+                      #e5e7eb 0%,
+                      #f3f4f6 100%
+                    );
                     box-shadow: 0 1px 4px 0 #e5e7eb55;
                   }
                   .slider-music-pill::-webkit-slider-thumb {
