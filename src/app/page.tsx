@@ -124,7 +124,7 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
         mieDirectionalG={0.8}
         rayleigh={2.5}
         turbidity={6}
-        // @ts-ignore
+        // @ts-expect-error SkyImpl does not accept a color prop, but we want to override it for custom sky color
         color={skyColor}
       />
       <ambientLight intensity={0.8} />
@@ -220,17 +220,6 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
   );
 }
 
-// Loading fallback
-function CloudsLoading() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="text-blue-200 text-sm font-light" style={{ fontFamily: "'Inter', sans-serif" }}>
-        Weaving dreams in the sky...
-      </div>
-    </div>
-  );
-}
-
 // SectionBlock component for animated full-page sections
 function SectionBlock({ title, description, index, currentSection }: { title: string; description: string; index: number; currentSection: number }) {
   // Animate in if currentSection === index
@@ -253,7 +242,6 @@ function SectionBlock({ title, description, index, currentSection }: { title: st
 
 export default function BlueSkyLanding() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
   const [currentSection, setCurrentSection] = useState(0);
   const sectionRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
@@ -273,21 +261,12 @@ export default function BlueSkyLanding() {
   }, []);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: (e.clientY / window.innerHeight) * 2 - 1,
-      });
-    };
-
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -302,7 +281,7 @@ export default function BlueSkyLanding() {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [sectionRefs]);
 
   return (
     <div className="bg-gradient-to-br from-blue-50/50 via-indigo-50/20 to-white overflow-auto relative snap-y snap-mandatory">
@@ -390,7 +369,7 @@ export default function BlueSkyLanding() {
                 className="text-blue-800/85 leading-relaxed mb-4 font-light text-sm"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
-                A journey woven with threads of longing, where the sky's embrace unveils the heart's quiet dreams.
+                A journey woven with threads of longing, where the sky&apos;s embrace unveils the heart&apos;s quiet dreams.
               </p>
               <p
                 className="text-xs text-blue-600/80 font-light italic"
@@ -454,7 +433,7 @@ export default function BlueSkyLanding() {
             className="text-blue-900/80 text-sm italic leading-relaxed"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            "The sky unfolds,<br />whispering dreams..."
+            &quot;The sky unfolds,<br />whispering dreams...&quot;
           </p>
         </div>
         <div
@@ -466,7 +445,7 @@ export default function BlueSkyLanding() {
             className="text-blue-900/80 text-sm italic leading-relaxed"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            "In its embrace,<br />my heart soars free..."
+            &quot;In its embrace,<br />my heart soars free...&quot;
           </p>
         </div>
 
