@@ -1,4 +1,3 @@
-
 // ./src/app/page.tsx
 "use client";
 
@@ -28,9 +27,9 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
       envPreset: 'dawn',
     },
     {
-      skyColor: '#b3c6ff', // day
-      sunPosition: [10, 10, -10],
-      cloudColor: '#d9e5ff',
+      skyColor: '#ffeaa7', // warm golden for hope
+      sunPosition: [8, 8, -10],
+      cloudColor: '#fff3cd',
       envPreset: 'sunset',
     },
     {
@@ -41,12 +40,10 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
     },
   ];
 
-  // Interpolate between palettes based on sectionIndex (and scrollY for smoothness)
+  // Interpolate between palettes based on sectionIndex
   const paletteA = skyPalettes[sectionIndex] || skyPalettes[0];
   const paletteB = skyPalettes[sectionIndex + 1] || skyPalettes[sectionIndex] || skyPalettes[0];
-  // Calculate local progress between sections (0-1)
   const sectionScroll = Math.min((scrollY % window.innerHeight) / window.innerHeight, 1);
-  // Only interpolate if not on last section
   const lerp = (a: string, b: string, t: number) => {
     const ca = new THREE.Color(a);
     const cb = new THREE.Color(b);
@@ -54,63 +51,113 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
   };
   const skyColor = lerp(paletteA.skyColor, paletteB.skyColor, sectionScroll);
   const cloudColor = lerp(paletteA.cloudColor, paletteB.cloudColor, sectionScroll);
-  // Ensure sunPosition is always a tuple of 3 numbers
   const sunPosition: [number, number, number] = [
     paletteA.sunPosition[0] + ((paletteB.sunPosition[0] - paletteA.sunPosition[0]) * sectionScroll),
     paletteA.sunPosition[1] + ((paletteB.sunPosition[1] - paletteA.sunPosition[1]) * sectionScroll),
     paletteA.sunPosition[2] + ((paletteB.sunPosition[2] - paletteA.sunPosition[2]) * sectionScroll),
   ];
-  // Only use allowed Environment presets
   const allowedPresets = ["dawn", "sunset", "night"] as const;
   const envPreset = allowedPresets[sectionIndex] || "dawn";
 
   useFrame((state, delta) => {
+    const time = state.clock.elapsedTime;
+
     if (cloudsRef.current) {
-      cloudsRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.02) * 0.05 + scrollY * 0.0003;
-      cloudsRef.current.rotation.x = Math.cos(state.clock.elapsedTime * 0.02) * 0.02 + scrollY * 0.0001;
+      cloudsRef.current.rotation.y = Math.sin(time * 0.035) * 0.08 + Math.cos(time * 0.058) * 0.03 + scrollY * 0.0003;
+      cloudsRef.current.rotation.x = Math.cos(time * 0.042) * 0.035 + Math.sin(time * 0.067) * 0.015 + scrollY * 0.0001;
+      const groupScale = 1 + Math.sin(time * 0.06) * 0.01 + Math.cos(time * 0.089) * 0.008;
+      cloudsRef.current.scale.set(groupScale, groupScale, groupScale);
     }
 
-    // Calculate scroll progress (normalize scrollY to 0-1 range, max 2000px)
     const scrollProgress = Math.min(scrollY / 2000, 1);
+    const smoothScrollProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress);
+    const baseColor = new THREE.Color(cloudColor);
+    const targetColor = new THREE.Color('#4b6cb7');
+    const interpolatedColor = baseColor.clone().lerp(targetColor, smoothScrollProgress * 0.3);
 
-    // Interpolated cloud color
-    const startColor = new THREE.Color(cloudColor); // Use dynamic cloud color
-    const endColor = new THREE.Color('#4b6cb7'); // Deep blue for fade
+    let atmosphereIntensity = 1;
+    let windPattern = 'gentle';
+    
+    switch(sectionIndex) {
+      case 0:
+        atmosphereIntensity = 0.8;
+        windPattern = 'dawn';
+        break;
+      case 1:
+        atmosphereIntensity = 1.2;
+        windPattern = 'active';
+        break;
+      default:
+        atmosphereIntensity = 0.6;
+        windPattern = 'still';
+        break;
+    }
 
-    // Safely update cloud colors
-    if (
-      cloud1Ref.current &&
-      cloud1Ref.current.children.length > 0 &&
-      cloud1Ref.current.children[0] instanceof THREE.Mesh &&
-      (cloud1Ref.current.children[0] as THREE.Mesh).material
-    ) {
-      cloud1Ref.current.rotation.y += delta * 0.01;
-      cloud1Ref.current.position.y += Math.sin(state.clock.elapsedTime * 0.1) * 0.005;
-      cloud1Ref.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 0.3) * 0.02);
-      ((cloud1Ref.current.children[0] as THREE.Mesh).material as THREE.MeshPhysicalMaterial).color.lerpColors(startColor, endColor, scrollProgress);
+    let disperse = 0;
+    let windTime = 0;
+    if (sectionIndex === 1) {
+      windTime = (Math.sin(time * 0.08) + Math.cos(time * 0.15) + 1) / 3;
+      disperse = 0.6 + 0.4 * windTime;
+    } else if (sectionIndex === 0) {
+      disperse = sectionScroll * 0.8;
+    } else {
+      disperse = 0.05 + 0.08 * Math.sin(time * 0.06);
     }
-    if (
-      cloud2Ref.current &&
-      cloud2Ref.current.children.length > 0 &&
-      cloud2Ref.current.children[0] instanceof THREE.Mesh &&
-      (cloud2Ref.current.children[0] as THREE.Mesh).material
+
+    const parallaxFactors = [1.0, 0.7, 0.5, 0.3, 0.8];
+
+    function animateCloudAdvanced(
+      cloudRef: React.RefObject<THREE.Group | null>,
+      baseX: number,
+      baseY: number,
+      baseZ: number,
+      baseOpacity: number,
+      cloudIndex: number
     ) {
-      cloud2Ref.current.rotation.y -= delta * 0.008;
-      cloud2Ref.current.position.y += Math.cos(state.clock.elapsedTime * 0.08) * 0.004;
-      cloud2Ref.current.scale.setScalar(1 + Math.cos(state.clock.elapsedTime * 0.25) * 0.015);
-      ((cloud2Ref.current.children[0] as THREE.Mesh).material as THREE.MeshPhysicalMaterial).color.lerpColors(startColor, endColor, scrollProgress);
+      if (
+        cloudRef.current &&
+        cloudRef.current.children.length > 0 &&
+        cloudRef.current.children[0] instanceof THREE.Mesh &&
+        (cloudRef.current.children[0] as THREE.Mesh).material
+      ) {
+        const parallaxFactor = parallaxFactors[cloudIndex] || 0.5;
+        const personalityOffset = cloudIndex * 1.7;
+        
+        const primaryDrift = Math.sin(time * 0.04 + personalityOffset) * 1.8 * parallaxFactor;
+        const secondaryDrift = Math.cos(time * 0.076 + personalityOffset * 0.5) * 0.8 * parallaxFactor;
+        const crossWind = Math.sin(time * 0.032 + personalityOffset * 1.3) * 0.4;
+        
+        const breathingY = Math.cos(time * 0.058 + personalityOffset) * 0.6 * parallaxFactor;
+        const floatY = Math.sin(time * 0.021 + personalityOffset * 0.8) * 0.3;
+        
+        const morphX = 1 + Math.sin(time * 0.045 + personalityOffset) * 0.08;
+        const morphY = 1 + Math.cos(time * 0.067 + personalityOffset * 0.6) * 0.05;
+        const morphZ = 1 + Math.sin(time * 0.056 + personalityOffset * 1.2) * 0.06;
+        
+        const resistance = 0.6 + (cloudIndex * 0.1) % 0.4;
+        const windAmount = 8 * disperse * resistance * atmosphereIntensity;
+        const stretchAmount = 1 + 0.25 * disperse * resistance;
+        
+        cloudRef.current.position.x = baseX + windAmount + primaryDrift + secondaryDrift;
+        cloudRef.current.position.y = baseY + breathingY + floatY + crossWind;
+        cloudRef.current.position.z = baseZ + Math.sin(time * 0.028 + personalityOffset) * 0.8;
+        
+        cloudRef.current.scale.x = stretchAmount * morphX;
+        cloudRef.current.scale.y = morphY;
+        cloudRef.current.scale.z = morphZ;
+        
+        const fadeAmount = 0.25 * disperse * resistance;
+        const opacity = Math.max(0.1, baseOpacity - fadeAmount);
+        
+        const material = (cloudRef.current.children[0] as THREE.Mesh).material as THREE.MeshPhysicalMaterial;
+        material.opacity = opacity;
+        material.color.copy(interpolatedColor);
+      }
     }
-    if (
-      cloud3Ref.current &&
-      cloud3Ref.current.children.length > 0 &&
-      cloud3Ref.current.children[0] instanceof THREE.Mesh &&
-      (cloud3Ref.current.children[0] as THREE.Mesh).material
-    ) {
-      cloud3Ref.current.rotation.y += delta * 0.006;
-      cloud3Ref.current.position.y += Math.sin(state.clock.elapsedTime * 0.05) * 0.003;
-      cloud3Ref.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 0.2) * 0.01);
-      ((cloud3Ref.current.children[0] as THREE.Mesh).material as THREE.MeshPhysicalMaterial).color.lerpColors(startColor, endColor, scrollProgress);
-    }
+
+    animateCloudAdvanced(cloud1Ref, 0, 30, 0, 0.6, 0);
+    animateCloudAdvanced(cloud2Ref, 15, 4, -12, 0.55, 1);
+    animateCloudAdvanced(cloud3Ref, -12, 3.5, -10, 0.5, 2);
   });
 
   return (
@@ -138,6 +185,7 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
       />
       <pointLight position={[-10, -5, -15]} intensity={0.5} color="#b0dbff" />
       <Environment preset={envPreset} />
+      
       <group ref={cloudsRef}>
         <Clouds material={THREE.MeshPhysicalMaterial} limit={300}>
           <Cloud
@@ -221,21 +269,66 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
 }
 
 // SectionBlock component for animated full-page sections
-function SectionBlock({ title, description, index, currentSection }: { title: string; description: string; index: number; currentSection: number }) {
-  // Animate in if currentSection === index
+function SectionBlock({ title, quote, description, index, currentSection }: { title: string; quote: string; description: string; index: number; currentSection: number }) {
   const isActive = currentSection === index;
+
   return (
     <section
-      className="h-screen flex flex-col items-center justify-center snap-center transition-all duration-1000"
+      className="h-screen flex flex-col items-center justify-center snap-center transition-all duration-1000 relative"
       style={{
         opacity: isActive ? 1 : 0,
-        transform: isActive ? 'translateY(0px) scale(1)' : 'translateY(60px) scale(0.98)',
+        transform: isActive ? 'translateY(0px) scale(1)' : 'translateY(50px) scale(0.98)',
         pointerEvents: isActive ? 'auto' : 'none',
-        transition: 'opacity 0.8s, transform 0.8s',
+        transition: 'opacity 0.8s ease-out, transform 0.8s ease-out',
       }}
     >
-      <h2 className="text-3xl font-light text-blue-950 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h2>
-      <p className="mt-4 text-blue-800/85 font-light text-lg max-w-md mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{description}</p>
+      <div className="text-center max-w-xl mx-auto px-4 relative z-10">
+        <h2 
+          className="text-3xl md:text-4xl font-light text-slate-800 tracking-tight mb-6" 
+          style={{ 
+            fontFamily: "'Playfair Display', serif",
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
+            transition: 'opacity 1s ease-out 0.2s, transform 1s ease-out 0.2s'
+          }}
+        >
+          {title}
+        </h2>
+        
+        <blockquote 
+          className="text-lg md:text-xl text-slate-600/90 font-light italic leading-relaxed mb-6"
+          style={{ 
+            fontFamily: "'Cormorant Garamond', serif",
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
+            transition: 'opacity 1.2s ease-out 0.4s, transform 1.2s ease-out 0.4s'
+          }}
+        >
+          "{quote}"
+        </blockquote>
+
+        <div 
+          className="w-20 h-px bg-slate-300 mx-auto mb-6"
+          style={{
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+            transition: 'opacity 1s ease-out 0.6s, transform 1s ease-out 0.6s',
+            transformOrigin: 'center'
+          }}
+        />
+          
+        <p 
+          className="text-slate-500 font-light text-base leading-relaxed max-w-md mx-auto"
+          style={{ 
+            fontFamily: "'Cormorant Garamond', serif",
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
+            transition: 'opacity 1s ease-out 0.8s, transform 1s ease-out 0.8s'
+          }}
+        >
+          {description}
+        </p>
+      </div>
     </section>
   );
 }
@@ -271,7 +364,6 @@ export default function BlueSkyLanding() {
     };
   }, []);
 
-  // Scroll snap and section tracking
   useEffect(() => {
     const handleScroll = () => {
       const offsets = sectionRefs.map(ref => ref.current ? ref.current.getBoundingClientRect().top : Infinity);
@@ -285,7 +377,6 @@ export default function BlueSkyLanding() {
 
   return (
     <div className="bg-gradient-to-br from-blue-50/50 via-indigo-50/20 to-white overflow-auto relative snap-y snap-mandatory">
-      {/* Three.js Cloud Background */}
       <div className="fixed inset-0 z-0">
         <Canvas camera={{ position: [0, -10, 20], fov: 75 }} style={{ background: "transparent" }}>
           <Suspense fallback={null}>
@@ -293,16 +384,12 @@ export default function BlueSkyLanding() {
           </Suspense>
         </Canvas>
       </div>
-      {/* Subtle overlay for depth */}
       <div className="fixed inset-0 bg-gradient-to-b from-blue-100/10 via-white/5 to-blue-50/15 z-5 pointer-events-none" />
-      {/* Main content container */}
       <div className="relative z-10 container mx-auto px-6 py-20">
         <div className="flex flex-col items-center justify-center min-h-screen max-w-5xl mx-auto">
-          {/* Left side - Content */}
-          <div className="space-y-12 text-center">
-            {/* Title */}
+          <div className="space-y-11 text-center">
             <h1
-              className={`text-5xl md:text-6xl lg:text-7xl font-light text-blue-950 tracking-tight transition-all duration-1200 ease-in-out`}
+              className="text-5xl md:text-6xl lg:text-7xl font-light text-blue-950 tracking-tight transition-all duration-1200 ease-in-out"
               style={{
                 fontFamily: "'Playfair Display', serif",
                 opacity: 1 - Math.min(scrollY / 200, 1),
@@ -312,10 +399,8 @@ export default function BlueSkyLanding() {
             >
               Blue Sky
             </h1>
-
-            {/* Subtitle */}
             <div
-              className={`text-lg md:text-xl text-blue-800/90 font-light leading-relaxed transition-all duration-1200 ease-in-out delay-200`}
+              className="text-lg md:text-xl text-blue-800/90 font-light leading-relaxed transition-all duration-1200 ease-in-out delay-200"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 opacity: 1 - Math.min(Math.max((scrollY - 60) / 200, 0), 1),
@@ -326,10 +411,8 @@ export default function BlueSkyLanding() {
               <p className="mb-2 italic">Drifting softly,</p>
               <p className="italic">where dreams touch the stars...</p>
             </div>
-
-            {/* Author */}
             <p
-              className={`text-base text-blue-700/80 font-light transition-all duration-1200 ease-in-out delay-400`}
+              className="text-base text-blue-700/80 font-light transition-all duration-1200 ease-in-out delay-400"
               style={{
                 fontFamily: "'Inter', sans-serif",
                 opacity: 1 - Math.min(Math.max((scrollY - 120) / 200, 0), 1),
@@ -339,20 +422,16 @@ export default function BlueSkyLanding() {
             >
               — Bhabuk
             </p>
-
-            {/* Elegant divider */}
             <div
-              className={`w-28 h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent mx-auto transition-all duration-1200 ease-in-out delay-600`}
+              className="w-28 h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent mx-auto transition-all duration-1200 ease-in-out delay-600"
               style={{
                 opacity: 1 - Math.min(Math.max((scrollY - 180) / 200, 0), 1),
                 transform: `scaleX(${1 - Math.min(Math.max((scrollY - 180) / 2, 0), 1)})`,
                 transition: 'opacity 0.8s, transform 0.8s',
               }}
             />
-
-            {/* Description */}
             <div
-              className={`max-w-sm mx-auto transition-all duration-1200 ease-in-out delay-800`}
+              className="max-w-sm mx-auto transition-all duration-1200 ease-in-out delay-800"
               style={{
                 opacity: 1 - Math.min(Math.max((scrollY - 240) / 200, 0), 1),
                 transform: `translateY(${30 - Math.min(Math.max((scrollY - 240) / 4, 0), 30)}px)`,
@@ -369,7 +448,7 @@ export default function BlueSkyLanding() {
                 className="text-blue-800/85 leading-relaxed mb-4 font-light text-sm"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
-                A journey woven with threads of longing, where the sky&apos;s embrace unveils the heart&apos;s quiet dreams.
+                A journey woven with threads of longing, where the sky's embrace unveils the heart's quiet dreams.
               </p>
               <p
                 className="text-xs text-blue-600/80 font-light italic"
@@ -378,11 +457,10 @@ export default function BlueSkyLanding() {
                 — A Wandering Soul
               </p>
             </div>
-
-            {/* CTA Button - Elegant, inviting, poetic */}
             <div
-              className={`transition-all duration-1200 ease-in-out delay-1000`}
+              className="transition-all duration-1200 ease-in-out delay-1000"
               style={{
+                marginTop: '-1.5rem',
                 opacity: 1 - Math.min(Math.max((scrollY - 320) / 200, 0), 1),
                 transform: `translateY(${30 - Math.min(Math.max((scrollY - 320) / 4, 0), 30)}px)`,
                 transition: 'opacity 0.8s, transform 0.8s',
@@ -417,39 +495,27 @@ export default function BlueSkyLanding() {
           </div>
         </div>
 
-        {/* Animated full-page sections */}
         <div className="w-full">
-          <div ref={sectionRefs[0]}><SectionBlock title="Wander the Horizon" description="Unfold the delicate layers of a story where each word breathes with the sky's endless wonder." index={0} currentSection={currentSection} /></div>
-          <div ref={sectionRefs[1]}><SectionBlock title="Echoes of Dreams" description="Let the whispers of the boundless sky guide you through a tale of hope and silent reflection." index={1} currentSection={currentSection} /></div>
+          <div ref={sectionRefs[0]}>
+            <SectionBlock 
+              title="Wander the Horizon" 
+              quote="Within these walls, the sky is a promise I'm learning to believe."
+              description="Unfold a story written in cloud and light, where every word is a breath of the sky's boundless wonder." 
+              index={0} 
+              currentSection={currentSection} 
+            />
+          </div>
+          <div ref={sectionRefs[1]}>
+            <SectionBlock 
+              title="Echoes of the Firmament" 
+              quote="I was shown a sky filled with colors I never knew how to name."
+              description="Let the whispers of the cosmos guide you through a quiet reflection on hope, seen through a new spectrum." 
+              index={1} 
+              currentSection={currentSection} 
+            />
+          </div>
         </div>
 
-        {/* Floating quotes */}
-        <div
-          className={`absolute top-[10%] left-[10%] -rotate-3 opacity-15 pointer-events-none transition-all duration-1500 ease-in-out delay-1200 ${
-            isLoaded ? "opacity-15 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-          }`}
-        >
-          <p
-            className="text-blue-900/80 text-sm italic leading-relaxed"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            &quot;The sky unfolds,<br />whispering dreams...&quot;
-          </p>
-        </div>
-        <div
-          className={`absolute top-[45%] right-[10%] rotate-2 opacity-15 pointer-events-none transition-all duration-1500 ease-in-out delay-1400 ${
-            isLoaded ? "opacity-15 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-          }`}
-        >
-          <p
-            className="text-blue-900/80 text-sm italic leading-relaxed"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            &quot;In its embrace,<br />my heart soars free...&quot;
-          </p>
-        </div>
-
-        {/* Footer */}
         <div
           className={`relative text-center py-10 transition-all duration-1200 ease-in-out delay-1600 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
