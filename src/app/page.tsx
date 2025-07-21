@@ -27,9 +27,9 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
       envPreset: 'dawn',
     },
     {
-      skyColor: '#ffeaa7', // warm golden for hope
+      skyColor: '#f5faff', // soft pastel blue-white for gentle transition
       sunPosition: [8, 8, -10],
-      cloudColor: '#fff3cd',
+      cloudColor: '#eaf4fb', // very light blue for clouds
       envPreset: 'sunset',
     },
     {
@@ -284,46 +284,43 @@ function SectionBlock({ title, quote, description, index, currentSection }: { ti
     >
       <div className="text-center max-w-xl mx-auto px-4 relative z-10">
         <h2 
-          className="text-3xl md:text-4xl font-light text-slate-800 tracking-tight mb-6" 
+          className="text-3xl md:text-4xl font-light mb-6 text-black tracking-tight"
           style={{ 
             fontFamily: "'Playfair Display', serif",
             opacity: isActive ? 1 : 0,
             transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
-            transition: 'opacity 1s ease-out 0.2s, transform 1s ease-out 0.2s'
+            transition: 'opacity 0.9s cubic-bezier(0.4,0,0.2,1) 0.1s, transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.1s',
           }}
         >
           {title}
         </h2>
-        
         <blockquote 
-          className="text-lg md:text-xl text-slate-600/90 font-light italic leading-relaxed mb-6"
+          className="text-lg md:text-xl font-light italic leading-relaxed mb-6 text-blue-700/90"
           style={{ 
             fontFamily: "'Cormorant Garamond', serif",
             opacity: isActive ? 1 : 0,
             transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
-            transition: 'opacity 1.2s ease-out 0.4s, transform 1.2s ease-out 0.4s'
+            transition: 'opacity 1s cubic-bezier(0.4,0,0.2,1) 0.5s, transform 1s cubic-bezier(0.4,0,0.2,1) 0.5s',
           }}
         >
           "{quote}"
         </blockquote>
-
         <div 
-          className="w-20 h-px bg-slate-300 mx-auto mb-6"
+          className="w-20 h-px bg-blue-200 mx-auto mb-6"
           style={{
             opacity: isActive ? 1 : 0,
             transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
-            transition: 'opacity 1s ease-out 0.6s, transform 1s ease-out 0.6s',
-            transformOrigin: 'center'
+            transition: 'opacity 0.8s cubic-bezier(0.4,0,0.2,1) 0.9s, transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.9s',
+            transformOrigin: 'center',
           }}
         />
-          
         <p 
-          className="text-slate-500 font-light text-base leading-relaxed max-w-md mx-auto"
+          className="font-light text-base leading-relaxed max-w-md mx-auto text-blue-800/85"
           style={{ 
             fontFamily: "'Cormorant Garamond', serif",
             opacity: isActive ? 1 : 0,
             transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
-            transition: 'opacity 1s ease-out 0.8s, transform 1s ease-out 0.8s'
+            transition: 'opacity 1s cubic-bezier(0.4,0,0.2,1) 1.2s, transform 1s cubic-bezier(0.4,0,0.2,1) 1.2s',
           }}
         >
           {description}
@@ -516,18 +513,20 @@ export default function BlueSkyLanding() {
           </div>
         </div>
 
-        <div
-          className={`relative text-center py-10 transition-all duration-1200 ease-in-out delay-1600 ${
+        <footer
+          className={`w-full absolute left-0 bottom-0 text-center pb-6 pt-10 transition-all duration-1200 ease-in-out delay-1600 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
+          style={{ zIndex: 20, background: 'transparent' }}
         >
+          <hr className="w-32 mx-auto mb-4 border-blue-200/60" />
           <p
-            className="text-xs text-blue-300/80 font-light"
+            className="text-xs text-blue-400/80 font-light"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            A dance of words and dreams • Digital Journey 2025
+            © 2025 Bhabuk (bbook)
           </p>
-        </div>
+        </footer>
       </div>
     </div>
   );
