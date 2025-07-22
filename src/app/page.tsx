@@ -269,11 +269,51 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
 }
 
 // SectionBlock component for animated full-page sections
+// Enhanced SectionBlock component with elegant scroll-based animations
 function SectionBlock({ title, quote, description, index, currentSection }: { title: string; quote: string; description: string; index: number; currentSection: number }) {
+  const [sectionScrollY, setSectionScrollY] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height;
+        const windowHeight = window.innerHeight;
+        
+        // Calculate scroll progress within this section
+        // When section is fully visible, progress is 0
+        // As it scrolls up, progress increases
+        const progress = Math.max(0, Math.min(1, -sectionTop / (sectionHeight * 0.8)));
+        setSectionScrollY(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const isActive = currentSection === index;
+  
+  // Calculate individual element animations based on section scroll progress
+  const titleOpacity = Math.max(0, 1 - (sectionScrollY * 2.5));
+  const titleTransform = Math.min(sectionScrollY * 60, 60);
+  
+  const quoteOpacity = Math.max(0, 1 - Math.max(0, (sectionScrollY - 0.1) * 2.2));
+  const quoteTransform = Math.min(Math.max(0, (sectionScrollY - 0.1)) * 50, 50);
+  
+  const dividerOpacity = Math.max(0, 1 - Math.max(0, (sectionScrollY - 0.2) * 2.0));
+  const dividerScale = Math.max(0, 1 - Math.max(0, (sectionScrollY - 0.2) * 1.8));
+  
+  const descriptionOpacity = Math.max(0, 1 - Math.max(0, (sectionScrollY - 0.3) * 1.8));
+  const descriptionTransform = Math.min(Math.max(0, (sectionScrollY - 0.3)) * 45, 45);
 
   return (
     <section
+      ref={sectionRef}
       className="h-screen flex flex-col items-center justify-center snap-center transition-all duration-1000 relative"
       style={{
         opacity: isActive ? 1 : 0,
@@ -283,44 +323,67 @@ function SectionBlock({ title, quote, description, index, currentSection }: { ti
       }}
     >
       <div className="text-center max-w-xl mx-auto px-4 relative z-10">
+        {/* Title with scroll-based fade */}
         <h2 
           className="text-3xl md:text-4xl font-light mb-6 text-black tracking-tight"
           style={{ 
             fontFamily: "'Playfair Display', serif",
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
-            transition: 'opacity 0.9s cubic-bezier(0.4,0,0.2,1) 0.1s, transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.1s',
+            opacity: isActive ? titleOpacity : 0,
+            transform: isActive 
+              ? `translateY(${titleTransform}px)` 
+              : 'translateY(20px)',
+            transition: isActive 
+              ? 'opacity 0.3s ease-out, transform 0.3s ease-out' 
+              : 'opacity 0.9s cubic-bezier(0.4,0,0.2,1) 0.1s, transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.1s',
           }}
         >
           {title}
         </h2>
+        
+        {/* Quote with delayed scroll-based fade */}
         <blockquote 
           className="text-lg md:text-xl font-light italic leading-relaxed mb-6 text-blue-700/90"
           style={{ 
             fontFamily: "'Cormorant Garamond', serif",
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
-            transition: 'opacity 1s cubic-bezier(0.4,0,0.2,1) 0.5s, transform 1s cubic-bezier(0.4,0,0.2,1) 0.5s',
+            opacity: isActive ? quoteOpacity : 0,
+            transform: isActive 
+              ? `translateY(${quoteTransform}px)` 
+              : 'translateY(20px)',
+            transition: isActive 
+              ? 'opacity 0.3s ease-out, transform 0.3s ease-out' 
+              : 'opacity 1s cubic-bezier(0.4,0,0.2,1) 0.5s, transform 1s cubic-bezier(0.4,0,0.2,1) 0.5s',
           }}
         >
           "{quote}"
         </blockquote>
+        
+        {/* Divider with scale animation */}
         <div 
           className="w-20 h-px bg-blue-200 mx-auto mb-6"
           style={{
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
-            transition: 'opacity 0.8s cubic-bezier(0.4,0,0.2,1) 0.9s, transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.9s',
+            opacity: isActive ? dividerOpacity : 0,
+            transform: isActive 
+              ? `scaleX(${dividerScale})` 
+              : 'scaleX(0)',
+            transition: isActive 
+              ? 'opacity 0.3s ease-out, transform 0.3s ease-out' 
+              : 'opacity 0.8s cubic-bezier(0.4,0,0.2,1) 0.9s, transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.9s',
             transformOrigin: 'center',
           }}
         />
+        
+        {/* Description with final scroll-based fade */}
         <p 
           className="font-light text-base leading-relaxed max-w-md mx-auto text-blue-800/85"
           style={{ 
             fontFamily: "'Cormorant Garamond', serif",
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? 'translateY(0px)' : 'translateY(20px)',
-            transition: 'opacity 1s cubic-bezier(0.4,0,0.2,1) 1.2s, transform 1s cubic-bezier(0.4,0,0.2,1) 1.2s',
+            opacity: isActive ? descriptionOpacity : 0,
+            transform: isActive 
+              ? `translateY(${descriptionTransform}px)` 
+              : 'translateY(20px)',
+            transition: isActive 
+              ? 'opacity 0.3s ease-out, transform 0.3s ease-out' 
+              : 'opacity 1s cubic-bezier(0.4,0,0.2,1) 1.2s, transform 1s cubic-bezier(0.4,0,0.2,1) 1.2s',
           }}
         >
           {description}

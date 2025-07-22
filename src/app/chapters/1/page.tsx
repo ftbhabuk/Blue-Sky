@@ -61,7 +61,7 @@ export default function ChapterOne() {
             <p className="text-lg leading-relaxed text-gray-800">
               Gradually, I realise I’m in a clinical ward. My body aches and stings, drenched in medical solution. I can hardly feel my limbs. The smell of hospital floors—bleach and antiseptic—irritates me.
             </p>
-            <NovelImage
+            {/* <NovelImage
               src="https://plus.unsplash.com/premium_photo-1728058959928-ce48533016b7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Hospital room at night"
               width={1200}
@@ -70,7 +70,7 @@ export default function ChapterOne() {
               description="My temporary prison, where shadows dance on sterile walls"
               style="dreamy"
               effect="elastic"
-            />
+            /> */}
             <p className="text-lg leading-relaxed text-gray-800">
               I glance at myself: bandages wrap all around my body, laid lifelessly on the bed. I try to move but can’t. Maybe I’m too feeble. I’ve never been physically strong. Throughout my childhood, I rarely went outside. Even in school, I used to slip in and out of PE classes.
             </p>
@@ -123,15 +123,17 @@ export default function ChapterOne() {
             </p>
             <ImageComparison
               beforeImage="https://images.unsplash.com/photo-1620065692460-d8e110a47ffb?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              afterImage="https://images.unsplash.com/photo-1574920822400-544968a39fbb?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              // afterImage="https://images.unsplash.com/photo-1574920822400-544968a39fbb?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG
+              afterImage="https://images.unsplash.com/photo-1620065692460-d8e110a47ffb?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              
               beforeAlt="Clear Memory"
               afterAlt="Foggy Memory"
               beforeText="All I find at most is myself to blame!"
               afterText="Lost in Haze...the way it was!"
               width={600}
               height={400}
-              beforeStyle="modern"
-              afterStyle="modern"
+              beforeStyle="polaroid"
+              afterStyle="noir"
               beforeEffect="elastic"
               afterEffect="reveal"
             />
