@@ -1,7 +1,6 @@
-// ./src/app/page.tsx
 "use client";
 
-import { useEffect, useState, useRef, Suspense } from "react";
+import { useEffect, useState, useRef, useMemo, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Clouds, Cloud, Sky as SkyImpl, Environment } from "@react-three/drei";
@@ -40,7 +39,7 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
     },
   ];
 
-  // Interpolate between palettes based on sectionIndex
+  // Interpolate between palettes_based on sectionIndex
   const paletteA = skyPalettes[sectionIndex] || skyPalettes[0];
   const paletteB = skyPalettes[sectionIndex + 1] || skyPalettes[sectionIndex] || skyPalettes[0];
   const sectionScroll = Math.min((scrollY % window.innerHeight) / window.innerHeight, 1);
@@ -59,7 +58,7 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
   const allowedPresets = ["dawn", "sunset", "night"] as const;
   const envPreset = allowedPresets[sectionIndex] || "dawn";
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const time = state.clock.elapsedTime;
 
     if (cloudsRef.current) {
@@ -76,20 +75,16 @@ function CloudScene({ scrollY, sectionIndex }: CloudSceneProps) {
     const interpolatedColor = baseColor.clone().lerp(targetColor, smoothScrollProgress * 0.3);
 
     let atmosphereIntensity = 1;
-    let windPattern = 'gentle';
     
     switch(sectionIndex) {
       case 0:
         atmosphereIntensity = 0.8;
-        windPattern = 'dawn';
         break;
       case 1:
         atmosphereIntensity = 1.2;
-        windPattern = 'active';
         break;
       default:
         atmosphereIntensity = 0.6;
-        windPattern = 'still';
         break;
     }
 
@@ -280,7 +275,6 @@ function SectionBlock({ title, quote, description, index, currentSection }: { ti
         const rect = sectionRef.current.getBoundingClientRect();
         const sectionTop = rect.top;
         const sectionHeight = rect.height;
-        const windowHeight = window.innerHeight;
         
         // Calculate scroll progress within this section
         // When section is fully visible, progress is 0
@@ -354,7 +348,7 @@ function SectionBlock({ title, quote, description, index, currentSection }: { ti
               : 'opacity 1s cubic-bezier(0.4,0,0.2,1) 0.5s, transform 1s cubic-bezier(0.4,0,0.2,1) 0.5s',
           }}
         >
-          "{quote}"
+          {quote}
         </blockquote>
         
         {/* Divider with scale animation */}
@@ -397,7 +391,10 @@ export default function BlueSkyLanding() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [currentSection, setCurrentSection] = useState(0);
-  const sectionRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
+  // Move useRef calls to top level
+  const sectionRef1 = useRef<HTMLDivElement>(null);
+  const sectionRef2 = useRef<HTMLDivElement>(null);
+  const sectionRefs = useMemo(() => [sectionRef1, sectionRef2], [sectionRef1, sectionRef2]);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -508,7 +505,7 @@ export default function BlueSkyLanding() {
                 className="text-blue-800/85 leading-relaxed mb-4 font-light text-sm"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
-                A journey woven with threads of longing, where the sky's embrace unveils the heart's quiet dreams.
+                A journey woven with threads of longing, where the sky&apos;s embrace unveils the heart&apos;s quiet dreams.
               </p>
               <p
                 className="text-xs text-blue-600/80 font-light italic"
@@ -555,26 +552,25 @@ export default function BlueSkyLanding() {
           </div>
         </div>
 
-        <div className="w-full">
-          <div ref={sectionRefs[0]}>
-            <SectionBlock 
-              title="Wander the Horizon" 
-              quote="Within these walls, the sky is a promise I'm learning to believe."
-              description="Unfold a story written in cloud and light, where every word is a breath of the sky's boundless wonder." 
-              index={0} 
-              currentSection={currentSection} 
-            />
-          </div>
-          <div ref={sectionRefs[1]}>
-            <SectionBlock 
-              title="Echoes of the Firmament" 
-              quote="I was shown a sky filled with colors I never knew how to name."
-              description="Let the whispers of the cosmos guide you through a quiet reflection on hope, seen through a new spectrum." 
-              index={1} 
-              currentSection={currentSection} 
-            />
-          </div>
-        </div>
+        <div ref={sectionRefs[0]}>
+  <SectionBlock 
+    title="Wander the Horizon" 
+    quote="Someone showed me the sky has colors I never learned to name."
+    description="A language of light and loss, unraveling secrets from whispers of the unknown, where hearts ache and soar in shadow." 
+    index={0} 
+    currentSection={currentSection} 
+  />
+</div>
+<div ref={sectionRefs[1]}>
+  <SectionBlock 
+    title="Echoes of the Firmament" 
+    quote="Between these white walls, the sky feels like a promise I'm afraid to believe..."
+    description="In a timeless sanctuary, a soul blurs into fading echoes, grasping at the sky’s silent vow of something unbroken." 
+    index={1} 
+    currentSection={currentSection} 
+  />
+</div>
+        
 
         <footer
           className={`w-full absolute left-0 bottom-0 text-center pb-6 pt-10 transition-all duration-1200 ease-in-out delay-1600 ${
