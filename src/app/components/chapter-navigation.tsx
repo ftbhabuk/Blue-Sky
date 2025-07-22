@@ -19,6 +19,8 @@ const chapters = [
   { id: 3, title: "Heaven Wait", route: "/chapters/3" },
   { id: 4, title: "A Gentle Wind", route: "/chapters/4" },
   { id: 5, title: "Unravelled Nights", route : "/chapters/5"},
+  { id: 6, title: "The Weight of Silence", route : "/chapters/6"},
+  
 ];
 
 export function ChapterNavigation({
