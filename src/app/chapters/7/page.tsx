@@ -43,7 +43,7 @@ export default function ChapterSeven() {
           <p className="text-lg leading-relaxed text-gray-800">A place: where, with the weaver’s passage of time, melody soothes, and you become as fleeting as morning dew on autumn leaves, each moment a tender firewall. A place that feels like the edge of existence, where you could be your own northern star and yet escape as far as you please.</p>
           <br />
           <p className="text-lg leading-relaxed text-gray-800 italic">A place without the misery of Mondays, where you could be your favorite cookie. A place where you can scrawl across the margins and adore every ink drop freely in an endless bypass. A place where you could embody the warmth of the sun and still long for the soft sensation of winter baths.</p>
-          <EnhancedMarginNote side="left">An unattainable haven</EnhancedMarginNote>
+          <EnhancedMarginNote side="right">An unattainable haven</EnhancedMarginNote>
           <InteractiveFootnote
             note="The description of this place reflects the narrator’s yearning for escape, a sanctuary from their inner turmoil."
           >
@@ -78,7 +78,7 @@ export default function ChapterSeven() {
           <br />
           <p className="text-lg leading-relaxed text-gray-800">I turn to look at her and slip my shirt back on. The moonlight paints her in hues of mystery, her eyes glinting with a mixture of mischief and something else, something unreadable.</p>
           <p className="text-lg leading-relaxed text-gray-800">She’s the kind of beautiful that hurts to look at for too long, like staring directly at the sun. Sweet and alluring, aloof yet truly gentle.</p>
-          <EnhancedMarginNote side="left">A magnetic presence</EnhancedMarginNote>
+          {/* <EnhancedMarginNote side="right">A magnetic presence</EnhancedMarginNote> */}
           <p className="text-lg leading-relaxed text-gray-800">But it isn’t just her beauty that gets to me—it’s the way she sees through the walls I’ve built, the way she touches my world without even laying a finger on it.</p>
         </motion.div>
       </Section>
