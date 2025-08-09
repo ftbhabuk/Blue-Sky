@@ -4,7 +4,9 @@ import { useEffect, useState, useRef, useMemo, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Clouds, Cloud, Sky as SkyImpl, Environment } from "@react-three/drei";
-import { Mail, Github, ArrowUp } from 'lucide-react';
+import { CloudOff, CloudIcon } from 'lucide-react';
+import Footer from "@/components/Footer";
+
 // Cloud Scene Component
 interface CloudSceneProps {
     scrollY: number;
@@ -468,9 +470,9 @@ function SectionBlock({
 }
 
 export default function BlueSkyLanding() {
-    const [isLoaded, setIsLoaded] = useState(false);
     const [scrollY, setScrollY] = useState(0);
     const [currentSection, setCurrentSection] = useState(0);
+    const [showClouds, setShowClouds] = useState(false);
     // Move useRef calls to top level
     const sectionRef1 = useRef<HTMLDivElement>(null);
     const sectionRef2 = useRef<HTMLDivElement>(null);
@@ -486,10 +488,8 @@ export default function BlueSkyLanding() {
         link.rel = "stylesheet";
         document.head.appendChild(link);
 
-        const timer = setTimeout(() => setIsLoaded(true), 800);
         return () => {
             document.head.removeChild(link);
-            clearTimeout(timer);
         };
     }, []);
 
@@ -525,19 +525,44 @@ export default function BlueSkyLanding() {
 
     return (
         <div className="bg-gradient-to-br from-blue-50/50 via-indigo-50/20 to-white overflow-auto relative snap-y snap-mandatory">
-            <div className="fixed inset-0 z-0">
-                <Canvas
-                    camera={{ position: [0, -10, 20], fov: 75 }}
-                    style={{ background: "transparent" }}
+            {/* Clouds Toggle Button */}
+            <div className="fixed top-6 right-6 z-50">
+                <button
+                    onClick={() => setShowClouds(!showClouds)}
+                    className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-md border border-blue-200 hover:bg-white/90 hover:border-blue-400 text-blue-900 font-medium rounded-full transition-all duration-300 ease-in-out shadow-md hover:shadow-lg hover:scale-105"
+                    style={{
+                        fontFamily: "'Inter', sans-serif",
+                        letterSpacing: "0.02em",
+                    }}
                 >
-                    <Suspense fallback={null}>
-                        <CloudScene
-                            scrollY={scrollY}
-                            sectionIndex={currentSection}
-                        />
-                    </Suspense>
-                </Canvas>
+                    <span className="mr-2 text-sm">
+                        {showClouds ? "Hide" : "Show"} Clouds
+                    </span>
+                    {showClouds ? (
+                        <CloudOff className="w-4 h-4 text-blue-700 group-hover:text-blue-900 transition-colors duration-300" />
+                    ) : (
+                        <CloudIcon className="w-4 h-4 text-blue-700 group-hover:text-blue-900 transition-colors duration-300" />
+                    )}
+                </button>
             </div>
+
+            {/* Three.js Canvas - Conditionally rendered */}
+            {showClouds && (
+                <div className="fixed inset-0 z-0">
+                    <Canvas
+                        camera={{ position: [0, -10, 20], fov: 75 }}
+                        style={{ background: "transparent" }}
+                    >
+                        <Suspense fallback={null}>
+                            <CloudScene
+                                scrollY={scrollY}
+                                sectionIndex={currentSection}
+                            />
+                        </Suspense>
+                    </Canvas>
+                </div>
+            )}
+
             <div className="fixed inset-0 bg-gradient-to-b from-blue-100/10 via-white/5 to-blue-50/15 z-5 pointer-events-none" />
             <div className="relative z-10 container mx-auto px-6 py-20">
                 <div className="flex flex-col items-center justify-center min-h-screen max-w-5xl mx-auto">
@@ -711,60 +736,9 @@ export default function BlueSkyLanding() {
                         currentSection={currentSection}
                     />
                 </div>
-
-                {/* gotta change it lol */}
-
-                <footer
-    className={`w-full absolute left-0 bottom-0 text-center pb-8 pt-12 transition-all duration-1200 ease-in-out delay-1600 ${
-        isLoaded
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-4"
-    }`}
-    style={{ zIndex: 20, background: "transparent" }}
->
-    <div className="space-y-3">
-        {/* <div className="w-20 h-px bg-gradient-to-r from-transparent via-red-300 to-transparent mx-auto"></div> */}
-
-        <div className="flex justify-center space-x-6 pt-2">
-            <a
-                href="https://x.com/FellowTravell20"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-gray-700 transition-colors duration-300"
-                aria-label="X (Twitter)"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-5 h-5"
-                >
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-            </a>
-            <a
-                href="https://github.com/ftbhabuk"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-gray-700 transition-colors duration-300"
-                aria-label="GitHub"
-            >
-                <Github className="w-5 h-5" />
-            </a>
-        </div>
-        <div className="w-20 h-px bg-gradient-to-r from-transparent via-red-300 to-transparent mx-auto"></div>
-
-        <p
-            className="text-sm text-blue-500 font-light tracking-wide"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-        >
-            From my unpublished collection
-        </p>
-
-        
-    </div>
-</footer>
             </div>
+            <Footer/>
         </div>
+        
     );
 }
