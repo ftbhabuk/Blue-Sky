@@ -1,6 +1,4 @@
-/* src/app/globals.css */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
-
+/* Remove the @import line since we're loading fonts in layout */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,6 +31,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -63,13 +62,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 
   /* Apply the rough-edged text styling */
-  
-  h3,
+  .story-content h3,
   .enhanced-margin-note,
   .enhanced-blockquote {
     font-family: 'IM Fell English', Georgia, serif;
@@ -82,7 +81,8 @@
     filter: contrast(1.1) blur(0.02px);
     opacity: 0.95;
   }
-  h3 {
+
+  .story-content h3 {
     font-size: 24px; /* Slightly larger for headings */
   }
 }
