@@ -1,5 +1,5 @@
 import type React from "react"
-import Footer from "@/components/Footer"
+// import Footer from "@/components/Footer"
 export default function ChapterLayout({
   children,
 }: {

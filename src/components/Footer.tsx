@@ -10,7 +10,7 @@ export default function Footer({ isLoaded = true }: FooterProps) {
       className={`w-full bg-white/95 backdrop-blur-sm border-t border-gray-100 py-6 mt-12 transition-all duration-1200 ease-in-out ${
         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
-      style={{ zIndex: 30 }}
+      style={{ zIndex: 0 }}
     >
       <div className="max-w-4xl mx-auto px-6">
         {/* Story verse */}
@@ -19,8 +19,8 @@ export default function Footer({ isLoaded = true }: FooterProps) {
             className="text-base text-gray-700 font-light italic leading-relaxed max-w-2xl mx-auto"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            "In the silence between heartbeats, I found a sky that remembers
-            every dream we've forgotten to chase."
+            &quot;In the silence between heartbeats, I found a sky that remembers
+            every dream we&apos;ve forgotten to chase.&quot;
           </blockquote>
         </div>
 
@@ -63,7 +63,7 @@ export default function Footer({ isLoaded = true }: FooterProps) {
               This story emerged from the quiet chaos of addiction, family
               distance, and forgetting how to care for yourself. A meditation on
               finding beauty in brokenness, when the sky becomes the only thing
-              that doesn't judge.
+              that doesn&apos;t judge.
             </p>
           </div>
 
@@ -130,7 +130,7 @@ export default function Footer({ isLoaded = true }: FooterProps) {
             className="text-xs text-gray-400 font-light"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            © 2025 Bhabuk • From "Uperhaps" an unpublished collection
+            © 2025 Bhabuk • From &quot;Uperhaps-&quot; an unpublished collection
           </p>
         </div>
       </div>
