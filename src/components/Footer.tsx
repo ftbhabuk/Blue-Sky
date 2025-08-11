@@ -1,5 +1,4 @@
-
-import { Github } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 
 interface FooterProps {
   isLoaded?: boolean;
@@ -14,8 +13,6 @@ export default function Footer({ isLoaded = true }: FooterProps) {
       style={{ zIndex: 0 }}
     >
       <div className="max-w-4xl mx-auto px-6">
-        {/* <div className="w-20 h-px bg-gray-300 mx-auto mb-8"></div> */}
-
         {/* Three column layout - Origins, About Me, Connect */}
         <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] gap-4 mb-8">
           {/* Origins */}
@@ -25,19 +22,19 @@ export default function Footer({ isLoaded = true }: FooterProps) {
               Origins
             </h3>
             <p
-              className="text-base text-gray-700 font-normal leading-relaxed mb-4"
+              className="text-sm text-gray-700 font-normal leading-relaxed mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              Born from late-night conversations with the ceiling in Pokhara,
-              where the world feels too loud yet skips you completely.
+              Born from late-night balcony stares in Pokhara, where the world
+              feels too loud yet skips you completely.
             </p>
             <p
-              className="text-base text-gray-700 font-normal leading-relaxed"
+              className="text-sm text-gray-700 font-normal leading-relaxed"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Written while grasping onto anything—pills, cigarettes, fleeting
-              connections—trying to pass through phases of loving someone who
-              was never really there.
+              connections—trying to survive loving someone who was never really
+              there.
             </p>
           </div>
 
@@ -48,32 +45,39 @@ export default function Footer({ isLoaded = true }: FooterProps) {
               About Me
             </h3>
             <p
-              className="text-base text-gray-700 font-normal leading-relaxed mb-4"
+              className="text-sm text-gray-700 font-normal leading-relaxed mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              A wandering soul, collecting forgotten dreams and star-dusted tales,
-              finding poetry in parking lots and sadness in passing clouds.
+              Caught between algorithms and poetry, finding comfort in things I
+              can't fully understand - literature that hits too close, art that
+              makes no sense but feels right.
             </p>
             <p
-              className="text-base text-gray-700 font-normal leading-relaxed"
+              className="text-sm text-gray-700 font-normal leading-relaxed"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              Weaving stories from strangers, stars, and sleepless nights.
+              Music is cool though!
             </p>
           </div>
 
           {/* Connect */}
-          <div className="text-left">
+          <div className="text-left shadow-sm">
             <h3 className="text-xs font-medium text-slate-600 uppercase tracking-[0.2em] mb-6 flex items-center">
               <span className="w-3 h-3 bg-blue-300 rounded-full mr-3 opacity-70"></span>
               Connect
             </h3>
             <p
-              className="text-sm text-gray-700 font-normal mb-4"
+              className="text-sm text-gray-700 font-normal leading-relaxed mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              Open for writing collaborations, conversations, or just sharing what
-              the sky told you today.
+              If you're still reading, let's connect. We probably have something
+              in common.
+            </p>
+            <p
+              className="text-sm text-gray-700 font-normal leading-relaxed mb-4"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              Curiosity is a good starting point.
             </p>
             <div className="flex space-x-6">
               <a
@@ -87,7 +91,7 @@ export default function Footer({ isLoaded = true }: FooterProps) {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="w-5 h-5"
+                  className="w-4 h-4"
                 >
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
@@ -99,7 +103,14 @@ export default function Footer({ isLoaded = true }: FooterProps) {
                 className="text-gray-600 hover:text-gray-800 transition-colors duration-300"
                 aria-label="GitHub"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-4 h-4" />
+              </a>
+              <a
+                href="mailto:ftraveller23@gmail.com"
+                className="text-gray-600 hover:text-gray-800 transition-colors duration-300"
+                aria-label="Email"
+              >
+                <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>

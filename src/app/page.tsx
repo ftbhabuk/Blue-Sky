@@ -472,7 +472,7 @@ function SectionBlock({
 export default function BlueSkyLanding() {
     const [scrollY, setScrollY] = useState(0);
     const [currentSection, setCurrentSection] = useState(0);
-    const [showClouds, setShowClouds] = useState(false);
+    const [showClouds, setShowClouds] = useState(true);
     // Move useRef calls to top level
     const sectionRef1 = useRef<HTMLDivElement>(null);
     const sectionRef2 = useRef<HTMLDivElement>(null);
@@ -523,25 +523,25 @@ export default function BlueSkyLanding() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [sectionRefs]);
 
+    // Calculate opacity for the cloud toggle button based on scrollY
+    const buttonOpacity = Math.max(0, 1 - Math.min(scrollY / 300, 1)); // Fades out over 300px scroll
+
     return (
         <div className="bg-gradient-to-br from-blue-50/50 via-indigo-50/20 to-white overflow-auto relative snap-y snap-mandatory">
             {/* Clouds Toggle Button */}
-            <div className="fixed top-6 right-6 z-50">
+            <div
+                className="fixed top-6 right-6 z-50 transition-opacity duration-300"
+                style={{ opacity: buttonOpacity }}
+            >
                 <button
                     onClick={() => setShowClouds(!showClouds)}
-                    className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-md border border-blue-200 hover:bg-white/90 hover:border-blue-400 text-blue-900 font-medium rounded-full transition-all duration-300 ease-in-out shadow-md hover:shadow-lg hover:scale-105"
-                    style={{
-                        fontFamily: "'Inter', sans-serif",
-                        letterSpacing: "0.02em",
-                    }}
+                    className="group relative inline-flex items-center p-3 bg-white/80 backdrop-blur-md border border-blue-200 hover:bg-white/90 hover:border-blue-400 text-blue-900 rounded-full transition-all duration-300 ease-in-out shadow-md hover:shadow-lg hover:scale-105"
+                    aria-label={showClouds ? "Hide Clouds" : "Show Clouds"}
                 >
-                    <span className="mr-2 text-sm">
-                        {showClouds ? "Hide" : "Show"} Clouds
-                    </span>
                     {showClouds ? (
-                        <CloudOff className="w-4 h-4 text-blue-700 group-hover:text-blue-900 transition-colors duration-300" />
+                        <CloudOff className="w-5 h-5 text-blue-700 group-hover:text-blue-900 transition-colors duration-300" />
                     ) : (
-                        <CloudIcon className="w-4 h-4 text-blue-700 group-hover:text-blue-900 transition-colors duration-300" />
+                        <CloudIcon className="w-5 h-5 text-blue-700 group-hover:text-blue-900 transition-colors duration-300" />
                     )}
                 </button>
             </div>
@@ -741,4 +741,4 @@ export default function BlueSkyLanding() {
         </div>
         
     );
-}
+} 
