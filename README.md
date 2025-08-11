@@ -8,15 +8,10 @@
 
 Welcome to *Blue Sky*, an immersive web experience. This project blends interactive design with a narrative about healing, memory, and the fragile connections that might save us.
 
-This is a story about the weight of the past, the fragility of the human heart, and the desperate search for a reason to keep looking up at the sky. It explores the fine line between despair and hope, reality and illusion, and the quiet moments that can change everything.
+
 
 ## About the Story
-
-*Blue Sky* follows someone who wakes up in a hospital, fragments of memory scattered like broken glass. The Xanax bottles hidden in old drawers, the fights echoing through childhood hallways, the weight of a family that never quite learned how to hold each other—it all feels like watching someone else's life through fog.
-
-He has "lost the touch, lost the sense of flower." The world outside feels too sharp, too loud, too much. But sometimes, in the quiet moments between one breath and the next, color seeps back in.
-
-The "blue sky" becomes his Emily—the way she colors his world, makes everything feel possible again. But he doesn't know if she's real or just in his head. Sometimes the simplest things—home, love, belonging—can make the whole world "blue." Sometimes that blue is all we have to hold onto.
+This is a story about the weight of the past, the fragility of the human heart, and the desperate search for a reason to keep looking up at the sky. It explores the fine line between despair and hope, reality and illusion, and the quiet moments that can change everything.
 
 **Key figures in his world:**
 - **Lisa** - his nurse, an anchor in the chaos
@@ -26,6 +21,10 @@ The "blue sky" becomes his Emily—the way she colors his world, makes everythin
 
 **Built with Three.js cloud formations that shift from pink to blue to gray, mirroring the protagonist's internal weather.**
 
+## Features
+- **Interactive Chapters**: Dive into the evolving narrative at your own pace.
+- **Dynamic Audio**: Music shifts with the story, enhancing the mood as you scroll.
+
 ---
 
-*Seven chapters. One journey. Read when you're ready.*
+*Feel free to read, reflect, or critique. Made with love💙*

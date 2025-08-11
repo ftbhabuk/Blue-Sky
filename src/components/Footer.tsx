@@ -49,7 +49,7 @@ export default function Footer({ isLoaded = true }: FooterProps) {
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Caught between algorithms and poetry, finding comfort in things I
-              can't fully understand - literature that hits too close, art that
+              can&lsquo;t fully understand - literature that hits too close, art that
               makes no sense but feels right.
             </p>
             <p
@@ -70,7 +70,7 @@ export default function Footer({ isLoaded = true }: FooterProps) {
               className="text-sm text-gray-700 font-normal leading-relaxed mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              If you're still reading, let's connect. We probably have something
+              If you&apos;re still reading, let&apos;s connect. We probably have something
               in common.
             </p>
             <p
