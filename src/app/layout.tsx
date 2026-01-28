@@ -3,6 +3,7 @@ import "./globals.css"
 import { Source_Sans_3 as Source_Sans_Pro, Playfair_Display, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { metadata } from "@/lib/metadata"
+import { viewport } from "./viewport"
 
 // Load all your fonts at the root level
 const sourceSans = Source_Sans_Pro({
@@ -23,7 +24,7 @@ const inter = Inter({
   variable: "--font-inter"
 })
 
-export { metadata }
+export { metadata, viewport }
 
 export default function RootLayout({
   children,
