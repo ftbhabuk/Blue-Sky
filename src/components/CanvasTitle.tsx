@@ -1,5 +1,7 @@
 "use client";
 
+// for paper like texture for heading stuffs btw we havent used it yet 
+// its kinda mid so
 import React, { useEffect, useRef } from "react";
 
 interface CanvasTitleProps {

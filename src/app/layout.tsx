@@ -1,6 +1,8 @@
 import type React from "react"
 import "./globals.css"
 import { Source_Sans_3 as Source_Sans_Pro, Playfair_Display, Inter } from "next/font/google"
+import { Analytics } from "@vercel/analytics/react"
+import { metadata } from "@/lib/metadata"
 
 // Load all your fonts at the root level
 const sourceSans = Source_Sans_Pro({
@@ -21,6 +23,8 @@ const inter = Inter({
   variable: "--font-inter"
 })
 
+export { metadata }
+
 export default function RootLayout({
   children,
 }: {
@@ -37,6 +41,7 @@ export default function RootLayout({
       </head>
       <body className={`${sourceSans.className} ${playfair.variable} ${inter.variable}`}>
         <div className="min-h-screen bg-white text-gray-800">{children}</div>
+        <Analytics />
       </body>
     </html>
   )

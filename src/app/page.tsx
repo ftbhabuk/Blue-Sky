@@ -7,6 +7,7 @@ import { Clouds, Cloud, Sky as SkyImpl, Environment } from "@react-three/drei";
 import { CloudOff, CloudIcon } from 'lucide-react';
 import Footer from "@/components/Footer";
 
+
 // Cloud Scene Component
 interface CloudSceneProps {
     scrollY: number;

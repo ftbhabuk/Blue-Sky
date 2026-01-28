@@ -14,7 +14,7 @@ export default function chapterEight () {
     return(
         <ChapterLayout
         chapterNumber={8}
-        chapterTitle="The Place Dreams Dare Not Speak"
+        chapterTitle="No Longer A Human"
         previousChapter={7}
         // soundMode="single"
         // repeat={true}
@@ -23,6 +23,7 @@ export default function chapterEight () {
         }
         >
 <p>FAHHHHH</p>
+<p>Commming SOON</p>
         </ChapterLayout>
         
 
