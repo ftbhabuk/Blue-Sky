@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://blue-sky.vercel.app/sitemap.xml',
+    sitemap: 'https://blue-sky-mu.vercel.app/sitemap.xml',
   }
 }
