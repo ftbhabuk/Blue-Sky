@@ -16,12 +16,14 @@ export const metadata: Metadata = {
     description: "An immersive visual novel experience with stunning visuals and compelling storytelling",
     type: "website",
     url: "https://blue-sky.vercel.app",
+    siteName: "Blue Sky",
     images: [
       {
         url: "https://blue-sky.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Blue Sky Visual Novel",
+        type: "image/png",
       },
     ],
   },
@@ -29,7 +31,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blue Sky - A Visual Novel",
     description: "An immersive visual novel experience with stunning visuals and compelling storytelling",
-    images: ["https://blue-sky.vercel.app/og-image.png"],
+    images: [{
+      url: "https://blue-sky.vercel.app/og-image.png",
+      width: 1200,
+      height: 630,
+      alt: "Blue Sky Visual Novel",
+    }],
   },
   robots: "index, follow",
 }
