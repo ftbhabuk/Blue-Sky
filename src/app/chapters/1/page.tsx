@@ -17,9 +17,9 @@ export default function ChapterOne() {
       <ChapterLayout
         chapterNumber={1}
         chapterTitle="Chaos"
-        soundMode="single"
+        soundMode="scroll"
         repeat={false}
-        sounds={["/sounds/2.mp3", "/sounds/1.wav"]}
+        sounds={["/sounds/2.mp3", "/sounds/unraveling-silently.wav"]}
       >
         <Section delay={0.2}>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>

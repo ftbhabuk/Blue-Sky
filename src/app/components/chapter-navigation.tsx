@@ -234,11 +234,11 @@ export function ChapterNavigation({
                       className="relative w-full h-2 bg-gray-200 rounded-full cursor-pointer group"
                     >
                       <div
-                        className="absolute inset-y-0 left-0 bg-indigo-600 rounded-full pointer-events-none"
+                        className="absolute inset-y-0 left-0 bg-gray-900 rounded-full pointer-events-none"
                         style={{ width: `${((currentTime ?? 0) / duration) * 100}%` }}
                       />
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-indigo-600 rounded-full shadow pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-900 rounded-full shadow pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
                         style={{ left: `calc(${((currentTime ?? 0) / duration) * 100}% - 6px)` }}
                       />
                     </div>

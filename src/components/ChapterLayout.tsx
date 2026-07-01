@@ -167,7 +167,7 @@ export default function ChapterLayout({
   previousChapter,
   soundMode = "scroll",
   repeat = true,
-  sounds = ["/sounds/1.wav"],
+  sounds = ["/sounds/unraveling-silently.wav"],
 }: ChapterLayoutProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);

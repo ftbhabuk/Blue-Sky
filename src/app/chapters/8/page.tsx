@@ -69,10 +69,24 @@ export default function ChapterEight() {
       {/* Intake Form */}
       <Section delay={0.8}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
-          <p className="text-lg leading-relaxed text-gray-800 italic">Name. Date of birth. Reason for visit.</p>
-          <p className="text-lg leading-relaxed text-gray-800 italic">On a scale of one to ten—</p>
+          {/* Intake form fields */}
+          <div className="space-y-3 mt-4">
+            <div className="border-b border-dotted border-gray-300 pb-0.5">
+              <span className="text-sm tracking-[0.3em] uppercase text-gray-500 italic">Name</span>
+            </div>
+            <div className="border-b border-dotted border-gray-300 pb-0.5">
+              <span className="text-sm tracking-[0.3em] uppercase text-gray-500 italic">Date of birth</span>
+            </div>
+            <div className="border-b border-dotted border-gray-300 pb-0.5">
+              <span className="text-sm tracking-[0.3em] uppercase text-gray-500 italic">Reason for visit</span>
+            </div>
+          </div>
+
+          <p className="text-sm tracking-[0.3em] uppercase text-gray-500 italic text-left mt-4">On a scale of one to ten—</p>
           <p className="text-lg leading-relaxed text-gray-800">I set the paper down. Look at the question. Pick the pen back up.</p>
-          <p className="text-lg leading-relaxed text-gray-800 italic">—how often do you feel hopeless?</p>
+          <div className="border-b border-dotted border-gray-300 pb-0.5 mt-3">
+            <span className="text-sm tracking-[0.3em] uppercase text-gray-500 italic">—how often do you feel hopeless?</span>
+          </div>
           <br />
           <p className="text-lg leading-relaxed text-gray-800 italic">
             Dear{" "}
@@ -95,7 +109,7 @@ export default function ChapterEight() {
       {/* Dinner Table Flashback */}
       <Section delay={1.0}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
-          <p className="text-lg leading-relaxed text-gray-800 italic">Describe the atmosphere of your home growing up.</p>
+          <p className="text-sm tracking-[0.3em] uppercase text-gray-500 italic text-left mt-4">Describe the atmosphere of your home growing up.</p>
           <br />
           <p className="text-lg leading-relaxed text-gray-800">He didn’t need to hit anyone.</p>
           <p className="text-lg leading-relaxed text-gray-800">Dinner table. Age twelve. The sound of my own chewing fills the room. My mother’s fork frozen mid-air. My father’s jaw working slowly, his eyes flat and still. The vein in his temple. My sister not breathing. I stop chewing. We finish the meal without a word and call it a family.</p>
@@ -110,7 +124,7 @@ export default function ChapterEight() {
       {/* Scripted Childhood + Confiscation */}
       <Section delay={1.2}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
-          <p className="text-lg leading-relaxed text-gray-800 italic">Have you ever felt your life was decided for you?</p>
+          <p className="text-sm tracking-[0.3em] uppercase text-gray-500 italic text-left mt-4">Have you ever felt your life was decided for you?</p>
           <br />
           <p className="text-lg leading-relaxed text-gray-800">I stopped listening around fourteen.</p>
           <EnhancedBlockQuote>
@@ -145,7 +159,7 @@ export default function ChapterEight() {
       {/* Root Cause */}
       <Section delay={1.4}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
-          <p className="text-lg leading-relaxed text-gray-800 italic">What do you believe is the root cause?</p>
+          <p className="text-sm tracking-[0.3em] uppercase text-gray-500 italic text-left mt-4">What do you believe is the root cause?</p>
           <br />
           <p className="text-lg leading-relaxed text-gray-800">I press the pen into the paper.</p>
           <p className="text-lg leading-relaxed text-gray-800">Not one thing. Everything. All the time. Slow. Quiet. A thousand mornings of being corrected into someone smaller. They didn’t break anything visible — nothing you could point to. Just erased. Carefully. Until I forgot I was supposed to exist as anything other than their version of me.</p>
@@ -166,7 +180,7 @@ export default function ChapterEight() {
       {/* Insomnia */}
       <Section delay={1.6}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
-          <p className="text-lg leading-relaxed text-gray-800 italic">When did you first begin to feel this way?</p>
+          <p className="text-sm tracking-[0.3em] uppercase text-gray-500 italic text-left mt-4">When did you first begin to feel this way?</p>
           <br />
           <p className="text-lg leading-relaxed text-gray-800">I developed insomnia around eighteen. Not the kind where you can’t fall asleep — the kind where sleep feels like surrendering the only control you have left.</p>
           <p className="text-lg leading-relaxed text-gray-800">I’d lie awake listening to them argue through the walls. Never screaming — screaming would have been too honest. Just low, venomous hissing. The sound of something rotting quietly, on schedule.</p>

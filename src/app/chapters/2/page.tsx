@@ -18,7 +18,7 @@ export default function ChapterTwo() {
       previousChapter={1}
       soundMode="single"
       repeat={true}
-      sounds={["/sounds/2.mp3", "/sounds/1.wav"]}
+      sounds={["/sounds/2.mp3", "/sounds/unraveling-silently.wav"]}
     >
       {/* Wake-Up Scene */}
       <Section delay={0.2}>
