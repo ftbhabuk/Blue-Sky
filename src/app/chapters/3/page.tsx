@@ -98,7 +98,7 @@ export default function ChapterThree() {
           <EnhancedBlockQuote>
             &quot;What do you think you are doing? Get down from there!!&quot;
           </EnhancedBlockQuote>
-          <p className="text-lg leading-relaxed text-gray-800">A screaming voice echoed far back from the door. I wasn&apos;t bothered at all. I could care any less.</p>
+          <p className="text-lg leading-relaxed text-gray-800">A screaming voice echoed far back from the door. I wasn&apos;t bothered at all. I couldn't care less.</p>
           <p className="text-lg leading-relaxed text-gray-800">&quot;HEYY! Get down from there you&apos;re going to fall. You&apos;re scaring me. What are you thinking?&quot;</p>
           <p className="text-lg leading-relaxed text-gray-800">The voice grew closer, more insistent, but I could hardly muster a response.</p>
           <EnhancedMarginNote side="right">Voice from the darkness</EnhancedMarginNote>

@@ -7,40 +7,59 @@ interface ChapterAmbienceProps {
   repeat: boolean;
   isPlaying: boolean;
   volume: number;
+  onTimeUpdate?: (currentTime: number, duration: number) => void;
+  audioRef?: React.MutableRefObject<HTMLAudioElement | null>;
 }
 
 export function ChapterAmbience({
   soundUrl,
   repeat,
   isPlaying,
-  volume, // Added volume to the dependency array of the first useEffect
+  volume,
+  onTimeUpdate,
+  audioRef: externalAudioRef,
 }: ChapterAmbienceProps) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const internalAudioRef = useRef<HTMLAudioElement | null>(null);
+  const onTimeUpdateRef = useRef(onTimeUpdate);
+  onTimeUpdateRef.current = onTimeUpdate;
+
+  const setAudioRef = (audio: HTMLAudioElement | null) => {
+    internalAudioRef.current = audio;
+    if (externalAudioRef) {
+      externalAudioRef.current = audio;
+    }
+  };
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    if (internalAudioRef.current) {
+      internalAudioRef.current.pause();
+      setAudioRef(null);
     }
 
     if (soundUrl && isPlaying) {
-      audioRef.current = new Audio(soundUrl);
-      audioRef.current.loop = repeat;
-      audioRef.current.volume = volume; // Accessing volume here
-      audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
+      const audio = new Audio(soundUrl);
+      audio.loop = repeat;
+      audio.volume = volume;
+      audio.addEventListener("timeupdate", () => {
+        if (onTimeUpdateRef.current && audio) {
+          onTimeUpdateRef.current(audio.currentTime, audio.duration);
+        }
+      });
+      audio.play().catch((e) => console.log("Audio play failed:", e));
+      setAudioRef(audio);
     }
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
+      if (internalAudioRef.current) {
+        internalAudioRef.current.pause();
+        setAudioRef(null);
       }
     };
-  }, [soundUrl, repeat, isPlaying, volume]); // 'volume' added here
+  }, [soundUrl, repeat, isPlaying, volume]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
+    if (internalAudioRef.current) {
+      internalAudioRef.current.volume = volume;
     }
   }, [volume]);
 

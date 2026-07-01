@@ -178,7 +178,7 @@ export default function ChapterFour() {
             sunshine, untouched shadows. How should I begin to explain.
           </p>
           <EnhancedBlockQuote>
-            &ldquo;Emily, you&rsquo;re the only exception I&rsquo;ve have!!&rdquo;
+            &ldquo;Emily, you&rsquo;re the only exception !!&rdquo;
           </EnhancedBlockQuote>
           <EnhancedMarginNote side="right">
             A chilling confession

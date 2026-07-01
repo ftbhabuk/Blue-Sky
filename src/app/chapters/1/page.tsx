@@ -18,7 +18,7 @@ export default function ChapterOne() {
         chapterNumber={1}
         chapterTitle="Chaos"
         soundMode="single"
-        repeat={true}
+        repeat={false}
         sounds={["/sounds/2.mp3", "/sounds/1.wav"]}
       >
         <Section delay={0.2}>

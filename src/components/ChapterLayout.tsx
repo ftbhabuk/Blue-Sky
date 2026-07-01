@@ -170,6 +170,7 @@ export default function ChapterLayout({
   sounds = ["/sounds/1.wav"],
 }: ChapterLayoutProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start", "end"],
@@ -181,6 +182,8 @@ export default function ChapterLayout({
   );
   const [isAmbiencePlaying, setIsAmbiencePlaying] = useState(false);
   const [ambienceVolume, setAmbienceVolume] = useState(0.2);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -342,10 +345,19 @@ export default function ChapterLayout({
         repeat={repeat}
         isPlaying={isAmbiencePlaying}
         volume={ambienceVolume}
+        audioRef={audioRef}
+        onTimeUpdate={(time, dur) => {
+          setCurrentTime(time);
+          setDuration(dur);
+        }}
       />
       {fixedElement}
       <ChapterNavigation
         currentChapter={chapterNumber}
+        currentSound={currentSound}
+        currentTime={currentTime}
+        duration={duration}
+        audioRef={audioRef}
         isAmbiencePlaying={isAmbiencePlaying}
         setIsAmbiencePlaying={setIsAmbiencePlaying}
         ambienceVolume={ambienceVolume}
